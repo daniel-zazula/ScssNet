@@ -4,7 +4,7 @@ using ScssNet.Lexing;
 
 namespace ScssNet
 {
-    public class ParsingTest
+	public class ParsingTest
 	{
 		private readonly SourceReader SourceReader;
 		private readonly TokenReader TokenReader;

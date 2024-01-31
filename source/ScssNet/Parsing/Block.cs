@@ -5,8 +5,9 @@ using ScssNet.Lexing;
 
 namespace ScssNet.Parsing
 {
-	public class Block(ICollection<Property> Properties)
+	public class Block(ICollection<Property> properties)
 	{
+		public ICollection<Property> Properties { get; } = properties;
 	}
 
 	internal class BlockParser(Lazy<PropertyParser> PropertyParser)
