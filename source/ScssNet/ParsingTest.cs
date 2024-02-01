@@ -26,7 +26,7 @@ namespace ScssNet
 				if(token is ValueToken value)
 					return $"Value: {value.Text}";
 
-				if(token is SymbolToken symbol)
+				if(token is Symbol symbol)
 					return $"Symbol: {symbol}";
 
 				if(token is StringToken stringToken)

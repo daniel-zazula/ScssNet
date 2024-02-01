@@ -5,10 +5,15 @@ namespace ScssNet.Parsing
 {
 	internal abstract class ParserBase
 	{
-		protected SymbolToken Require(TokenReader tokenReader, SymbolToken requiredToken)
+		protected SymbolToken? Match(TokenReader tokenReader, Symbol symbol)
 		{
-			if(tokenReader.Peek() is not SymbolToken symbolToken || symbolToken != requiredToken)
-				throw new NotImplementedException();
+			return tokenReader.Peek() is SymbolToken symbolToken && symbolToken.Symbol == symbol ? symbolToken : null;
+		}
+
+		protected SymbolToken Require(TokenReader tokenReader, Symbol symbol)
+		{
+			var symbolToken = Match(tokenReader, symbol) ?? throw new NotImplementedException();
+			tokenReader.Read();
 
 			return symbolToken;
 		}

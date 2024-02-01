@@ -18,7 +18,7 @@ namespace ScssNet.Parsing
 				return null;
 
 			var identifier = (tokenReader.Read() as IdentifierToken)!;
-			var colon = Require(tokenReader, SymbolToken.Colon);
+			var colon = Require(tokenReader, Symbol.Colon);
 
 			if(tokenReader.Peek() is not ValueToken value)
 				throw new NotImplementedException();

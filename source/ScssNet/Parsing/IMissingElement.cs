@@ -7,13 +7,7 @@ namespace ScssNet.Parsing
 
 	}
 
-	//public class MissingSelector: Selector, IMissingElement
-	//{
-	//	private static readonly IdentifierToken EmptyIdentifier = new IdentifierToken("");
-
-	//	public MissingSelector(): base(EmptyIdentifier)
-	//	{
-
-	//	}
-	//}
+	public class MissingSymbolToken(Symbol symbol, int lineNumber, int columnNumber) : SymbolToken(symbol, lineNumber, columnNumber), IMissingElement
+	{
+	}
 }
