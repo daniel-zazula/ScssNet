@@ -1,5 +1,4 @@
-﻿using System;
-using ScssNet.Lexing;
+﻿using ScssNet.Lexing;
 
 namespace ScssNet.Parsing
 {
@@ -12,9 +11,11 @@ namespace ScssNet.Parsing
 
 		protected SymbolToken Require(TokenReader tokenReader, Symbol symbol)
 		{
-			var symbolToken = Match(tokenReader, symbol) ?? throw new NotImplementedException();
-			tokenReader.Read();
+			var symbolToken = Match(tokenReader, symbol);
+			if (symbolToken == null)
+				return new MissingSymbolToken(symbol, tokenReader.LineNumber, tokenReader.ColumnNumber);
 
+			tokenReader.Read();
 			return symbolToken;
 		}
 	}

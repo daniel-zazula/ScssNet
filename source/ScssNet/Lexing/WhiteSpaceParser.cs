@@ -2,11 +2,13 @@
 {
 	public class WhiteSpaceToken: IToken
 	{
-		internal static readonly WhiteSpaceToken Instance = new();
+		public int LineNumber { get; }
+		public int ColumnNumber { get; }
 
-		private WhiteSpaceToken()
+		internal WhiteSpaceToken(int lineNumber, int columnNumber)
 		{
-
+			LineNumber = lineNumber;
+			ColumnNumber = columnNumber;
 		}
 	}
 
@@ -17,11 +19,14 @@
 			if (reader.End || !char.IsWhiteSpace(reader.Peek()))
 				return null;
 
+			var lineNumber = reader.LineNumber;
+			var columnNumber = reader.ColumnNumber;
+
 			reader.Read();
 			while(!reader.End && char.IsWhiteSpace(reader.Peek()))
 				reader.Read();
 
-			return WhiteSpaceToken.Instance;
+			return new WhiteSpaceToken(lineNumber, columnNumber);
 		}
 	}
 }

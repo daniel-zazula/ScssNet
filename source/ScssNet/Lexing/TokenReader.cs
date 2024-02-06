@@ -3,6 +3,8 @@
 	internal class TokenReader(SourceReader sourceReader)
 	{
 		public bool End => NextToken == null && SourceReader.End;
+		public int LineNumber => NextToken?.LineNumber ?? SourceReader.LineNumber;
+		public int ColumnNumber => NextToken?.ColumnNumber ?? SourceReader.ColumnNumber;
 
 		private readonly SourceReader SourceReader = sourceReader;
 		private IToken? NextToken;

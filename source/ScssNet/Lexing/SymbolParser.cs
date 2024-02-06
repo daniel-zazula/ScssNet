@@ -6,11 +6,18 @@
 		DolarSign, ExclamationMark, Caret, Ampersand, AtSign, Dot, Hash
 	}
 
-	public class SymbolToken(Symbol symbol, int lineNumber, int columnNumber) : IToken
+	public class SymbolToken : IToken
 	{
-		public Symbol Symbol { get; } = symbol;
-		public int LineNumber { get; } = lineNumber;
-		public int ColumnNumber { get; } = columnNumber;
+		public Symbol Symbol { get; }
+		public int LineNumber { get; }
+		public int ColumnNumber { get; }
+
+		internal SymbolToken(Symbol symbol, int lineNumber, int columnNumber)
+		{
+			Symbol = symbol;
+			LineNumber = lineNumber;
+			ColumnNumber = columnNumber;
+		}
 	}
 
 	internal class SymbolParser

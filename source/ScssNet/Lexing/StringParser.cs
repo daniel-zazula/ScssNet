@@ -4,11 +4,15 @@ namespace ScssNet.Lexing
 {
 	public class StringToken: IToken
 	{
-		public readonly string Text;
+		public string Text { get; }
+		public int LineNumber { get; }
+		public int ColumnNumber { get; }
 
-		public StringToken(string text)
+		internal StringToken(string text, int lineNumber, int columnNumber)
 		{
 			Text = text;
+			LineNumber = lineNumber;
+			ColumnNumber = columnNumber;
 		}
 	}
 
@@ -18,6 +22,9 @@ namespace ScssNet.Lexing
 		{
 			if(reader.End || reader.Peek() != '\'')
 				return null;
+
+			var lineNumber = reader.LineNumber;
+			var columnNumber = reader.ColumnNumber;
 
 			var sb = new StringBuilder(reader.Read());
 			while(!reader.End)
@@ -30,7 +37,7 @@ namespace ScssNet.Lexing
 				sb.Append(reader.Read());
 			};
 
-			return new StringToken(sb.ToString());
+			return new StringToken(sb.ToString(), lineNumber, columnNumber);
 		}
 	}
 }

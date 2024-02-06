@@ -2,13 +2,17 @@
 
 namespace ScssNet.Lexing
 {
-	public class ValueToken
+	public class ValueToken: IToken
 	{
-		public readonly string Text;
+		public string Text { get; }
+		public int LineNumber { get; }
+		public int ColumnNumber { get; }
 
-		public ValueToken(string text)
+		internal ValueToken(string text, int lineNumber, int columnNumber)
 		{
 			Text = text;
+			LineNumber = lineNumber;
+			ColumnNumber = columnNumber;
 		}
 	}
 
@@ -18,6 +22,9 @@ namespace ScssNet.Lexing
 		{
 			if (reader.End || !char.IsDigit(reader.Peek()))
 				return null;
+
+			var lineNumber = reader.LineNumber;
+			var columnNumber = reader.ColumnNumber;
 
 			var sb = new StringBuilder(reader.Read());
 			while(!reader.End && char.IsDigit(reader.Peek()))
@@ -29,7 +36,7 @@ namespace ScssNet.Lexing
 				while(!reader.End && char.IsLetter(reader.Peek()))
 					sb.Append(reader.Read());
 
-			return sb.Length > 0 ? new ValueToken(sb.ToString()) : null;
+			return new ValueToken(sb.ToString(), lineNumber, columnNumber);
 		}
 	}
 }

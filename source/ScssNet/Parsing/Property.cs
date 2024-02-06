@@ -14,14 +14,16 @@ namespace ScssNet.Parsing
 	{
 		internal Property? Parse(TokenReader tokenReader)
 		{
-			if(tokenReader.Peek() is not IdentifierToken)
+			if(tokenReader.Peek() is not IdentifierToken identifier)
 				return null;
 
-			var identifier = (tokenReader.Read() as IdentifierToken)!;
+			tokenReader.Read();
 			var colon = Require(tokenReader, Symbol.Colon);
 
 			if(tokenReader.Peek() is not ValueToken value)
-				throw new NotImplementedException();
+				value = new MissingValueToken(tokenReader.LineNumber, tokenReader.ColumnNumber);
+			else
+				tokenReader.Read();
 
 			return new Property(identifier, colon, value);
 		}

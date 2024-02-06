@@ -10,4 +10,8 @@ namespace ScssNet.Parsing
 	public class MissingSymbolToken(Symbol symbol, int lineNumber, int columnNumber) : SymbolToken(symbol, lineNumber, columnNumber), IMissingElement
 	{
 	}
+
+	public class MissingValueToken(int lineNumber, int columnNumber) : ValueToken("", lineNumber, columnNumber), IMissingElement
+	{
+	}
 }

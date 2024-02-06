@@ -5,11 +5,15 @@ namespace ScssNet.Lexing
 {
 	public class CommentToken: IToken
 	{
-		public readonly string Text;
+		public string Text { get; }
+		public int LineNumber { get; }
+		public int ColumnNumber { get; }
 
-		public CommentToken(string text)
+		internal CommentToken(string text, int lineNumber, int columnNumber)
 		{
 			Text = text;
+			LineNumber = lineNumber;
+			ColumnNumber = columnNumber;
 		}
 	}
 
@@ -29,6 +33,9 @@ namespace ScssNet.Lexing
 			else
 				return null;
 
+			var lineNumber = reader.LineNumber;
+			var columnNumber = reader.ColumnNumber;
+
 			var sb = new StringBuilder(reader.Read(2));
 			var commentEnd = readEnd(reader);
 			while(!reader.End && commentEnd == null)
@@ -40,7 +47,7 @@ namespace ScssNet.Lexing
 			if (commentEnd != null)
 				sb.Append(commentEnd);
 
-			return new CommentToken(sb.ToString());
+			return new CommentToken(sb.ToString(), lineNumber, columnNumber);
 
 			static string? LineEnd(SourceReader reader)
 			{
