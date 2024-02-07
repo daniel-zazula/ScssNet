@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using ScssNet.Lexing;
 
 namespace ScssNet.Parsing

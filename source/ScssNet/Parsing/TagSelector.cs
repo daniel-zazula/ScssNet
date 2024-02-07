@@ -11,10 +11,10 @@ namespace ScssNet.Parsing
 	{
 		internal TagSelector? Parse(TokenReader tokenReader)
 		{
-			if(tokenReader.Peek() is not IdentifierToken)
+			if(tokenReader.Peek() is not IdentifierToken identifier)
 				return null;
 
-			var identifier = (tokenReader.Read() as IdentifierToken)!;
+			tokenReader.Read();
 			return new TagSelector(identifier);
 		}
 	}
