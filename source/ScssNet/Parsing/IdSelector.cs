@@ -18,7 +18,7 @@ namespace ScssNet.Parsing
 
 			tokenReader.Read();
 
-			if(tokenReader.Peek() is not IdentifierToken identifier)
+			if(tokenReader.Peek(false) is not IdentifierToken identifier)
 				identifier = new MissingIdentifierToken(tokenReader.LineNumber, tokenReader.ColumnNumber);
 			else
 				tokenReader.Read();
