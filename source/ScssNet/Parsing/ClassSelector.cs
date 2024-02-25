@@ -1,19 +1,20 @@
-﻿using ScssNet.Lexing;
+﻿using System;
+using ScssNet.Lexing;
 
 namespace ScssNet.Parsing
 {
-	public class ClassSelector(SymbolToken dot, IdentifierToken identifier)
+	public class ClassSelector(SymbolToken dot, IdentifierToken identifier, ISelectorQualifier? qualifier): ISelectorQualifier
 	{
 		public SymbolToken Dot { get; } = dot;
 		public IdentifierToken Identifier { get; } = identifier;
+		public ISelectorQualifier? Qualifier { get; } = qualifier;
 	}
 
-	internal class ClassSelectorParser : ParserBase
+	internal class ClassSelectorParser(Lazy<SelectorQualifierParser> selectorQualifierParser): ParserBase
 	{
-		internal ClassSelector? Parse(TokenReader tokenReader)
+		internal ClassSelector? Parse(TokenReader tokenReader, bool skipWhitespace = true)
 		{
-			var hash = Match(tokenReader, Symbol.Hash);
-			if(hash is null)
+			if(Match(tokenReader, Symbol.Hash, out var hash, skipWhitespace))
 				return null;
 
 			tokenReader.Read();
@@ -23,7 +24,7 @@ namespace ScssNet.Parsing
 			else
 				tokenReader.Read();
 
-			return new ClassSelector(hash, identifier);
+			return new ClassSelector(hash!, identifier, selectorQualifierParser.Value.Parse(tokenReader));
 		}
 	}
 }

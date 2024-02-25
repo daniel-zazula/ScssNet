@@ -1,13 +1,15 @@
-﻿using ScssNet.Lexing;
+﻿using System;
+using ScssNet.Lexing;
 
 namespace ScssNet.Parsing
 {
-	public class TagSelector(IdentifierToken identifier)
+	public class TagSelector(IdentifierToken identifier, ISelectorQualifier? qualifier)
 	{
 		public IdentifierToken Identifier { get; } = identifier;
+		public ISelectorQualifier? Qualifier { get; } = qualifier;
 	}
 
-	internal class TagSelectorParser
+	internal class TagSelectorParser(Lazy<SelectorQualifierParser> selectorQualifierParser)
 	{
 		internal TagSelector? Parse(TokenReader tokenReader)
 		{
@@ -15,7 +17,7 @@ namespace ScssNet.Parsing
 				return null;
 
 			tokenReader.Read();
-			return new TagSelector(identifier);
+			return new TagSelector(identifier, selectorQualifierParser.Value.Parse(tokenReader));
 		}
 	}
 }

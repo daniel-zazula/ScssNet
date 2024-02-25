@@ -15,8 +15,7 @@ namespace ScssNet.Parsing
 	{
 		internal Block? Parse(TokenReader tokenReader)
 		{
-			var openBrace = Match(tokenReader, Symbol.OpenBrace);
-			if(openBrace is null)
+			if(!Match(tokenReader, Symbol.OpenBrace, out var openBrace))
 				return null;
 
 			var property = PropertyParser.Value.Parse(tokenReader);
@@ -28,7 +27,7 @@ namespace ScssNet.Parsing
 			}
 
 			var closeBrace = Require(tokenReader, Symbol.CloseBrace);
-			return new Block(openBrace, properties, closeBrace);
+			return new Block(openBrace!, properties, closeBrace);
 		}
 	}
 }
