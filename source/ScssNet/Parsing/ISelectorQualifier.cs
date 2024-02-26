@@ -1,5 +1,4 @@
-﻿using System;
-using ScssNet.Lexing;
+﻿using ScssNet.Lexing;
 
 namespace ScssNet.Parsing
 {
