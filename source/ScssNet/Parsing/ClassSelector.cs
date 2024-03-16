@@ -2,14 +2,14 @@
 
 namespace ScssNet.Parsing
 {
-	public class ClassSelector(SymbolToken dot, IdentifierToken identifier, ISelectorQualifier? qualifier): ISelectorQualifier
+	public class ClassSelector(SymbolToken dot, IdentifierToken identifier, ICompoundSelector? qualifier): ICompoundSelector
 	{
 		public SymbolToken Dot { get; } = dot;
 		public IdentifierToken Identifier { get; } = identifier;
-		public ISelectorQualifier? Qualifier { get; } = qualifier;
+		public ICompoundSelector? Qualifier { get; } = qualifier;
 	}
 
-	internal class ClassSelectorParser(Lazy<SelectorQualifierParser> selectorQualifierParser): ParserBase
+	internal class ClassSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser): ParserBase
 	{
 		internal ClassSelector? Parse(TokenReader tokenReader, bool skipWhitespace = true)
 		{
@@ -23,7 +23,7 @@ namespace ScssNet.Parsing
 			else
 				tokenReader.Read();
 
-			return new ClassSelector(hash!, identifier, selectorQualifierParser.Value.Parse(tokenReader));
+			return new ClassSelector(hash!, identifier, compoundSelectorParser.Value.Parse(tokenReader));
 		}
 	}
 }

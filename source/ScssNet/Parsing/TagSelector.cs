@@ -2,13 +2,13 @@
 
 namespace ScssNet.Parsing
 {
-	public class TagSelector(IdentifierToken identifier, ISelectorQualifier? qualifier)
+	public class TagSelector(IdentifierToken identifier, ICompoundSelector? qualifier)
 	{
 		public IdentifierToken Identifier { get; } = identifier;
-		public ISelectorQualifier? Qualifier { get; } = qualifier;
+		public ICompoundSelector? Qualifier { get; } = qualifier;
 	}
 
-	internal class TagSelectorParser(Lazy<SelectorQualifierParser> selectorQualifierParser)
+	internal class TagSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser)
 	{
 		internal TagSelector? Parse(TokenReader tokenReader)
 		{
@@ -16,7 +16,7 @@ namespace ScssNet.Parsing
 				return null;
 
 			tokenReader.Read();
-			return new TagSelector(identifier, selectorQualifierParser.Value.Parse(tokenReader));
+			return new TagSelector(identifier, compoundSelectorParser.Value.Parse(tokenReader));
 		}
 	}
 }
