@@ -2,7 +2,7 @@
 
 namespace ScssNet.Parsing
 {
-	public class IdSelector(SymbolToken hash, IdentifierToken identifier, ICompoundSelector? qualifier) : ICompoundSelector
+	public class IdSelector(SymbolToken hash, IdentifierToken identifier, ICompoundSelector? qualifier) : ISelector, ICompoundSelector
 	{
 		public SymbolToken Hash => hash;
 		public IdentifierToken Identifier => identifier;

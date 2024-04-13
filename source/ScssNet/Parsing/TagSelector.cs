@@ -2,7 +2,7 @@
 
 namespace ScssNet.Parsing
 {
-	public class TagSelector(IdentifierToken identifier, ICompoundSelector? qualifier)
+	public class TagSelector(IdentifierToken identifier, ICompoundSelector? qualifier): ISelector
 	{
 		public IdentifierToken Identifier => identifier;
 		public ICompoundSelector? Qualifier => qualifier;

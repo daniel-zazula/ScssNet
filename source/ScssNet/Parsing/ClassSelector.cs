@@ -2,7 +2,7 @@
 
 namespace ScssNet.Parsing
 {
-	public class ClassSelector(SymbolToken dot, IdentifierToken identifier, ICompoundSelector? qualifier): ICompoundSelector
+	public class ClassSelector(SymbolToken dot, IdentifierToken identifier, ICompoundSelector? qualifier): ISelector, ICompoundSelector
 	{
 		public SymbolToken Dot => dot;
 		public IdentifierToken Identifier => identifier;
