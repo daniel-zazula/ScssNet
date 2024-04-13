@@ -4,9 +4,9 @@ namespace ScssNet.Parsing
 {
 	public class ClassSelector(SymbolToken dot, IdentifierToken identifier, ICompoundSelector? qualifier): ICompoundSelector
 	{
-		public SymbolToken Dot { get; } = dot;
-		public IdentifierToken Identifier { get; } = identifier;
-		public ICompoundSelector? Qualifier { get; } = qualifier;
+		public SymbolToken Dot => dot;
+		public IdentifierToken Identifier => identifier;
+		public ICompoundSelector? Qualifier => qualifier;
 	}
 
 	internal class ClassSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser): ParserBase

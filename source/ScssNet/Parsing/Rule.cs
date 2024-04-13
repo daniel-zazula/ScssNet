@@ -4,9 +4,9 @@ namespace ScssNet.Parsing
 {
 	public class Rule(IdentifierToken property, SymbolToken colon, ValueToken value)
 	{
-		public IdentifierToken Property { get; } = property;
-		public SymbolToken Colon { get; } = colon;
-		public ValueToken Value { get; } = value;
+		public IdentifierToken Property => property;
+		public SymbolToken Colon => colon;
+		public ValueToken Value => value;
 	}
 
 	internal class RuleParser: ParserBase

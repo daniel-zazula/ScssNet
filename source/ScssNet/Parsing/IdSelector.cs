@@ -4,9 +4,9 @@ namespace ScssNet.Parsing
 {
 	public class IdSelector(SymbolToken hash, IdentifierToken identifier, ICompoundSelector? qualifier) : ICompoundSelector
 	{
-		public SymbolToken Hash { get; } = hash;
-		public IdentifierToken Identifier { get; } = identifier;
-		public ICompoundSelector? Qualifier { get; } = qualifier;
+		public SymbolToken Hash => hash;
+		public IdentifierToken Identifier => identifier;
+		public ICompoundSelector? Qualifier => qualifier;
 	}
 
 	internal class IdSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser): ParserBase

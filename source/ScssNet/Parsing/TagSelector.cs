@@ -4,8 +4,8 @@ namespace ScssNet.Parsing
 {
 	public class TagSelector(IdentifierToken identifier, ICompoundSelector? qualifier)
 	{
-		public IdentifierToken Identifier { get; } = identifier;
-		public ICompoundSelector? Qualifier { get; } = qualifier;
+		public IdentifierToken Identifier => identifier;
+		public ICompoundSelector? Qualifier => qualifier;
 	}
 
 	internal class TagSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser)
