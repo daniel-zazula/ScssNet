@@ -2,18 +2,18 @@
 
 namespace ScssNet.Parsing
 {
-	public class Property(IdentifierToken name, SymbolToken colon, ValueToken value)
+	public class Rule(IdentifierToken property, SymbolToken colon, ValueToken value)
 	{
-		public IdentifierToken Name { get; } = name;
+		public IdentifierToken Property { get; } = property;
 		public SymbolToken Colon { get; } = colon;
 		public ValueToken Value { get; } = value;
 	}
 
-	internal class PropertyParser: ParserBase
+	internal class RuleParser: ParserBase
 	{
-		internal Property? Parse(TokenReader tokenReader)
+		internal Rule? Parse(TokenReader tokenReader)
 		{
-			if(tokenReader.Peek() is not IdentifierToken identifier)
+			if(tokenReader.Peek() is not IdentifierToken property)
 				return null;
 
 			tokenReader.Read();
@@ -24,7 +24,7 @@ namespace ScssNet.Parsing
 			else
 				tokenReader.Read();
 
-			return new Property(identifier, colon, value);
+			return new Rule(property, colon, value);
 		}
 	}
 }

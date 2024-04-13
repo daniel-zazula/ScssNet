@@ -2,30 +2,30 @@
 
 namespace ScssNet.Parsing
 {
-	public class Block(SymbolToken openBrace, ICollection<Property> properties, SymbolToken closeBrace)
+	public class Block(SymbolToken openBrace, ICollection<Rule> rules, SymbolToken closeBrace)
 	{
 		public SymbolToken OpenBrace { get; } = openBrace;
-		public ICollection<Property> Properties { get; } = properties;
+		public ICollection<Rule> Rules { get; } = rules;
 		public SymbolToken CloseBrace { get; } = closeBrace;
 	}
 
-	internal class BlockParser(Lazy<PropertyParser> PropertyParser): ParserBase
+	internal class BlockParser(Lazy<RuleParser> RuleParser): ParserBase
 	{
 		internal Block? Parse(TokenReader tokenReader)
 		{
 			if(!Match(tokenReader, Symbol.OpenBrace, out var openBrace))
 				return null;
 
-			var property = PropertyParser.Value.Parse(tokenReader);
-			var properties = new List<Property>();
-			while(property != null)
+			var rule = RuleParser.Value.Parse(tokenReader);
+			var rules = new List<Rule>();
+			while(rule != null)
 			{
-				properties.Add(property);
-				property = PropertyParser.Value.Parse(tokenReader);
+				rules.Add(rule);
+				rule = RuleParser.Value.Parse(tokenReader);
 			}
 
 			var closeBrace = Require(tokenReader, Symbol.CloseBrace);
-			return new Block(openBrace!, properties, closeBrace);
+			return new Block(openBrace!, rules, closeBrace);
 		}
 	}
 }
