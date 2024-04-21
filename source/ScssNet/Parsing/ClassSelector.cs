@@ -13,17 +13,14 @@ namespace ScssNet.Parsing
 	{
 		internal ClassSelector? Parse(TokenReader tokenReader, bool skipWhitespace = true)
 		{
-			if(Match(tokenReader, Symbol.Hash, out var hash, skipWhitespace))
+			var dot = Match(tokenReader, Symbol.Hash, skipWhitespace);
+			if(dot is null)
 				return null;
 
-			tokenReader.Read();
+			var identifier = RequireIdentifier(tokenReader, false);
+			var compoundSelector = compoundSelectorParser.Value.Parse(tokenReader);
 
-			if(tokenReader.Peek(false) is not IdentifierToken identifier)
-				identifier = new MissingIdentifierToken(tokenReader.LineNumber, tokenReader.ColumnNumber);
-			else
-				tokenReader.Read();
-
-			return new ClassSelector(hash!, identifier, compoundSelectorParser.Value.Parse(tokenReader));
+			return new ClassSelector(dot, identifier, compoundSelector);
 		}
 	}
 }

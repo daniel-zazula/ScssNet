@@ -7,7 +7,10 @@ namespace ScssNet.Parsing
 
 	}
 
-	internal class SelectorParser(Lazy<TagSelectorParser> tagSelectorParser, Lazy<IdSelectorParser> idSelectorParser, Lazy<ClassSelectorParser> classSelectorParser)
+	internal class SelectorParser
+	(
+		Lazy<TagSelectorParser> tagSelectorParser, Lazy<IdSelectorParser> idSelectorParser, Lazy<ClassSelectorParser> classSelectorParser
+	)
 	{
 		internal ISelector? Parse(TokenReader tokenReader)
 		{

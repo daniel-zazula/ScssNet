@@ -4,25 +4,44 @@ namespace ScssNet.Parsing
 {
 	internal abstract class ParserBase
 	{
-		protected bool Match(TokenReader tokenReader, Symbol symbol, out SymbolToken? token, bool skipWhitespace = true)
+		protected SymbolToken? Match(TokenReader tokenReader, Symbol symbol, bool skipWhitespace = true)
 		{
 			if (tokenReader.Peek(skipWhitespace) is SymbolToken symbolToken && symbolToken.Symbol == symbol)
 			{
-				token = symbolToken;
-				return true;
+				tokenReader.Read();
+				return symbolToken;
 			}
 
-			token = null;
-			return false;
+			return null;
 		}
 
-		protected SymbolToken Require(TokenReader tokenReader, Symbol symbol)
+		protected IdentifierToken? MatchIdentifier(TokenReader tokenReader, bool skipWhitespace = true)
 		{
-			if (Match(tokenReader, symbol, out var symbolToken))
+			if(tokenReader.Peek(skipWhitespace) is IdentifierToken identifierToken)
+			{
+				tokenReader.Read();
+				return identifierToken;
+			}
+
+			return null;
+		}
+
+		protected SymbolToken Require(TokenReader tokenReader, Symbol symbol, bool skipWhitespace = true)
+		{
+			var symbolToken = Match(tokenReader, symbol, skipWhitespace);
+			if (symbolToken is null)
 				return new MissingSymbolToken(symbol, tokenReader.LineNumber, tokenReader.ColumnNumber);
 
-			tokenReader.Read();
-			return symbolToken!;
+			return symbolToken;
+		}
+
+		protected IdentifierToken RequireIdentifier(TokenReader tokenReader, bool skipWhitespace = true)
+		{
+			var identifierToken = MatchIdentifier(tokenReader, skipWhitespace);
+			if(identifierToken is null)
+				return new MissingIdentifierToken(tokenReader.LineNumber, tokenReader.ColumnNumber);
+
+			return identifierToken;
 		}
 	}
 }

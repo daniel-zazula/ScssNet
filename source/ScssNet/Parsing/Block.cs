@@ -13,7 +13,8 @@ namespace ScssNet.Parsing
 	{
 		internal Block? Parse(TokenReader tokenReader)
 		{
-			if(!Match(tokenReader, Symbol.OpenBrace, out var openBrace))
+			var openBrace = Match(tokenReader, Symbol.OpenBrace);
+			if(openBrace is null)
 				return null;
 
 			var rule = ruleParser.Value.Parse(tokenReader);

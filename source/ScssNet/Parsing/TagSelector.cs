@@ -8,15 +8,17 @@ namespace ScssNet.Parsing
 		public ICompoundSelector? Qualifier => qualifier;
 	}
 
-	internal class TagSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser)
+	internal class TagSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser): ParserBase
 	{
 		internal TagSelector? Parse(TokenReader tokenReader)
 		{
-			if(tokenReader.Peek() is not IdentifierToken identifier)
+			var identifier = MatchIdentifier(tokenReader);
+			if(identifier is null)
 				return null;
 
-			tokenReader.Read();
-			return new TagSelector(identifier, compoundSelectorParser.Value.Parse(tokenReader));
+			var compoundSelector = compoundSelectorParser.Value.Parse(tokenReader);
+
+			return new TagSelector(identifier, compoundSelector);
 		}
 	}
 }

@@ -13,10 +13,10 @@ namespace ScssNet.Parsing
 	{
 		internal Rule? Parse(TokenReader tokenReader)
 		{
-			if(tokenReader.Peek() is not IdentifierToken property)
+			var property = MatchIdentifier(tokenReader);
+			if(property is null)
 				return null;
 
-			tokenReader.Read();
 			var colon = Require(tokenReader, Symbol.Colon);
 
 			if(tokenReader.Peek() is not ValueToken value)
