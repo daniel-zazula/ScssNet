@@ -2,11 +2,12 @@
 
 namespace ScssNet.Parsing
 {
-	public class Rule(IdentifierToken property, SymbolToken colon, ValueToken value)
+	public class Rule(IdentifierToken property, SymbolToken colon, ValueToken value, SymbolToken semiColon)
 	{
 		public IdentifierToken Property => property;
 		public SymbolToken Colon => colon;
 		public ValueToken Value => value;
+		public SymbolToken SemiColon => semiColon;
 	}
 
 	internal class RuleParser: ParserBase
@@ -24,7 +25,9 @@ namespace ScssNet.Parsing
 			else
 				tokenReader.Read();
 
-			return new Rule(property, colon, value);
+			var semiColon = Require(tokenReader, Symbol.SemiColon);
+
+			return new Rule(property, colon, value, semiColon);
 		}
 	}
 }
