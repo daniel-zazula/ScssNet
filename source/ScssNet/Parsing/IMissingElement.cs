@@ -18,4 +18,8 @@ namespace ScssNet.Parsing
 	public class MissingIdentifierToken(int lineNumber, int columnNumber) : IdentifierToken("", lineNumber, columnNumber), IMissingElement
 	{
 	}
+
+	public class MissingStringToken(int lineNumber, int columnNumber) : StringToken("", lineNumber, columnNumber), IMissingElement
+	{
+	}
 }

@@ -6,7 +6,12 @@ namespace ScssNet.Parsing
 	{
 		protected SymbolToken? Match(TokenReader tokenReader, Symbol symbol, bool skipWhitespace = true)
 		{
-			if (tokenReader.Peek(skipWhitespace) is SymbolToken symbolToken && symbolToken.Symbol == symbol)
+			return Match(tokenReader, [symbol], skipWhitespace);
+		}
+
+		protected SymbolToken? Match(TokenReader tokenReader, ICollection<Symbol> symbols, bool skipWhitespace = true)
+		{
+			if(tokenReader.Peek(skipWhitespace) is SymbolToken symbolToken && symbols.Contains(symbolToken.Symbol))
 			{
 				tokenReader.Read();
 				return symbolToken;
@@ -21,6 +26,17 @@ namespace ScssNet.Parsing
 			{
 				tokenReader.Read();
 				return identifierToken;
+			}
+
+			return null;
+		}
+
+		protected StringToken? MatchString(TokenReader tokenReader)
+		{
+			if(tokenReader.Peek() is StringToken stringToken)
+			{
+				tokenReader.Read();
+				return stringToken;
 			}
 
 			return null;
@@ -42,6 +58,15 @@ namespace ScssNet.Parsing
 				return new MissingIdentifierToken(tokenReader.LineNumber, tokenReader.ColumnNumber);
 
 			return identifierToken;
+		}
+
+		protected StringToken RequireString(TokenReader tokenReader)
+		{
+			var stringToken = MatchString(tokenReader);
+			if(stringToken is null)
+				return new MissingStringToken(tokenReader.LineNumber, tokenReader.ColumnNumber);
+
+			return stringToken;
 		}
 	}
 }

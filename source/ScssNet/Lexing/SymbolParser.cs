@@ -2,8 +2,8 @@
 {
 	public enum Symbol
 	{
-		Colon, SemiColon, OpenBrace, CloseBrace, OpenParenthesis, CloseParenthesis, Asterisk, GreaterThan, PlusSign, Tilde, OpenBracket, CloseBracket, Pipe,
-		DolarSign, ExclamationMark, Caret, Ampersand, AtSign, Dot, Hash
+		Dot, Hash, Colon, SemiColon, OpenBrace, CloseBrace, OpenBracket, CloseBracket, Equals,
+		ContainsWord, StartsWithWord, StartsWith, EndsWith, Contains
 	}
 
 	public class SymbolToken : IToken
@@ -27,28 +27,7 @@
 			if (reader.End)
 				return null;
 
-			Symbol? symbol = reader.Peek() switch
-			{
-				':' => Symbol.Colon,
-				';' => Symbol.SemiColon,
-				'{' => Symbol.OpenBrace,
-				'}' => Symbol.CloseBrace,
-				'*' => Symbol.Asterisk,
-				'>' => Symbol.GreaterThan,
-				'+' => Symbol.PlusSign,
-				'~' => Symbol.Tilde,
-				'[' => Symbol.OpenBracket,
-				']' => Symbol.CloseBracket,
-				'|' => Symbol.Pipe,
-				'$' => Symbol.DolarSign,
-				'!' => Symbol.ExclamationMark,
-				'^' => Symbol.Caret,
-				'&' => Symbol.Ampersand,
-				'@' => Symbol.AtSign,
-				'.' => Symbol.Dot,
-				'#' => Symbol.Hash,
-				_ => null
-			};
+			var symbol = ParseTwoCharacterSymbol(reader) ?? ParseOneCharacterSymbol(reader);
 
 			if (symbol is null)
 				return null;
@@ -57,6 +36,36 @@
 			reader.Read();
 
 			return symbolToken;
+		}
+
+		private Symbol? ParseTwoCharacterSymbol(SourceReader reader)
+		{
+			return reader.Peek(2) switch
+			{
+				"~=" => Symbol.ContainsWord,
+				"|=" => Symbol.StartsWithWord,
+				"^=" => Symbol.StartsWith,
+				"$=" => Symbol.EndsWith,
+				"*=" => Symbol.Contains,
+				_ => null
+			};
+		}
+
+		private Symbol? ParseOneCharacterSymbol(SourceReader reader)
+		{
+			return reader.Peek() switch
+			{
+				'.' => Symbol.Dot,
+				'#' => Symbol.Hash,
+				':' => Symbol.Colon,
+				';' => Symbol.SemiColon,
+				'{' => Symbol.OpenBrace,
+				'}' => Symbol.CloseBrace,
+				'[' => Symbol.OpenBracket,
+				']' => Symbol.CloseBracket,
+				'=' => Symbol.Equals,
+				_ => null
+			};
 		}
 	}
 }
