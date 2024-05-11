@@ -21,7 +21,7 @@ namespace ScssNet.Parsing
 			var colon = Require(tokenReader, Symbol.Colon);
 
 			if(tokenReader.Peek() is not ValueToken value)
-				value = new MissingValueToken(tokenReader.LineNumber, tokenReader.ColumnNumber);
+				value = new MissingValueToken(tokenReader.GetCoordinates());
 			else
 				tokenReader.Read();
 

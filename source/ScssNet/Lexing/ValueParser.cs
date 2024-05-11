@@ -5,14 +5,14 @@ namespace ScssNet.Lexing
 	public class ValueToken: IToken
 	{
 		public string Text { get; }
-		public int LineNumber { get; }
-		public int ColumnNumber { get; }
+		public SourceCoordinates Start { get; }
+		public SourceCoordinates End { get; }
 
-		internal ValueToken(string text, int lineNumber, int columnNumber)
+		internal ValueToken(string text, SourceCoordinates start, SourceCoordinates end)
 		{
 			Text = text;
-			LineNumber = lineNumber;
-			ColumnNumber = columnNumber;
+			Start = start;
+			End = end;
 		}
 	}
 
@@ -23,10 +23,10 @@ namespace ScssNet.Lexing
 			if (reader.End || !char.IsDigit(reader.Peek()))
 				return null;
 
-			var lineNumber = reader.LineNumber;
-			var columnNumber = reader.ColumnNumber;
+			var startCoordinates = reader.GetCoordinates();
 
-			var sb = new StringBuilder(reader.Read());
+			var sb = new StringBuilder();
+			sb.Append(reader.Read());
 			while(!reader.End && char.IsDigit(reader.Peek()))
 				sb.Append(reader.Read());
 
@@ -36,7 +36,7 @@ namespace ScssNet.Lexing
 				while(!reader.End && char.IsLetter(reader.Peek()))
 					sb.Append(reader.Read());
 
-			return new ValueToken(sb.ToString(), lineNumber, columnNumber);
+			return new ValueToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
 		}
 	}
 }

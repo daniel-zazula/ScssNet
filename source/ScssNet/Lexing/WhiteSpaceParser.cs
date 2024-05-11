@@ -1,14 +1,18 @@
-﻿namespace ScssNet.Lexing
+﻿using System.Text;
+
+namespace ScssNet.Lexing
 {
 	public class WhiteSpaceToken: IToken
 	{
-		public int LineNumber { get; }
-		public int ColumnNumber { get; }
+		public string Text { get; }
+		public SourceCoordinates Start { get; }
+		public SourceCoordinates End { get; }
 
-		internal WhiteSpaceToken(int lineNumber, int columnNumber)
+		internal WhiteSpaceToken(string text, SourceCoordinates start, SourceCoordinates end)
 		{
-			LineNumber = lineNumber;
-			ColumnNumber = columnNumber;
+			Text = text;
+			Start = start;
+			End = end;
 		}
 	}
 
@@ -19,14 +23,14 @@
 			if (reader.End || !char.IsWhiteSpace(reader.Peek()))
 				return null;
 
-			var lineNumber = reader.LineNumber;
-			var columnNumber = reader.ColumnNumber;
+			var startCoordinates = reader.GetCoordinates();
 
-			reader.Read();
+			var sb = new StringBuilder();
+			sb.Append(reader.Read());
 			while(!reader.End && char.IsWhiteSpace(reader.Peek()))
-				reader.Read();
+				sb.Append(reader.Read());
 
-			return new WhiteSpaceToken(lineNumber, columnNumber);
+			return new WhiteSpaceToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
 		}
 	}
 }

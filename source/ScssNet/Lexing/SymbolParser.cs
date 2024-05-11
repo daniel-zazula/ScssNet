@@ -9,14 +9,14 @@
 	public class SymbolToken : IToken
 	{
 		public Symbol Symbol { get; }
-		public int LineNumber { get; }
-		public int ColumnNumber { get; }
+		public SourceCoordinates Start { get; }
+		public SourceCoordinates End { get; }
 
-		internal SymbolToken(Symbol symbol, int lineNumber, int columnNumber)
+		internal SymbolToken(Symbol symbol, SourceCoordinates start, SourceCoordinates end)
 		{
 			Symbol = symbol;
-			LineNumber = lineNumber;
-			ColumnNumber = columnNumber;
+			Start = start;
+			End = end;
 		}
 	}
 
@@ -32,10 +32,10 @@
 			if (symbol is null)
 				return null;
 
-			var symbolToken = new SymbolToken(symbol.Value, reader.LineNumber, reader.ColumnNumber);
-			reader.Read();
+			var startCoordinates = reader.GetCoordinates();
+			reader.Read(symbol >= Symbol.ContainsWord ? 2 : 1);
 
-			return symbolToken;
+			return new SymbolToken(symbol.Value, startCoordinates, reader.GetCoordinates());
 		}
 
 		private Symbol? ParseTwoCharacterSymbol(SourceReader reader)

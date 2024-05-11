@@ -5,14 +5,14 @@ namespace ScssNet.Lexing
 	public class CommentToken: IToken
 	{
 		public string Text { get; }
-		public int LineNumber { get; }
-		public int ColumnNumber { get; }
+		public SourceCoordinates Start { get; }
+		public SourceCoordinates End { get; }
 
-		internal CommentToken(string text, int lineNumber, int columnNumber)
+		internal CommentToken(string text, SourceCoordinates start, SourceCoordinates end)
 		{
 			Text = text;
-			LineNumber = lineNumber;
-			ColumnNumber = columnNumber;
+			Start = start;
+			End = end;
 		}
 	}
 
@@ -32,8 +32,7 @@ namespace ScssNet.Lexing
 			else
 				return null;
 
-			var lineNumber = reader.LineNumber;
-			var columnNumber = reader.ColumnNumber;
+			var startCoordinates = reader.GetCoordinates();
 
 			var sb = new StringBuilder(reader.Read(2));
 			var commentEnd = readEnd(reader);
@@ -46,7 +45,7 @@ namespace ScssNet.Lexing
 			if (commentEnd != null)
 				sb.Append(commentEnd);
 
-			return new CommentToken(sb.ToString(), lineNumber, columnNumber);
+			return new CommentToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
 
 			static string? LineEnd(SourceReader reader)
 			{

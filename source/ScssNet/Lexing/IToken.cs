@@ -1,8 +1,6 @@
 ﻿namespace ScssNet.Lexing
 {
-	public interface IToken
+	public interface IToken: ISourceElement
 	{
-		int LineNumber { get; }
-		int ColumnNumber { get; }
 	}
 }

@@ -7,19 +7,19 @@ namespace ScssNet.Parsing
 
 	}
 
-	public class MissingSymbolToken(Symbol symbol, int lineNumber, int columnNumber) : SymbolToken(symbol, lineNumber, columnNumber), IMissingElement
+	public class MissingSymbolToken(Symbol symbol, SourceCoordinates start) : SymbolToken(symbol, start, start), IMissingElement
 	{
 	}
 
-	public class MissingValueToken(int lineNumber, int columnNumber) : ValueToken("", lineNumber, columnNumber), IMissingElement
+	public class MissingValueToken(SourceCoordinates start) : ValueToken("", start, start), IMissingElement
 	{
 	}
 
-	public class MissingIdentifierToken(int lineNumber, int columnNumber) : IdentifierToken("", lineNumber, columnNumber), IMissingElement
+	public class MissingIdentifierToken(SourceCoordinates start) : IdentifierToken("", start, start), IMissingElement
 	{
 	}
 
-	public class MissingStringToken(int lineNumber, int columnNumber) : StringToken("", lineNumber, columnNumber), IMissingElement
+	public class MissingStringToken(SourceCoordinates start) : StringToken("", start, start), IMissingElement
 	{
 	}
 }

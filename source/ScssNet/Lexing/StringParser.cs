@@ -5,14 +5,14 @@ namespace ScssNet.Lexing
 	public class StringToken: IToken
 	{
 		public string Text { get; }
-		public int LineNumber { get; }
-		public int ColumnNumber { get; }
+		public SourceCoordinates Start { get; }
+		public SourceCoordinates End { get; }
 
-		internal StringToken(string text, int lineNumber, int columnNumber)
+		internal StringToken(string text, SourceCoordinates start, SourceCoordinates end)
 		{
 			Text = text;
-			LineNumber = lineNumber;
-			ColumnNumber = columnNumber;
+			Start = start;
+			End = end;
 		}
 	}
 
@@ -20,24 +20,29 @@ namespace ScssNet.Lexing
 	{
 		public StringToken? Parse(SourceReader reader)
 		{
-			if(reader.End || reader.Peek() != '\'')
+			if(reader.End || !IsStringDelimiter(reader.Peek()))
 				return null;
 
-			var lineNumber = reader.LineNumber;
-			var columnNumber = reader.ColumnNumber;
+			var startCoordinates = reader.GetCoordinates();
 
-			var sb = new StringBuilder(reader.Read());
+			var sb = new StringBuilder();
+			var startingDelimiter = reader.Read();
+			sb.Append(startingDelimiter);
+			var previousChar = startingDelimiter;
 			while(!reader.End)
 			{
-				if (reader.Peek() == '\'' )
+				if (reader.Peek() == startingDelimiter && previousChar != '\\')
 				{
 					sb.Append(reader.Read());
 					break;
 				}
-				sb.Append(reader.Read());
+				previousChar = reader.Read();
+				sb.Append(previousChar);
 			};
 
-			return new StringToken(sb.ToString(), lineNumber, columnNumber);
+			return new StringToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
 		}
+
+		private bool IsStringDelimiter(char c) => c == '\'' || c == '"';
 	}
 }

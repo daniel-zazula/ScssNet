@@ -46,7 +46,7 @@ namespace ScssNet.Parsing
 		{
 			var symbolToken = Match(tokenReader, symbol, skipWhitespace);
 			if (symbolToken is null)
-				return new MissingSymbolToken(symbol, tokenReader.LineNumber, tokenReader.ColumnNumber);
+				return new MissingSymbolToken(symbol, tokenReader.GetCoordinates());
 
 			return symbolToken;
 		}
@@ -55,7 +55,7 @@ namespace ScssNet.Parsing
 		{
 			var identifierToken = MatchIdentifier(tokenReader, skipWhitespace);
 			if(identifierToken is null)
-				return new MissingIdentifierToken(tokenReader.LineNumber, tokenReader.ColumnNumber);
+				return new MissingIdentifierToken(tokenReader.GetCoordinates());
 
 			return identifierToken;
 		}
@@ -64,7 +64,7 @@ namespace ScssNet.Parsing
 		{
 			var stringToken = MatchString(tokenReader);
 			if(stringToken is null)
-				return new MissingStringToken(tokenReader.LineNumber, tokenReader.ColumnNumber);
+				return new MissingStringToken(tokenReader.GetCoordinates());
 
 			return stringToken;
 		}

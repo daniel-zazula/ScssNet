@@ -4,15 +4,15 @@ namespace ScssNet.Lexing
 {
 	public class IdentifierToken: IToken
 	{
+		public SourceCoordinates Start { get; }
+		public SourceCoordinates End { get; }
 		public string Text { get; }
-		public int LineNumber { get; }
-		public int ColumnNumber { get; }
 
-		internal IdentifierToken(string text, int lineNumber, int columnNumber)
+		internal IdentifierToken(string text, SourceCoordinates start, SourceCoordinates end)
 		{
+			Start = start;
+			End = end;
 			Text = text;
-			LineNumber = lineNumber;
-			ColumnNumber = columnNumber;
 		}
 	}
 
@@ -23,14 +23,14 @@ namespace ScssNet.Lexing
 			if (reader.End || !IsValidIdentifierChar(reader.Peek()))
 				return null;
 
-			var lineNumber = reader.LineNumber;
-			var columnNumber = reader.ColumnNumber;
+			var startCoordinates = reader.GetCoordinates();
 
-			var sb = new StringBuilder(reader.Read());
+			var sb = new StringBuilder();
+			sb.Append(reader.Read());
 			while(!reader.End && IsValidIdentifierChar(reader.Peek()))
 				sb.Append(reader.Read());
 
-			return new IdentifierToken(sb.ToString(), lineNumber, columnNumber);
+			return new IdentifierToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
 		}
 
 		private bool IsValidIdentifierChar(char c) => char.IsLetter(c) || c == '_' || c == '-';

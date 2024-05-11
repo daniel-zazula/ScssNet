@@ -5,11 +5,12 @@ namespace ScssNet.Lexing
 {
 	internal class SourceReader(TextReader TextReader)
 	{
-		public int LineNumber { get; private set; } = 1;
-		public int ColumnNumber { get; private set; } = 1;
-		private readonly Queue<char> Buffer = new();
-
 		public bool End => BufferIsEmpty && TextReaderIsEmpty;
+
+		private int LineNumber = 1;
+		private int ColumnNumber = 1;
+
+		private readonly Queue<char> Buffer = new();
 		private bool BufferIsEmpty => Buffer.Count == 0;
 		private bool TextReaderIsEmpty => TextReader.Peek() == -1;
 
@@ -56,6 +57,8 @@ namespace ScssNet.Lexing
 
 			return text;
 		}
+
+		public SourceCoordinates GetCoordinates() => new(LineNumber, ColumnNumber);
 
 		private void FillBuffer()
 		{
