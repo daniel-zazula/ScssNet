@@ -18,51 +18,36 @@ namespace ScssNet.Lexing
 
 	internal class CommentParser
 	{
+		private const string SingleLineCommentStart = "//";
+		private const string MultiLineCommentStart = "/*";
+		private const string MultiLineCommentEnd = "*/";
+
 		public CommentToken? Parse(ISourceReader reader)
 		{
-			if(reader.End)
-				return null;
-
-			var peeked = reader.Peek(2);
-			Func<ISourceReader, string?> readEnd;
-			if(peeked == "//")
-				readEnd = LineEnd;
-			else if(peeked != "/*")
-				readEnd = CommentEnd;
-			else
+			var commentStart = reader.Peek(2);
+			if(commentStart != SingleLineCommentStart && commentStart != MultiLineCommentStart)
 				return null;
 
 			var startCoordinates = reader.GetCoordinates();
 
 			var sb = new StringBuilder(reader.Read(2));
-			var commentEnd = readEnd(reader);
-			while(!reader.End && commentEnd == null)
+			while(!reader.End)
 			{
-				sb.Append(reader.Read());
-				commentEnd = readEnd(reader);
-			}
+				if(commentStart == SingleLineCommentStart && IsLineBreak(reader.Peek()))
+					break;
 
-			if (commentEnd != null)
-				sb.Append(commentEnd);
+				if (commentStart == MultiLineCommentStart && reader.Peek(2) == MultiLineCommentEnd)
+				{
+					sb.Append(reader.Read(2));
+					break;
+				}
+
+				sb.Append(reader.Read());
+			}
 
 			return new CommentToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
 
-			static string? LineEnd(ISourceReader reader)
-			{
-				var peeked = reader.Peek();
-				if(peeked == '\n')
-					return reader.Read(1);
-
-				if(peeked == '\r')
-					return reader.Read() + (reader.Peek() == '\n' ? reader.Read(1) : "");
-
-				return null;
-			}
-
-			static string? CommentEnd(ISourceReader reader)
-			{
-				return reader.Peek(2) == "*/" ? reader.Read(2) : null;
-			}
+			static bool IsLineBreak(char nextChar) => nextChar == '\r' || nextChar == '\n';
 		}
 	}
 }
