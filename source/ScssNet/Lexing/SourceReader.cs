@@ -47,7 +47,7 @@ namespace ScssNet.Lexing
 		public char Read()
 		{
 			FillBufferIfNecessary(1);
-			return AdvanceBuffer();
+			return BufferIsEmpty ? NullChar : AdvanceBuffer();
 		}
 
 		public string Read(int count)
