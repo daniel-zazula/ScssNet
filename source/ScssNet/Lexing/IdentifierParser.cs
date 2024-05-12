@@ -18,7 +18,7 @@ namespace ScssNet.Lexing
 
 	internal class IdentifierParser
 	{
-		public IdentifierToken? Parse(SourceReader reader)
+		public IdentifierToken? Parse(ISourceReader reader)
 		{
 			if (reader.End || !IsValidIdentifierChar(reader.Peek()))
 				return null;

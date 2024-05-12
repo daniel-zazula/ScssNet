@@ -18,7 +18,7 @@ namespace ScssNet.Lexing
 
 	internal class StringParser
 	{
-		public StringToken? Parse(SourceReader reader)
+		public StringToken? Parse(ISourceReader reader)
 		{
 			if(reader.End || !IsStringDelimiter(reader.Peek()))
 				return null;

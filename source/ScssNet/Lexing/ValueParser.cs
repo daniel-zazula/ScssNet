@@ -18,7 +18,7 @@ namespace ScssNet.Lexing
 
 	internal class ValueParser
 	{
-		public ValueToken? Parse(SourceReader reader)
+		public ValueToken? Parse(ISourceReader reader)
 		{
 			if (reader.End || !char.IsDigit(reader.Peek()))
 				return null;

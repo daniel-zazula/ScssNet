@@ -3,7 +3,7 @@ using System.Text;
 using FluentAssertions;
 using ScssNet.Lexing;
 
-namespace ScssNet.Test
+namespace ScssNet.Test.Lexing
 {
 	[TestClass]
 	public class SourceReaderTests
@@ -71,7 +71,7 @@ namespace ScssNet.Test
 		[TestMethod]
 		public void SourceCoordinatesLineShouldIncreaseOnRead()
 		{
-			var lineBreak = "\r\n";
+			const string lineBreak = "\r\n";
 			var twoLineSource = GetTwoLineSampleSource(lineBreak);
 			var sourceReader = new SourceReader(new StringReader(twoLineSource));
 
@@ -84,7 +84,7 @@ namespace ScssNet.Test
 		[TestMethod]
 		public void SourceCoordinatesColumnAndLineShouldIncreaseOnRead()
 		{
-			var lineBreak = "\r\n";
+			const string lineBreak = "\r\n";
 			var twoLineSource = GetTwoLineSampleSource(lineBreak);
 			var sourceReader = new SourceReader(new StringReader(twoLineSource));
 
@@ -93,6 +93,18 @@ namespace ScssNet.Test
 
 			var coordinates = sourceReader.GetCoordinates();
 			coordinates.Should().Be(new SourceCoordinates(2, 1 + readCount));
+		}
+
+		[TestMethod]
+		public void SourceCoordinatesColumnAndLineShouldIncreaseOnPeek()
+		{
+			var sourceReader = new SourceReader(new StringReader(SampleSource));
+
+			const int readCount = 5;
+			sourceReader.Peek(readCount);
+
+			var coordinates = sourceReader.GetCoordinates();
+			coordinates.Should().Be(new SourceCoordinates(1, 1));
 		}
 
 		[TestMethod]
@@ -133,8 +145,8 @@ namespace ScssNet.Test
 
 		private static string CreateSampleSourceBiggerThanBuffer()
 		{
-			var sb = new StringBuilder(BufferSize + (SampleSource.Length * 2));
-			while (sb.Length < BufferSize)
+			var sb = new StringBuilder(BufferSize + SampleSource.Length * 2);
+			while(sb.Length < BufferSize)
 				sb.Append(SampleSource);
 
 			sb.Append(SampleSource); //One extra

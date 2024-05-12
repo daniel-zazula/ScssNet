@@ -18,7 +18,7 @@ namespace ScssNet.Lexing
 
 	internal class WhiteSpaceParser
 	{
-		public WhiteSpaceToken? Parse(SourceReader reader)
+		public WhiteSpaceToken? Parse(ISourceReader reader)
 		{
 			if (reader.End || !char.IsWhiteSpace(reader.Peek()))
 				return null;

@@ -1,11 +1,24 @@
 ﻿using System.IO;
-using System.Linq;
+using System.Text;
 
 namespace ScssNet.Lexing
 {
-	internal class SourceReader(TextReader TextReader)
+	internal interface ISourceReader
+	{
+		bool End { get; }
+
+		SourceCoordinates GetCoordinates();
+		char Peek();
+		string Peek(int count);
+		char Read();
+		string Read(int count);
+	}
+
+	internal class SourceReader(TextReader TextReader) : ISourceReader
 	{
 		public bool End => BufferIsEmpty && TextReaderIsEmpty;
+
+		private const char NullChar = (char)0;
 
 		private int LineNumber = 1;
 		private int ColumnNumber = 1;
@@ -16,15 +29,9 @@ namespace ScssNet.Lexing
 
 		public char Peek()
 		{
-			if(BufferIsEmpty)
-			{
-				if(TextReaderIsEmpty)
-					return (char)0;
-				else
-					FillBuffer();
-			}
+			FillBufferIfNecessary(1);
 
-			return Buffer.Peek();
+			return BufferIsEmpty ? NullChar : Buffer.Peek();
 		}
 
 		public string Peek(int count)
@@ -32,17 +39,15 @@ namespace ScssNet.Lexing
 			if(count < 1)
 				throw new ArgumentException($"{nameof(count)} should be greater than 0.");
 
-			if(Buffer.Count < count)
-				FillBuffer();
+			FillBufferIfNecessary(count);
 
-			return string.Concat(Buffer.Take(count));
+			return BufferIsEmpty ? string.Empty : string.Concat(Buffer.Take(count));
 		}
 
 		public char Read()
 		{
-			var nextChar = Peek();
-			AdvanceBuffer();
-			return nextChar;
+			FillBufferIfNecessary(1);
+			return AdvanceBuffer();
 		}
 
 		public string Read(int count)
@@ -50,19 +55,22 @@ namespace ScssNet.Lexing
 			if(count < 1)
 				throw new ArgumentException($"{nameof(count)} should be greater than 0.");
 
-			var text = Peek(count);
+			FillBufferIfNecessary(count);
+			if (BufferIsEmpty)
+				return string.Empty;
 
-			for(int i = 0; i < count && Buffer.Count > 0; i++)
-				AdvanceBuffer();
+			var sb = new StringBuilder(count);
+			for(int i = 0; i < count && !End; i++)
+				sb.Append(AdvanceBuffer());
 
-			return text;
+			return sb.ToString();
 		}
 
 		public SourceCoordinates GetCoordinates() => new(LineNumber, ColumnNumber);
 
-		private void FillBuffer()
+		private void FillBufferIfNecessary(int count)
 		{
-			if(TextReaderIsEmpty)
+			if(TextReaderIsEmpty || Buffer.Count >= count)
 				return;
 
 			const int readSize = 128;
@@ -73,9 +81,10 @@ namespace ScssNet.Lexing
 				Buffer.Enqueue(readChar);
 		}
 
-		private void AdvanceBuffer()
+		private char AdvanceBuffer()
 		{
-			if(Buffer.Peek() == '\n' || (Buffer.Peek() == '\r' && Buffer.Skip(1).FirstOrDefault() != '\n'))
+			var readChar = Buffer.Dequeue();
+			if(readChar == '\n' || (readChar == '\r' && Buffer.Peek() != '\n'))
 			{
 				LineNumber++;
 				ColumnNumber = 1;
@@ -83,7 +92,7 @@ namespace ScssNet.Lexing
 			else
 				ColumnNumber++;
 
-			Buffer.Dequeue();
+			return readChar;
 		}
 	}
 }

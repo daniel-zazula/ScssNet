@@ -1,10 +1,10 @@
 ﻿namespace ScssNet.Lexing
 {
-	internal class TokenReader(SourceReader sourceReader)
+	internal class TokenReader(ISourceReader sourceReader)
 	{
 		public bool End => NextToken == null && SourceReader.End;
 
-		private readonly SourceReader SourceReader = sourceReader;
+		private readonly ISourceReader SourceReader = sourceReader;
 		private IToken? NextToken;
 
 		private readonly IdentifierParser IdentifierParser = new();

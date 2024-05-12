@@ -22,7 +22,7 @@
 
 	internal class SymbolParser
 	{
-		public SymbolToken? Parse(SourceReader reader)
+		public SymbolToken? Parse(ISourceReader reader)
 		{
 			if (reader.End)
 				return null;
@@ -38,7 +38,7 @@
 			return new SymbolToken(symbol.Value, startCoordinates, reader.GetCoordinates());
 		}
 
-		private Symbol? ParseTwoCharacterSymbol(SourceReader reader)
+		private Symbol? ParseTwoCharacterSymbol(ISourceReader reader)
 		{
 			return reader.Peek(2) switch
 			{
@@ -51,7 +51,7 @@
 			};
 		}
 
-		private Symbol? ParseOneCharacterSymbol(SourceReader reader)
+		private Symbol? ParseOneCharacterSymbol(ISourceReader reader)
 		{
 			return reader.Peek() switch
 			{

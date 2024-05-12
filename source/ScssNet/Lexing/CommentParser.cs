@@ -18,13 +18,13 @@ namespace ScssNet.Lexing
 
 	internal class CommentParser
 	{
-		public CommentToken? Parse(SourceReader reader)
+		public CommentToken? Parse(ISourceReader reader)
 		{
 			if(reader.End)
 				return null;
 
 			var peeked = reader.Peek(2);
-			Func<SourceReader, string?> readEnd;
+			Func<ISourceReader, string?> readEnd;
 			if(peeked == "//")
 				readEnd = LineEnd;
 			else if(peeked != "/*")
@@ -47,7 +47,7 @@ namespace ScssNet.Lexing
 
 			return new CommentToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
 
-			static string? LineEnd(SourceReader reader)
+			static string? LineEnd(ISourceReader reader)
 			{
 				var peeked = reader.Peek();
 				if(peeked == '\n')
@@ -59,7 +59,7 @@ namespace ScssNet.Lexing
 				return null;
 			}
 
-			static string? CommentEnd(SourceReader reader)
+			static string? CommentEnd(ISourceReader reader)
 			{
 				return reader.Peek(2) == "*/" ? reader.Read(2) : null;
 			}
