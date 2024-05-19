@@ -10,11 +10,12 @@ namespace ScssNet.Test.Lexing
 		[DataRow("CR+LF")]
 		[DataRow("CR")]
 		[DataRow("LF")]
-		public void ShouldParseSingleLineComment(string lineBreak)
+		public void ShouldParseSingleLineComment(string lineBreakName)
 		{
 			const string comment = "// single line comment";
-			var source = $"{comment}{ReplaceReadableLineBreak(lineBreak)}";
-			TestCommentParsing(source, comment);
+			string lineBreak = ReplaceReadableLineBreak(lineBreakName);
+			var source = $"{comment}{lineBreak}";
+			TestCommentParsing(source, comment, lineBreak);
 		}
 
 		[DataTestMethod]
@@ -28,7 +29,7 @@ namespace ScssNet.Test.Lexing
 			TestCommentParsing(source, source);
 		}
 
-		private static void TestCommentParsing(string source, string commentText)
+		private static void TestCommentParsing(string source, string commentText, string remainingSource = "")
 		{
 			var sourceReader = new SourceReaderMock(source);
 			var commentParser = new CommentParser();
@@ -37,6 +38,12 @@ namespace ScssNet.Test.Lexing
 
 			comment.Should().NotBeNull();
 			comment!.Text.Should().Be(commentText);
+
+			var remainingSourceLength = remainingSource.Length;
+			if (remainingSourceLength > 0)
+				sourceReader.Peek(remainingSourceLength).Should().Be(remainingSource);
+			else
+				sourceReader.End.Should().BeTrue();
 		}
 
 		private static string ReplaceReadableLineBreak(string possibleLineBreak)
