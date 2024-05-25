@@ -8,7 +8,7 @@
 		private IToken? NextToken;
 
 		private readonly IdentifierParser IdentifierParser = new();
-		private readonly ValueParser ValueParser = new();
+		private readonly UnitParser ValueParser = new();
 		private readonly SymbolParser SymbolParser = new();
 		private readonly StringParser StringParser = new();
 		private readonly CommentParser CommentParser = new();

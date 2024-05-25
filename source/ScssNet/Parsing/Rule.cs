@@ -2,15 +2,15 @@
 
 namespace ScssNet.Parsing
 {
-	public class Rule(IdentifierToken property, SymbolToken colon, ValueToken value, SymbolToken semiColon)
+	public class Rule(IdentifierToken property, SymbolToken colon, IValue value, SymbolToken semiColon)
 	{
 		public IdentifierToken Property => property;
 		public SymbolToken Colon => colon;
-		public ValueToken Value => value;
+		public IValue Value => value;
 		public SymbolToken SemiColon => semiColon;
 	}
 
-	internal class RuleParser: ParserBase
+	internal class RuleParser(Lazy<ValueParser> valueParser) : ParserBase
 	{
 		internal Rule? Parse(TokenReader tokenReader)
 		{
@@ -20,10 +20,7 @@ namespace ScssNet.Parsing
 
 			var colon = Require(tokenReader, Symbol.Colon);
 
-			if(tokenReader.Peek() is not ValueToken value)
-				value = new MissingValueToken(tokenReader.GetCoordinates());
-			else
-				tokenReader.Read();
+			var value = valueParser.Value.Parse(tokenReader) ?? new MissingValueToken(tokenReader.GetCoordinates());
 
 			var semiColon = Require(tokenReader, Symbol.SemiColon);
 
