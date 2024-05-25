@@ -5,8 +5,10 @@ namespace ScssNet.Lexing
 	public class WhiteSpaceToken: IToken
 	{
 		public string Text { get; }
+
 		public SourceCoordinates Start { get; }
 		public SourceCoordinates End { get; }
+		public ICollection<Issue> Issues => [];
 
 		internal WhiteSpaceToken(string text, SourceCoordinates start, SourceCoordinates end)
 		{

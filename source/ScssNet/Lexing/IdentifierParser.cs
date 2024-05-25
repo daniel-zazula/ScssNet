@@ -4,15 +4,26 @@ namespace ScssNet.Lexing
 {
 	public class IdentifierToken: IToken
 	{
+		public string Text { get; }
+
 		public SourceCoordinates Start { get; }
 		public SourceCoordinates End { get; }
-		public string Text { get; }
+		public ICollection<Issue> Issues => _issues.AsReadOnly();
+
+		private readonly List<Issue> _issues = [];
 
 		internal IdentifierToken(string text, SourceCoordinates start, SourceCoordinates end)
 		{
 			Start = start;
 			End = end;
 			Text = text;
+		}
+
+		internal static IdentifierToken CreateMissing(SourceCoordinates start)
+		{
+			var token = new IdentifierToken("", start, start);
+			token._issues.Add(new Issue(IssueType.Error, "Expected identifier"));
+			return token;
 		}
 	}
 

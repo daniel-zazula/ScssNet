@@ -44,29 +44,17 @@ namespace ScssNet.Parsing
 
 		protected SymbolToken Require(TokenReader tokenReader, Symbol symbol, bool skipWhitespace = true)
 		{
-			var symbolToken = Match(tokenReader, symbol, skipWhitespace);
-			if (symbolToken is null)
-				return new MissingSymbolToken(symbol, tokenReader.GetCoordinates());
-
-			return symbolToken;
+			return Match(tokenReader, symbol, skipWhitespace) ?? SymbolToken.CreateMissing(symbol, tokenReader.GetCoordinates());
 		}
 
 		protected IdentifierToken RequireIdentifier(TokenReader tokenReader, bool skipWhitespace = true)
 		{
-			var identifierToken = MatchIdentifier(tokenReader, skipWhitespace);
-			if(identifierToken is null)
-				return new MissingIdentifierToken(tokenReader.GetCoordinates());
-
-			return identifierToken;
+			return MatchIdentifier(tokenReader, skipWhitespace) ?? IdentifierToken.CreateMissing(tokenReader.GetCoordinates());
 		}
 
 		protected StringToken RequireString(TokenReader tokenReader)
 		{
-			var stringToken = MatchString(tokenReader);
-			if(stringToken is null)
-				return new MissingStringToken(tokenReader.GetCoordinates());
-
-			return stringToken;
+			return MatchString(tokenReader) ?? StringToken.CreateMissing(tokenReader.GetCoordinates());
 		}
 	}
 }

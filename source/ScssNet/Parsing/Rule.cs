@@ -19,9 +19,7 @@ namespace ScssNet.Parsing
 				return null;
 
 			var colon = Require(tokenReader, Symbol.Colon);
-
-			var value = valueParser.Value.Parse(tokenReader) ?? new MissingValueToken(tokenReader.GetCoordinates());
-
+			var value = valueParser.Value.Parse(tokenReader) ?? new MissingValue(tokenReader.GetCoordinates());
 			var semiColon = Require(tokenReader, Symbol.SemiColon);
 
 			return new Rule(property, colon, value, semiColon);

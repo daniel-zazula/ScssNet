@@ -6,8 +6,10 @@ namespace ScssNet.Lexing
 	{
 		public decimal Amount { get; }
 		public string Unit { get; }
+
 		public SourceCoordinates Start { get; }
 		public SourceCoordinates End { get; }
+		public ICollection<Issue> Issues => [];
 
 		internal UnitToken(decimal amount, string unit, SourceCoordinates start, SourceCoordinates end)
 		{

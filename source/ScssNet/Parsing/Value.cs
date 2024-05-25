@@ -6,6 +6,20 @@ namespace ScssNet.Parsing
 	{
 	}
 
+	public class MissingValue: IValue
+	{
+		public SourceCoordinates Start { get; }
+		public SourceCoordinates End { get; }
+		public ICollection<Issue> Issues { get; }
+
+		internal MissingValue(SourceCoordinates start)
+		{
+			Start = start;
+			End = start;
+			Issues = [new Issue(IssueType.Error, "Missing value (measure unit, string or function)")];
+		}
+	}
+
 	internal class ValueParser : ParserBase
 	{
 		internal IValue? Parse(TokenReader tokenReader)
