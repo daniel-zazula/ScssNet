@@ -24,7 +24,7 @@ namespace ScssNet.Lexing
 	{
 		public UnitToken? Parse(ISourceReader reader)
 		{
-			if(reader.End || !char.IsDigit(reader.Peek()))
+			if(!IsUnitStart(reader))
 				return null;
 
 			var startCoordinates = reader.GetCoordinates();
@@ -33,7 +33,7 @@ namespace ScssNet.Lexing
 			stringBuilder.Append(reader.Read());
 
 			ReadDigitsTo(reader, stringBuilder);
-			if (reader.Peek() == '.')
+			if(reader.Peek() == '.')
 			{
 				stringBuilder.Append(reader.Read());
 				ReadDigitsTo(reader, stringBuilder);
@@ -50,6 +50,15 @@ namespace ScssNet.Lexing
 					stringBuilder.Append(reader.Read());
 
 			return new UnitToken(amount, stringBuilder.ToString(), startCoordinates, reader.GetCoordinates());
+		}
+
+		private static bool IsUnitStart(ISourceReader reader)
+		{
+			if(reader.End)
+				return false;
+
+			var peeked = reader.Peek(2);
+			return char.IsDigit(peeked[0]) || (peeked[0] == '-' && char.IsDigit(peeked[1]));
 		}
 
 		private static void ReadDigitsTo(ISourceReader reader, StringBuilder stringBuilder)
