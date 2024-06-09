@@ -2,7 +2,7 @@
 
 namespace ScssNet.Parsing
 {
-	public interface ISelector
+	public interface ISelector: ISourceElement
 	{
 
 	}

@@ -8,22 +8,23 @@ namespace ScssNet.Lexing
 
 		public SourceCoordinates Start { get; }
 		public SourceCoordinates End { get; }
-		public ICollection<Issue> Issues => _issues.AsReadOnly();
+		public IEnumerable<Issue> Issues => _issues;
 
-		private readonly List<Issue> _issues = [];
+		private readonly ICollection<Issue> _issues = [];
 
-		internal StringToken(string text, SourceCoordinates start, SourceCoordinates end)
+		internal StringToken(string text, SourceCoordinates start, SourceCoordinates end): this(text, start, end, []) { }
+
+		private StringToken(string text, SourceCoordinates start, SourceCoordinates end, ICollection<Issue> issues)
 		{
 			Text = text;
 			Start = start;
 			End = end;
+			_issues = issues;
 		}
 
 		internal static StringToken CreateMissing(SourceCoordinates start)
 		{
-			var token = new StringToken("", start, start);
-			token._issues.Add(new Issue(IssueType.Error, "Expected string"));
-			return token;
+			return new StringToken("", start, start, [new Issue(IssueType.Error, "Expected string")]);
 		}
 	}
 

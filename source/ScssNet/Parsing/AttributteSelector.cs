@@ -6,7 +6,7 @@ namespace ScssNet.Parsing
 	(
 		SymbolToken openBracket, IdentifierToken attribute, SymbolToken? @operator, StringToken? value, IdentifierToken? modifier, SymbolToken closeBracket,
 		ICompoundSelector? qualifier
-	) : ISelector, ICompoundSelector
+	) : ISourceElement, ISelector, ICompoundSelector
 	{
 		public SymbolToken OpenBracket => openBracket;
 		public IdentifierToken Attribute => attribute;
@@ -15,6 +15,12 @@ namespace ScssNet.Parsing
 		public IdentifierToken? Modifier => modifier;
 		public SymbolToken CloseBracket => closeBracket;
 		public ICompoundSelector? Qualifier => qualifier;
+
+		public IEnumerable<Issue> Issues => SourceElement.List(openBracket, attribute, @operator, value, modifier, closeBracket, qualifier).ConcatIssues();
+
+		public SourceCoordinates Start => openBracket.Start;
+
+		public SourceCoordinates End => SourceElement.List(closeBracket, qualifier).LastEnd();
 	}
 
 	internal class AttributteSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser) : ParserBase

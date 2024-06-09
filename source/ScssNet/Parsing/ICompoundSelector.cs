@@ -2,7 +2,7 @@
 
 namespace ScssNet.Parsing
 {
-	public interface ICompoundSelector
+	public interface ICompoundSelector: ISourceElement
 	{
 		ICompoundSelector? Qualifier { get; }
 	}

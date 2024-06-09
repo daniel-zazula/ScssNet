@@ -8,7 +8,7 @@ namespace ScssNet.Lexing
 
 		public SourceCoordinates Start { get; }
 		public SourceCoordinates End { get; }
-		public ICollection<Issue> Issues => [];
+		public IEnumerable<Issue> Issues => [];
 
 		internal WhiteSpaceToken(string text, SourceCoordinates start, SourceCoordinates end)
 		{

@@ -2,10 +2,16 @@
 
 namespace ScssNet.Parsing
 {
-	public class RuleSet(SelectorList selectorlist, Block ruleBlock)
+	public class RuleSet(SelectorList selectorlist, Block ruleBlock): ISourceElement
 	{
-		public SelectorList Selectorlist => selectorlist;
+		public SelectorList SelectorList => selectorlist;
 		public Block RuleBlock => ruleBlock;
+
+		public IEnumerable<Issue> Issues => SourceElement.List(SelectorList, RuleBlock).ConcatIssues();
+
+		public SourceCoordinates Start => SelectorList.Start;
+
+		public SourceCoordinates End => RuleBlock.End;
 	}
 
 	internal class RuleSetParser(Lazy<SelectorListParser> selectorListParser, Lazy<BlockParser> blockParser) : ParserBase

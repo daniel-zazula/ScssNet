@@ -12,22 +12,23 @@
 
 		public SourceCoordinates Start { get; }
 		public SourceCoordinates End { get; }
-		public ICollection<Issue> Issues => _issues.AsReadOnly();
+		public IEnumerable<Issue> Issues => _issues;
 
-		private readonly List<Issue> _issues = [];
+		private readonly ICollection<Issue> _issues = [];
 
-		internal SymbolToken(Symbol symbol, SourceCoordinates start, SourceCoordinates end)
+		internal SymbolToken(Symbol symbol, SourceCoordinates start, SourceCoordinates end) : this(symbol, start, end, []) { }
+
+		private SymbolToken(Symbol symbol, SourceCoordinates start, SourceCoordinates end, ICollection<Issue> issues)
 		{
 			Symbol = symbol;
 			Start = start;
 			End = end;
+			_issues = issues;
 		}
 
 		internal static SymbolToken CreateMissing(Symbol symbol, SourceCoordinates start)
 		{
-			var token = new SymbolToken(symbol, start, start);
-			token._issues.Add(new Issue(IssueType.Error, "Expected " + ToChars(symbol)));
-			return token;
+			return new SymbolToken(symbol, start, start, [new Issue(IssueType.Error, "Expected " + ToChars(symbol))]);
 		}
 
 		private static string ToChars(Symbol symbol)

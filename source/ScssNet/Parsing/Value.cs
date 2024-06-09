@@ -2,7 +2,7 @@
 
 namespace ScssNet.Parsing
 {
-	public interface IValue
+	public interface IValue: ISourceElement
 	{
 	}
 
@@ -10,7 +10,7 @@ namespace ScssNet.Parsing
 	{
 		public SourceCoordinates Start { get; }
 		public SourceCoordinates End { get; }
-		public ICollection<Issue> Issues { get; }
+		public IEnumerable<Issue> Issues { get; }
 
 		internal MissingValue(SourceCoordinates start)
 		{
