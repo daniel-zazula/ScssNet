@@ -2,17 +2,17 @@
 
 namespace ScssNet.Parsing
 {
-	public class SubSelector(ICompoundSelector parentSelector, ICompoundSelector childSelector)
+	public class SubSelector(ISelector parentSelector, ISelector childSelector)
 	{
-		public ICompoundSelector ParentSelector => parentSelector;
-		public ICompoundSelector ChildSelector => childSelector;
+		public ISelector ParentSelector => parentSelector;
+		public ISelector ChildSelector => childSelector;
 	}
 
-	internal class SubSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser)
+	internal class SubSelectorParser(Lazy<SelectorParser> selectorParser)
 	{
-		internal SubSelector? Parse(TokenReader tokenReader, ICompoundSelector parentSelector)
+		internal SubSelector? Parse(TokenReader tokenReader, ISelector parentSelector)
 		{
-			var selector = compoundSelectorParser.Value.Parse(tokenReader);
+			var selector = selectorParser.Value.Parse(tokenReader);
 			if (selector == null)
 				return null;
 
