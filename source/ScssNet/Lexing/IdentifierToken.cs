@@ -1,8 +1,9 @@
 ﻿using System.Text;
+using ScssNet.Parsing;
 
 namespace ScssNet.Lexing
 {
-	public class IdentifierToken: IToken
+	public class IdentifierToken: IToken, IValue
 	{
 		public string Text { get; }
 

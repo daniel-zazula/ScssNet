@@ -24,11 +24,14 @@ namespace ScssNet.Parsing
 	{
 		internal IValue? Parse(TokenReader tokenReader)
 		{
-			var peeked = tokenReader.Peek();
-			if (peeked is not IValue)
+			if (tokenReader.Peek() is not IValue)
 				return null;
 
-			return (IValue)tokenReader.Read()!;
+			var read = (IValue)tokenReader.Read()!;
+			if (read is UnitToken)
+				return read;
+
+			return read;
 		}
 	}
 }
