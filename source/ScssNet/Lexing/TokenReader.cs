@@ -8,7 +8,7 @@
 		private IToken? NextToken;
 
 		private readonly IdentifierParser IdentifierParser = new();
-		private readonly NumberParser NumberParser = new();
+		private readonly UnitParser ValueParser = new();
 		private readonly SymbolParser SymbolParser = new();
 		private readonly StringParser StringParser = new();
 		private readonly CommentParser CommentParser = new();
@@ -45,7 +45,7 @@
 		private void ReadNextToken()
 		{
 			NextToken = (IToken?)IdentifierParser.Parse(SourceReader)
-				?? (IToken?)NumberParser.Parse(SourceReader)
+				?? (IToken?)ValueParser.Parse(SourceReader)
 				?? (IToken?)SymbolParser.Parse(SourceReader)
 				?? (IToken?)StringParser.Parse(SourceReader)
 				?? (IToken?)CommentParser.Parse(SourceReader)

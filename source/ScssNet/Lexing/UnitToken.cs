@@ -2,29 +2,27 @@
 
 namespace ScssNet.Lexing
 {
-	public class NumberToken: IToken
+	public class UnitToken: IToken
 	{
-		public decimal Number { get; }
-		private readonly string NumberString;
+		public decimal Amount { get; }
+		public string Unit { get; }
 
 		public SourceCoordinates Start { get; }
 		public SourceCoordinates End { get; }
 		public IEnumerable<Issue> Issues => [];
 
-		internal NumberToken(decimal number, string numberString, SourceCoordinates start, SourceCoordinates end)
+		internal UnitToken(decimal amount, string unit, SourceCoordinates start, SourceCoordinates end)
 		{
-			Number = number;
-			NumberString = numberString;
+			Amount = amount;
+			Unit = unit;
 			Start = start;
 			End = end;
 		}
-
-		public override string ToString() => NumberString;
 	}
 
-	internal class NumberParser
+	internal class UnitParser
 	{
-		public NumberToken? Parse(ISourceReader reader)
+		public UnitToken? Parse(ISourceReader reader)
 		{
 			if(!IsUnitStart(reader))
 				return null;
@@ -41,9 +39,17 @@ namespace ScssNet.Lexing
 				ReadDigitsTo(reader, stringBuilder);
 			}
 
-			var numberString = stringBuilder.ToString();
+			var amount = decimal.Parse(stringBuilder.ToString());
 
-			return new NumberToken(decimal.Parse(numberString), numberString, startCoordinates, reader.GetCoordinates());
+			stringBuilder.Clear();
+
+			if(!reader.End && reader.Peek() == '%')
+				stringBuilder.Append(reader.Read());
+			else
+				while(!reader.End && char.IsLetter(reader.Peek()))
+					stringBuilder.Append(reader.Read());
+
+			return new UnitToken(amount, stringBuilder.ToString(), startCoordinates, reader.GetCoordinates());
 		}
 
 		private static bool IsUnitStart(ISourceReader reader)
