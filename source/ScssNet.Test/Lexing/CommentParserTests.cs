@@ -6,6 +6,8 @@ namespace ScssNet.Test.Lexing
 	[TestClass]
 	public class CommentParserTests
 	{
+		internal static IEnumerable<object[]> CommentParams = new[] { "//line comment\r\n", "/*two line\r\ncomment*/" }.ToParams();
+
 		[DataTestMethod]
 		[DataRow("CR+LF")]
 		[DataRow("CR")]
@@ -27,6 +29,25 @@ namespace ScssNet.Test.Lexing
 		{
 			var source = $"/*part 1{ReplaceReadableLineBreak(spacer)}part 2*/";
 			TestCommentParsing(source, source);
+		}
+
+		public static IEnumerable<object[]> NonComments => HexValueParserTests.HexValueParams
+			.Concat(IdentifierParserTests.IdentifierParams)
+			.Concat(StringParserTests.StringParams)
+			.Concat(SymbolParserTests.SymbolParams)
+			.Concat(UnitValueParserTests.UnitValueParams);
+
+		[DataTestMethod]
+		[DynamicData(nameof(NonComments))]
+		public void ShouldNotParseNonComments(string source)
+		{
+			var sourceReader = new SourceReaderMock(source);
+			var commentParser = new CommentParser();
+
+			var comment = commentParser.Parse(sourceReader);
+
+			comment.Should().BeNull();
+			sourceReader.End.Should().BeFalse();
 		}
 
 		private static void TestCommentParsing(string source, string commentText, string remainingSource = "")

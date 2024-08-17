@@ -6,6 +6,8 @@ namespace ScssNet.Test.Lexing
 	[TestClass]
 	public class SymbolParserTests
 	{
+		internal static IEnumerable<object[]> SymbolParams = new[] { ".", ":", ";", "{", "}", "[", "]", "=", "~=", "|=", "^=", "$=", "*=" }.ToParams();
+
 		[DataTestMethod]
 		[DataRow(".", Symbol.Dot)]
 		[DataRow("#", Symbol.Hash)]
@@ -31,6 +33,25 @@ namespace ScssNet.Test.Lexing
 			symbolToken.Should().NotBeNull();
 			symbolToken!.Symbol.Should().Be(symbol);
 			sourceReader.End.Should().BeTrue();
+		}
+
+		public static IEnumerable<object[]> NonSymbols => CommentParserTests.CommentParams
+			.Concat(HexValueParserTests.HexValueParams)
+			.Concat(IdentifierParserTests.IdentifierParams)
+			.Concat(StringParserTests.StringParams)
+			.Concat(UnitValueParserTests.UnitValueParams);
+
+		[DataTestMethod]
+		[DynamicData(nameof(NonSymbols))]
+		public void ShouldNotParseNonSymbols(string source)
+		{
+			var sourceReader = new SourceReaderMock(source);
+			var symbolParser = new SymbolParser();
+
+			var symbol = symbolParser.Parse(sourceReader);
+
+			symbol.Should().BeNull();
+			sourceReader.End.Should().BeFalse();
 		}
 	}
 }

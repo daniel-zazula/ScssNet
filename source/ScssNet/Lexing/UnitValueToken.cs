@@ -2,7 +2,7 @@
 
 namespace ScssNet.Lexing
 {
-	public class UnitToken: IToken
+	public class UnitValueToken: IToken
 	{
 		public decimal Amount { get; }
 		public string Unit { get; }
@@ -11,7 +11,7 @@ namespace ScssNet.Lexing
 		public SourceCoordinates End { get; }
 		public IEnumerable<Issue> Issues => [];
 
-		internal UnitToken(decimal amount, string unit, SourceCoordinates start, SourceCoordinates end)
+		internal UnitValueToken(decimal amount, string unit, SourceCoordinates start, SourceCoordinates end)
 		{
 			Amount = amount;
 			Unit = unit;
@@ -20,9 +20,9 @@ namespace ScssNet.Lexing
 		}
 	}
 
-	internal class UnitParser
+	internal class UnitValueParser
 	{
-		public UnitToken? Parse(ISourceReader reader)
+		public UnitValueToken? Parse(ISourceReader reader)
 		{
 			if(!IsUnitStart(reader))
 				return null;
@@ -49,7 +49,7 @@ namespace ScssNet.Lexing
 				while(!reader.End && char.IsLetter(reader.Peek()))
 					stringBuilder.Append(reader.Read());
 
-			return new UnitToken(amount, stringBuilder.ToString(), startCoordinates, reader.GetCoordinates());
+			return new UnitValueToken(amount, stringBuilder.ToString(), startCoordinates, reader.GetCoordinates());
 		}
 
 		private static bool IsUnitStart(ISourceReader reader)

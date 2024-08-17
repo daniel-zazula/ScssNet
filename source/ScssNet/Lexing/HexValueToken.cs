@@ -3,7 +3,7 @@ using ScssNet.Parsing;
 
 namespace ScssNet.Lexing
 {
-	public class HexToken: IToken, IValue
+	public class HexValueToken: IToken, IValue
 	{
 		public string Value { get; }
 
@@ -11,7 +11,7 @@ namespace ScssNet.Lexing
 		public SourceCoordinates End { get; }
 		public IEnumerable<Issue> Issues => [];
 
-		internal HexToken(string value, SourceCoordinates start, SourceCoordinates end)
+		internal HexValueToken(string value, SourceCoordinates start, SourceCoordinates end)
 		{
 			Value = value;
 			Start = start;
@@ -19,9 +19,9 @@ namespace ScssNet.Lexing
 		}
 	}
 
-	internal class HexParser
+	internal class HexValueParser
 	{
-		public HexToken? Parse(ISourceReader reader)
+		public HexValueToken? Parse(ISourceReader reader)
 		{
 			if(reader.Peek() != '#')
 				return null;
@@ -33,7 +33,7 @@ namespace ScssNet.Lexing
 			while(IsHexDigit(reader.Peek()))
 				stringBuilder.Append(reader.Read());
 
-			return new HexToken(stringBuilder.ToString(), startCoordinates, reader.GetCoordinates());
+			return new HexValueToken(stringBuilder.ToString(), startCoordinates, reader.GetCoordinates());
 		}
 
 		private static bool IsHexDigit(char peeked)

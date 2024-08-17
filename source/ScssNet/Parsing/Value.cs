@@ -28,7 +28,7 @@ namespace ScssNet.Parsing
 				return null;
 
 			var read = (IValue)tokenReader.Read()!;
-			if (read is UnitToken)
+			if (read is UnitValueToken)
 				return read;
 
 			return read;
