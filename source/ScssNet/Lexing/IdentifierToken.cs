@@ -33,19 +33,30 @@ namespace ScssNet.Lexing
 	{
 		public IdentifierToken? Parse(ISourceReader reader)
 		{
-			if (reader.End || !IsValidIdentifierChar(reader.Peek()))
+			if(reader.End || !IsIdentifierStart(reader.Peek(3)))
 				return null;
 
 			var startCoordinates = reader.GetCoordinates();
 
 			var sb = new StringBuilder();
 			sb.Append(reader.Read());
-			while(!reader.End && IsValidIdentifierChar(reader.Peek()))
+			while(!reader.End && IsIdentifierChar(reader.Peek()))
 				sb.Append(reader.Read());
 
 			return new IdentifierToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
 		}
 
-		private bool IsValidIdentifierChar(char c) => char.IsLetter(c) || c == '_' || c == '-';
+		private bool IsIdentifierStart(string peeked)
+		{
+			var firstChar = peeked[0];
+			return char.IsLetter(firstChar) || firstChar == '_'
+				|| (peeked.Length > 1 && firstChar == '-' && char.IsLetter(peeked[1]))
+				|| (peeked.Length > 2 && peeked.Substring(2) == "--" && char.IsLetter(peeked[2]));
+		}
+
+		private bool IsIdentifierChar(char c)
+		{
+			return char.IsLetter(c) || c == '_' || c == '-';
+		}
 	}
 }

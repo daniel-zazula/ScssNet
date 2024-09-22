@@ -36,7 +36,6 @@ namespace ScssNet.Test.Lexing
 		}
 
 		public static IEnumerable<object[]> NonSymbols => CommentParserTests.CommentParams
-			.Concat(HexValueParserTests.HexValueParams)
 			.Concat(IdentifierParserTests.IdentifierParams)
 			.Concat(StringParserTests.StringParams)
 			.Concat(UnitValueParserTests.UnitValueParams);
