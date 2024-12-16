@@ -16,17 +16,17 @@ namespace ScssNet.Parsing
 		public SourceCoordinates End => SemiColon.End;
 	}
 
-	internal class RuleParser(Lazy<ValueParser> valueParser) : ParserBase
+	internal class RuleParser(Lazy<ValueParser> valueParser)
 	{
 		internal Rule? Parse(TokenReader tokenReader)
 		{
-			var property = MatchIdentifier(tokenReader);
+			var property = tokenReader.Match<IdentifierToken>();
 			if(property is null)
 				return null;
 
-			var colon = Require(tokenReader, Symbol.Colon);
+			var colon = tokenReader.Require(Symbol.Colon);
 			var value = valueParser.Value.Parse(tokenReader) ?? new MissingValue(tokenReader.GetCoordinates());
-			var semiColon = Require(tokenReader, Symbol.SemiColon);
+			var semiColon = tokenReader.Require(Symbol.SemiColon);
 
 			return new Rule(property, colon, value, semiColon);
 		}

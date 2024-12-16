@@ -1,30 +1,95 @@
 ﻿namespace ScssNet.Lexing
 {
-	internal class TokenReader(ISourceReader sourceReader)
+	internal class TokenReader
+	(
+		ISourceReader sourceReader, IdentifierParser identifierParser, SymbolParser symbolParser,
+		UnitValueParser unitValueParser, HexValueParser hexValueParser, StringParser stringParser,
+		CommentParser commentParser, WhiteSpaceParser whiteSpaceParser
+	)
 	{
 		public bool End => NextToken == null && SourceReader.End;
 
 		private readonly ISourceReader SourceReader = sourceReader;
 		private IToken? NextToken;
 
-		private readonly IdentifierParser IdentifierParser = new();
-		private readonly SymbolParser SymbolParser = new();
-		private readonly UnitValueParser UnitValueParser = new();
-		private readonly HexValueParser HexValueParser = new();
-		private readonly StringParser StringParser = new();
-		private readonly CommentParser CommentParser = new();
-		private readonly WhiteSpaceParser WhiteSpaceParser = new();
+		private readonly IdentifierParser IdentifierParser = identifierParser;
+		private readonly SymbolParser SymbolParser = symbolParser;
+		private readonly UnitValueParser UnitValueParser = unitValueParser;
+		private readonly HexValueParser HexValueParser = hexValueParser;
+		private readonly StringParser StringParser = stringParser;
+		private readonly CommentParser CommentParser = commentParser;
+		private readonly WhiteSpaceParser WhiteSpaceParser = whiteSpaceParser;
 
-		public IToken? Peek(bool skipWhitespace = true)
+		public IToken? Peek()
 		{
-			if (NextToken == null && !SourceReader.End)
+			return Peek(true);
+		}
+
+		public IToken? Read()
+		{
+			var token = Peek();
+			ReadNextToken();
+			return token;
+		}
+
+		public SourceCoordinates GetCoordinates() => SourceReader.GetCoordinates();
+
+		public SymbolToken? Match(Symbol symbol, bool skipWhitespace = true)
+		{
+			return Match([symbol], skipWhitespace);
+		}
+
+		public SymbolToken? Match(ICollection<Symbol> symbols, bool skipWhitespace = true)
+		{
+			if(Peek(skipWhitespace) is SymbolToken symbolToken && symbols.Contains(symbolToken.Symbol))
+			{
+				ReadNextToken();
+				return symbolToken;
+			}
+
+			return null;
+		}
+
+		public T? Match<T>(bool skipWhitespace = true)
+			where T : IToken
+		{
+			if(typeof(T) == typeof(SymbolToken))
+				throw new InvalidOperationException("Use Match(Symbol symbol, ...) for matching symbols.");
+
+			if(Peek(skipWhitespace) is T token)
+			{
+				ReadNextToken();
+				return token;
+			}
+
+			return default;
+		}
+
+		public SymbolToken Require(Symbol symbol, bool skipWhitespace = true)
+		{
+			return Match(symbol, skipWhitespace) ?? SymbolToken.CreateMissing(symbol, GetCoordinates());
+		}
+
+		public IdentifierToken RequireIdentifier(bool skipWhitespace = true)
+		{
+			return Match<IdentifierToken>(skipWhitespace) ?? IdentifierToken.CreateMissing(GetCoordinates());
+		}
+
+		public StringToken RequireString()
+		{
+			return Match<StringToken>() ?? StringToken.CreateMissing(GetCoordinates());
+		}
+
+		private IToken? Peek(bool skipWhitespace)
+		{
+			if(NextToken == null && !SourceReader.End)
 				ReadNextToken();
 
 			if(skipWhitespace)
 			{
 				while(NextToken is WhiteSpaceToken)
 				{
-					if (SourceReader.End)
+					if(SourceReader.End)
 						NextToken = null;
 					else
 						ReadNextToken();
@@ -33,15 +98,6 @@
 
 			return NextToken;
 		}
-
-		public IToken? Read(bool skipWhitespace = true)
-		{
-			var token = Peek(skipWhitespace);
-			ReadNextToken();
-			return token;
-		}
-
-		public SourceCoordinates GetCoordinates() => SourceReader.GetCoordinates();
 
 		private void ReadNextToken()
 		{

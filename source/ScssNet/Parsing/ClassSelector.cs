@@ -15,15 +15,15 @@ namespace ScssNet.Parsing
 		public SourceCoordinates End => SourceElement.List(identifier, qualifier).LastEnd();
 	}
 
-	internal class ClassSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser): ParserBase
+	internal class ClassSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser)
 	{
 		internal ClassSelector? Parse(TokenReader tokenReader, bool skipWhitespace = true)
 		{
-			var dot = Match(tokenReader, Symbol.Hash, skipWhitespace);
+			var dot = tokenReader.Match(Symbol.Hash, skipWhitespace);
 			if(dot is null)
 				return null;
 
-			var identifier = RequireIdentifier(tokenReader, false);
+			var identifier = tokenReader.RequireIdentifier(false);
 			var compoundSelector = compoundSelectorParser.Value.Parse(tokenReader);
 
 			return new ClassSelector(dot, identifier, compoundSelector);

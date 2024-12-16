@@ -14,7 +14,7 @@ namespace ScssNet.Parsing
 		public SourceCoordinates End => RuleBlock.End;
 	}
 
-	internal class RuleSetParser(Lazy<SelectorListParser> selectorListParser, Lazy<BlockParser> blockParser) : ParserBase
+	internal class RuleSetParser(Lazy<SelectorListParser> selectorListParser, Lazy<BlockParser> blockParser)
 	{
 		internal RuleSet? Parse(TokenReader tokenReader)
 		{

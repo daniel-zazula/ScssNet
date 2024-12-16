@@ -15,11 +15,11 @@ namespace ScssNet.Parsing
 		public SourceCoordinates End => closeBrace.End;
 	}
 
-	internal class BlockParser(Lazy<RuleParser> ruleParser): ParserBase
+	internal class BlockParser(Lazy<RuleParser> ruleParser)
 	{
 		internal Block? Parse(TokenReader tokenReader)
 		{
-			var openBrace = Match(tokenReader, Symbol.OpenBrace);
+			var openBrace = tokenReader.Match(Symbol.OpenBrace);
 			if(openBrace is null)
 				return null;
 
@@ -31,7 +31,7 @@ namespace ScssNet.Parsing
 				rule = ruleParser.Value.Parse(tokenReader);
 			}
 
-			var closeBrace = Require(tokenReader, Symbol.CloseBrace);
+			var closeBrace = tokenReader.Require(Symbol.CloseBrace);
 			return new Block(openBrace!, rules, closeBrace);
 		}
 	}

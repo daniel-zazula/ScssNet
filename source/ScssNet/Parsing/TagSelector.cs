@@ -14,11 +14,11 @@ namespace ScssNet.Parsing
 		public SourceCoordinates End => SourceElement.List(identifier, qualifier).LastEnd();
 	}
 
-	internal class TagSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser): ParserBase
+	internal class TagSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser)
 	{
 		internal TagSelector? Parse(TokenReader tokenReader)
 		{
-			var identifier = MatchIdentifier(tokenReader);
+			var identifier = tokenReader.Match<IdentifierToken>();
 			if(identifier is null)
 				return null;
 

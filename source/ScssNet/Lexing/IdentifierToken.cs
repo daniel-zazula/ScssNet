@@ -3,7 +3,7 @@ using ScssNet.Parsing;
 
 namespace ScssNet.Lexing
 {
-	public class IdentifierToken: IToken, IValue
+	public class IdentifierToken: IValueToken
 	{
 		public string Text { get; }
 

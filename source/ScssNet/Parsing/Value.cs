@@ -2,9 +2,7 @@
 
 namespace ScssNet.Parsing
 {
-	public interface IValue: ISourceElement
-	{
-	}
+	public interface IValue : ISourceElement { }
 
 	public class MissingValue: IValue
 	{
@@ -20,18 +18,12 @@ namespace ScssNet.Parsing
 		}
 	}
 
-	internal class ValueParser : ParserBase
+	internal class ValueParser
 	{
 		internal IValue? Parse(TokenReader tokenReader)
 		{
-			if (tokenReader.Peek() is not IValue)
-				return null;
-
-			var read = (IValue)tokenReader.Read()!;
-			if (read is UnitValueToken)
-				return read;
-
-			return read;
+			return tokenReader.Match<IValueToken>();
+			// TBA more comples values like function calls
 		}
 	}
 }
