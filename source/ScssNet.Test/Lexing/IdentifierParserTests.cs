@@ -1,5 +1,5 @@
-﻿using FluentAssertions;
-using ScssNet.Lexing;
+﻿using ScssNet.Lexing;
+using Shouldly;
 
 namespace ScssNet.Test.Lexing
 {
@@ -18,9 +18,9 @@ namespace ScssNet.Test.Lexing
 
 			var identifierToken = identifierParser.Parse(sourceReader);
 
-			identifierToken.Should().NotBeNull();
-			identifierToken!.Text.Should().Be(source);
-			sourceReader.End.Should().BeTrue();
+			identifierToken.ShouldNotBeNull();
+			identifierToken!.Text.ShouldBe(source);
+			sourceReader.End.ShouldBeTrue();
 		}
 
 		public static IEnumerable<object[]> NonIdentifiers => CommentParserTests.CommentParams
@@ -38,8 +38,8 @@ namespace ScssNet.Test.Lexing
 
 			var identifier = identifierParser.Parse(sourceReader);
 
-			identifier.Should().BeNull();
-			sourceReader.End.Should().BeFalse();
+			identifier.ShouldBeNull();
+			sourceReader.End.ShouldBeFalse();
 		}
 
 	}

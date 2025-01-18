@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
-using FluentAssertions;
 using ScssNet.Lexing;
+using Shouldly;
 
 namespace ScssNet.Test.Lexing
 {
@@ -16,8 +16,8 @@ namespace ScssNet.Test.Lexing
 		{
 			var sourceReader = new SourceReader(new StringReader(SampleSource));
 
-			sourceReader.Peek().Should().Be(SampleSource[0]);
-			sourceReader.Peek().Should().Be(SampleSource[0]);
+			sourceReader.Peek().ShouldBe(SampleSource[0]);
+			sourceReader.Peek().ShouldBe(SampleSource[0]);
 		}
 
 		[TestMethod]
@@ -25,8 +25,8 @@ namespace ScssNet.Test.Lexing
 		{
 			var sourceReader = new SourceReader(new StringReader(SampleSource));
 
-			sourceReader.Peek(2).Should().Be(SampleSource[0..2]);
-			sourceReader.Peek(5).Should().Be(SampleSource[0..5]);
+			sourceReader.Peek(2).ShouldBe(SampleSource[0..2]);
+			sourceReader.Peek(5).ShouldBe(SampleSource[0..5]);
 		}
 
 		[TestMethod]
@@ -34,8 +34,8 @@ namespace ScssNet.Test.Lexing
 		{
 			var sourceReader = new SourceReader(new StringReader(SampleSource));
 
-			sourceReader.Read().Should().Be(SampleSource[0]);
-			sourceReader.Peek().Should().Be(SampleSource[1]);
+			sourceReader.Read().ShouldBe(SampleSource[0]);
+			sourceReader.Peek().ShouldBe(SampleSource[1]);
 		}
 
 		[TestMethod]
@@ -43,8 +43,8 @@ namespace ScssNet.Test.Lexing
 		{
 			var sourceReader = new SourceReader(new StringReader(SampleSource));
 
-			sourceReader.Read(5).Should().Be(SampleSource[0..5]);
-			sourceReader.Peek().Should().Be(SampleSource[5]);
+			sourceReader.Read(5).ShouldBe(SampleSource[0..5]);
+			sourceReader.Peek().ShouldBe(SampleSource[5]);
 		}
 
 		[TestMethod]
@@ -53,7 +53,7 @@ namespace ScssNet.Test.Lexing
 			var sourceReader = new SourceReader(new StringReader(SampleSource));
 
 			var coordinates = sourceReader.GetCoordinates();
-			coordinates.Should().Be(new SourceCoordinates(1, 1));
+			coordinates.ShouldBe(new SourceCoordinates(1, 1));
 		}
 
 		[TestMethod]
@@ -65,7 +65,7 @@ namespace ScssNet.Test.Lexing
 			sourceReader.Read(readCount);
 
 			var coordinates = sourceReader.GetCoordinates();
-			coordinates.Should().Be(new SourceCoordinates(1, 1 + readCount));
+			coordinates.ShouldBe(new SourceCoordinates(1, 1 + readCount));
 		}
 
 		[TestMethod]
@@ -78,7 +78,7 @@ namespace ScssNet.Test.Lexing
 			sourceReader.Read(SampleSource.Length + lineBreak.Length);
 
 			var coordinates = sourceReader.GetCoordinates();
-			coordinates.Should().Be(new SourceCoordinates(2, 1));
+			coordinates.ShouldBe(new SourceCoordinates(2, 1));
 		}
 
 		[TestMethod]
@@ -92,7 +92,7 @@ namespace ScssNet.Test.Lexing
 			sourceReader.Read(SampleSource.Length + lineBreak.Length + readCount);
 
 			var coordinates = sourceReader.GetCoordinates();
-			coordinates.Should().Be(new SourceCoordinates(2, 1 + readCount));
+			coordinates.ShouldBe(new SourceCoordinates(2, 1 + readCount));
 		}
 
 		[TestMethod]
@@ -104,7 +104,7 @@ namespace ScssNet.Test.Lexing
 			sourceReader.Peek(readCount);
 
 			var coordinates = sourceReader.GetCoordinates();
-			coordinates.Should().Be(new SourceCoordinates(1, 1));
+			coordinates.ShouldBe(new SourceCoordinates(1, 1));
 		}
 
 		[TestMethod]
@@ -119,7 +119,7 @@ namespace ScssNet.Test.Lexing
 
 			sourceReader.Read(readCount);
 
-			sourceReader.Peek(SampleSource.Length).Should().Be(SampleSource);
+			sourceReader.Peek(SampleSource.Length).ShouldBe(SampleSource);
 		}
 
 		[TestMethod()]
@@ -134,8 +134,8 @@ namespace ScssNet.Test.Lexing
 
 			sourceReader.Read(readCount);
 
-			sourceReader.Read(SampleSource.Length).Should().Be(SampleSource);
-			sourceReader.Peek().Should().Be(SampleSource[0]);
+			sourceReader.Read(SampleSource.Length).ShouldBe(SampleSource);
+			sourceReader.Peek().ShouldBe(SampleSource[0]);
 		}
 
 		private static string GetTwoLineSampleSource(string lineBreak)

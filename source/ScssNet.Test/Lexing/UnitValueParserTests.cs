@@ -1,5 +1,5 @@
-﻿using FluentAssertions;
-using ScssNet.Lexing;
+﻿using ScssNet.Lexing;
+using Shouldly;
 
 namespace ScssNet.Test.Lexing
 {
@@ -25,10 +25,10 @@ namespace ScssNet.Test.Lexing
 
 			var unitToken = unitParser.Parse(sourceReader);
 
-			unitToken.Should().NotBeNull();
-			unitToken!.Amount.Should().Be(decimal.Parse(amount));
-			unitToken!.Unit.Should().Be(unit);
-			sourceReader.End.Should().BeTrue();
+			unitToken.ShouldNotBeNull();
+			unitToken!.Amount.ShouldBe(decimal.Parse(amount));
+			unitToken!.Unit.ShouldBe(unit);
+			sourceReader.End.ShouldBeTrue();
 		}
 
 		public static IEnumerable<object[]> NonUnitValues => CommentParserTests.CommentParams
@@ -46,8 +46,8 @@ namespace ScssNet.Test.Lexing
 
 			var unitValue = unitValueParser.Parse(sourceReader);
 
-			unitValue.Should().BeNull();
-			sourceReader.End.Should().BeFalse();
+			unitValue.ShouldBeNull();
+			sourceReader.End.ShouldBeFalse();
 		}
 	}
 }

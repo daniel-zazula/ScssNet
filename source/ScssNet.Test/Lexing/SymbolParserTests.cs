@@ -1,5 +1,5 @@
-﻿using FluentAssertions;
-using ScssNet.Lexing;
+﻿using ScssNet.Lexing;
+using Shouldly;
 
 namespace ScssNet.Test.Lexing
 {
@@ -30,9 +30,9 @@ namespace ScssNet.Test.Lexing
 
 			var symbolToken = symbolParser.Parse(sourceReader);
 
-			symbolToken.Should().NotBeNull();
-			symbolToken!.Symbol.Should().Be(symbol);
-			sourceReader.End.Should().BeTrue();
+			symbolToken.ShouldNotBeNull();
+			symbolToken!.Symbol.ShouldBe(symbol);
+			sourceReader.End.ShouldBeTrue();
 		}
 
 		public static IEnumerable<object[]> NonSymbols => CommentParserTests.CommentParams
@@ -49,8 +49,8 @@ namespace ScssNet.Test.Lexing
 
 			var symbol = symbolParser.Parse(sourceReader);
 
-			symbol.Should().BeNull();
-			sourceReader.End.Should().BeFalse();
+			symbol.ShouldBeNull();
+			sourceReader.End.ShouldBeFalse();
 		}
 	}
 }

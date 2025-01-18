@@ -1,5 +1,5 @@
-﻿using FluentAssertions;
-using ScssNet.Lexing;
+﻿using ScssNet.Lexing;
+using Shouldly;
 
 namespace ScssNet.Test.Lexing
 {
@@ -46,8 +46,8 @@ namespace ScssNet.Test.Lexing
 
 			var comment = commentParser.Parse(sourceReader);
 
-			comment.Should().BeNull();
-			sourceReader.End.Should().BeFalse();
+			comment.ShouldBeNull();
+			sourceReader.End.ShouldBeFalse();
 		}
 
 		private static void TestCommentParsing(string source, string commentText, string remainingSource = "")
@@ -57,14 +57,14 @@ namespace ScssNet.Test.Lexing
 
 			var comment = commentParser.Parse(sourceReader);
 
-			comment.Should().NotBeNull();
-			comment!.Text.Should().Be(commentText);
+			comment.ShouldNotBeNull();
+			comment!.Text.ShouldBe(commentText);
 
 			var remainingSourceLength = remainingSource.Length;
 			if (remainingSourceLength > 0)
-				sourceReader.Peek(remainingSourceLength).Should().Be(remainingSource);
+				sourceReader.Peek(remainingSourceLength).ShouldBe(remainingSource);
 			else
-				sourceReader.End.Should().BeTrue();
+				sourceReader.End.ShouldBeTrue();
 		}
 
 		private static string ReplaceReadableLineBreak(string possibleLineBreak)
