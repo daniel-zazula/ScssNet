@@ -6,32 +6,26 @@ using ScssNet.Parsing;
 
 namespace ScssNet
 {
-	internal static class DependencyRegistry
+	internal static class ServiceCollectionExtensions
 	{
-		private static readonly IServiceCollection Services;
-
-		static DependencyRegistry()
+		internal static void AddTokenParsers(this IServiceCollection services)
 		{
-			Services = new ServiceCollection();
-			Services.AddReaders();
-			Services.AddParsers();
+			services.AddSingleton<CommentParser>();
+			services.AddSingleton<HexValueParser>();
+			services.AddSingleton<IdentifierParser>();
+			services.AddSingleton<StringParser>();
+			services.AddSingleton<SymbolParser>();
+			services.AddSingleton<UnitValueParser>();
+			services.AddSingleton<WhiteSpaceParser>();
 		}
 
-		internal static IServiceProvider CreateServiceProvider(TextReader textReader)
-		{
-			Services.AddSingleton(textReader);
-			var provider = Services.BuildServiceProvider();
-			Services.RemoveAll<TextReader>();
-			return provider;
-		}
-
-		private static void AddReaders(this IServiceCollection services)
+		internal static void AddReaders(this IServiceCollection services)
 		{
 			services.AddSingleton<SourceReader>();
 			services.AddSingleton<TokenReader>();
 		}
 
-		private static void AddParsers(this IServiceCollection services)
+		internal static void AddParsers(this IServiceCollection services)
 		{
 			services.AddLazy<TagSelectorParser>();
 			services.AddLazy<ClassSelectorParser>();
