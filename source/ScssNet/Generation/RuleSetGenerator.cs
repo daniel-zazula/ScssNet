@@ -1,13 +1,12 @@
 ﻿using System.IO;
 using ScssNet.SourceElements;
 
-namespace ScssNet.Generation
+namespace ScssNet.Generation;
+
+internal class RuleSetGenerator
 {
-	internal class RuleSetGenerator
+	public void Generate(RuleSet ruleSet, TextWriter writer)
 	{
-		public void Generate(RuleSet ruleSet, TextWriter writer)
-		{
-			throw new NotImplementedException("RuleSet");
-		}
+		throw new NotImplementedException("RuleSet");
 	}
 }

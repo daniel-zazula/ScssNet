@@ -1,35 +1,34 @@
 ﻿using System.Text;
 using ScssNet.Tokens;
 
-namespace ScssNet.Lexing
+namespace ScssNet.Lexing;
+
+internal class StringParser
 {
-	internal class StringParser
+	public StringToken? Parse(ISourceReader reader)
 	{
-		public StringToken? Parse(ISourceReader reader)
+		if(reader.End || !IsStringDelimiter(reader.Peek()))
+			return null;
+
+		var startCoordinates = reader.GetCoordinates();
+
+		var sb = new StringBuilder();
+		var startingDelimiter = reader.Read();
+		sb.Append(startingDelimiter);
+		var previousChar = startingDelimiter;
+		while(!reader.End)
 		{
-			if(reader.End || !IsStringDelimiter(reader.Peek()))
-				return null;
-
-			var startCoordinates = reader.GetCoordinates();
-
-			var sb = new StringBuilder();
-			var startingDelimiter = reader.Read();
-			sb.Append(startingDelimiter);
-			var previousChar = startingDelimiter;
-			while(!reader.End)
+			if (reader.Peek() == startingDelimiter && previousChar != '\\')
 			{
-				if (reader.Peek() == startingDelimiter && previousChar != '\\')
-				{
-					sb.Append(reader.Read());
-					break;
-				}
-				previousChar = reader.Read();
-				sb.Append(previousChar);
-			};
+				sb.Append(reader.Read());
+				break;
+			}
+			previousChar = reader.Read();
+			sb.Append(previousChar);
+		};
 
-			return new StringToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
-		}
-
-		private bool IsStringDelimiter(char c) => c == '\'' || c == '"';
+		return new StringToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
 	}
+
+	private bool IsStringDelimiter(char c) => c == '\'' || c == '"';
 }

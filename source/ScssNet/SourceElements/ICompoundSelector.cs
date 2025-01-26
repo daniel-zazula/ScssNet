@@ -1,7 +1,6 @@
-﻿namespace ScssNet.SourceElements
+﻿namespace ScssNet.SourceElements;
+
+public interface ICompoundSelector : ISourceElement
 {
-	public interface ICompoundSelector : ISourceElement
-	{
-		ICompoundSelector? Qualifier { get; }
-	}
+	ICompoundSelector? Qualifier { get; }
 }

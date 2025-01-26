@@ -2,19 +2,18 @@
 using ScssNet.SourceElements;
 using ScssNet.Tokens;
 
-namespace ScssNet.Parsing
+namespace ScssNet.Parsing;
+
+internal class TagSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser)
 {
-	internal class TagSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser)
+	internal TagSelector? Parse(TokenReader tokenReader)
 	{
-		internal TagSelector? Parse(TokenReader tokenReader)
-		{
-			var identifier = tokenReader.Match<IdentifierToken>();
-			if(identifier is null)
-				return null;
+		var identifier = tokenReader.Match<IdentifierToken>();
+		if(identifier is null)
+			return null;
 
-			var compoundSelector = compoundSelectorParser.Value.Parse(tokenReader);
+		var compoundSelector = compoundSelectorParser.Value.Parse(tokenReader);
 
-			return new TagSelector(identifier, compoundSelector);
-		}
+		return new TagSelector(identifier, compoundSelector);
 	}
 }

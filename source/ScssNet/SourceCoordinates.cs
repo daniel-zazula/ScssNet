@@ -1,14 +1,13 @@
-﻿namespace ScssNet
-{
-	public readonly record struct SourceCoordinates
-	{
-		public int LineNumber { get; }
-		public int ColumnNumber { get; }
+﻿namespace ScssNet;
 
-		internal SourceCoordinates(int lineNumber, int columnNumber)
-		{
-			LineNumber = lineNumber;
-			ColumnNumber = columnNumber;
-		}
+public readonly record struct SourceCoordinates
+{
+	public int LineNumber { get; }
+	public int ColumnNumber { get; }
+
+	internal SourceCoordinates(int lineNumber, int columnNumber)
+	{
+		LineNumber = lineNumber;
+		ColumnNumber = columnNumber;
 	}
 }

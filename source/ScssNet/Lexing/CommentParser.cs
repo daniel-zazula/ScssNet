@@ -1,40 +1,39 @@
 ﻿using System.Text;
 using ScssNet.Tokens;
 
-namespace ScssNet.Lexing
+namespace ScssNet.Lexing;
+
+internal class CommentParser
 {
-	internal class CommentParser
+	private const string SingleLineCommentStart = "//";
+	private const string MultiLineCommentStart = "/*";
+	private const string MultiLineCommentEnd = "*/";
+
+	public CommentToken? Parse(ISourceReader reader)
 	{
-		private const string SingleLineCommentStart = "//";
-		private const string MultiLineCommentStart = "/*";
-		private const string MultiLineCommentEnd = "*/";
+		var commentStart = reader.Peek(2);
+		if(commentStart != SingleLineCommentStart && commentStart != MultiLineCommentStart)
+			return null;
 
-		public CommentToken? Parse(ISourceReader reader)
+		var startCoordinates = reader.GetCoordinates();
+
+		var sb = new StringBuilder(reader.Read(2));
+		while(!reader.End)
 		{
-			var commentStart = reader.Peek(2);
-			if(commentStart != SingleLineCommentStart && commentStart != MultiLineCommentStart)
-				return null;
+			if(commentStart == SingleLineCommentStart && IsLineBreak(reader.Peek()))
+				break;
 
-			var startCoordinates = reader.GetCoordinates();
-
-			var sb = new StringBuilder(reader.Read(2));
-			while(!reader.End)
+			if (commentStart == MultiLineCommentStart && reader.Peek(2) == MultiLineCommentEnd)
 			{
-				if(commentStart == SingleLineCommentStart && IsLineBreak(reader.Peek()))
-					break;
-
-				if (commentStart == MultiLineCommentStart && reader.Peek(2) == MultiLineCommentEnd)
-				{
-					sb.Append(reader.Read(2));
-					break;
-				}
-
-				sb.Append(reader.Read());
+				sb.Append(reader.Read(2));
+				break;
 			}
 
-			return new CommentToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
-
-			static bool IsLineBreak(char nextChar) => nextChar == '\r' || nextChar == '\n';
+			sb.Append(reader.Read());
 		}
+
+		return new CommentToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
+
+		static bool IsLineBreak(char nextChar) => nextChar == '\r' || nextChar == '\n';
 	}
 }

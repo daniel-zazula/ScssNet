@@ -1,56 +1,55 @@
-﻿namespace ScssNet.Tokens
+﻿namespace ScssNet.Tokens;
+
+public enum Symbol
 {
-	public enum Symbol
+	Dot, Hash, Colon, SemiColon, OpenBrace, CloseBrace, OpenBracket, CloseBracket, Equals,
+	ContainsWord, StartsWithWord, StartsWith, EndsWith, Contains
+}
+
+public class SymbolToken : IToken
+{
+	public Symbol Symbol { get; }
+
+	public SourceCoordinates Start { get; }
+	public SourceCoordinates End { get; }
+	public IEnumerable<Issue> Issues => _issues;
+
+	private readonly ICollection<Issue> _issues = [];
+
+	internal SymbolToken(Symbol symbol, SourceCoordinates start, SourceCoordinates end) : this(symbol, start, end, []) { }
+
+	private SymbolToken(Symbol symbol, SourceCoordinates start, SourceCoordinates end, ICollection<Issue> issues)
 	{
-		Dot, Hash, Colon, SemiColon, OpenBrace, CloseBrace, OpenBracket, CloseBracket, Equals,
-		ContainsWord, StartsWithWord, StartsWith, EndsWith, Contains
+		Symbol = symbol;
+		Start = start;
+		End = end;
+		_issues = issues;
 	}
 
-	public class SymbolToken : IToken
+	internal static SymbolToken CreateMissing(Symbol symbol, SourceCoordinates start)
 	{
-		public Symbol Symbol { get; }
+		return new SymbolToken(symbol, start, start, [new Issue(IssueType.Error, "Expected " + ToChars(symbol))]);
+	}
 
-		public SourceCoordinates Start { get; }
-		public SourceCoordinates End { get; }
-		public IEnumerable<Issue> Issues => _issues;
-
-		private readonly ICollection<Issue> _issues = [];
-
-		internal SymbolToken(Symbol symbol, SourceCoordinates start, SourceCoordinates end) : this(symbol, start, end, []) { }
-
-		private SymbolToken(Symbol symbol, SourceCoordinates start, SourceCoordinates end, ICollection<Issue> issues)
+	private static string ToChars(Symbol symbol)
+	{
+		return symbol switch
 		{
-			Symbol = symbol;
-			Start = start;
-			End = end;
-			_issues = issues;
-		}
-
-		internal static SymbolToken CreateMissing(Symbol symbol, SourceCoordinates start)
-		{
-			return new SymbolToken(symbol, start, start, [new Issue(IssueType.Error, "Expected " + ToChars(symbol))]);
-		}
-
-		private static string ToChars(Symbol symbol)
-		{
-			return symbol switch
-			{
-				Symbol.ContainsWord => "~=",
-				Symbol.StartsWithWord => "|=",
-				Symbol.StartsWith => "^=",
-				Symbol.EndsWith => "$=",
-				Symbol.Contains => "*=",
-				Symbol.Dot => ".",
-				Symbol.Hash => "#",
-				Symbol.Colon => ":",
-				Symbol.SemiColon => ";",
-				Symbol.OpenBrace => "{",
-				Symbol.CloseBrace => "}",
-				Symbol.OpenBracket => "[",
-				Symbol.CloseBracket => "]",
-				Symbol.Equals => "=",
-				_ => throw new NotImplementedException("Missing symbol characters"),
-			};
-		}
+			Symbol.ContainsWord => "~=",
+			Symbol.StartsWithWord => "|=",
+			Symbol.StartsWith => "^=",
+			Symbol.EndsWith => "$=",
+			Symbol.Contains => "*=",
+			Symbol.Dot => ".",
+			Symbol.Hash => "#",
+			Symbol.Colon => ":",
+			Symbol.SemiColon => ";",
+			Symbol.OpenBrace => "{",
+			Symbol.CloseBrace => "}",
+			Symbol.OpenBracket => "[",
+			Symbol.CloseBracket => "]",
+			Symbol.Equals => "=",
+			_ => throw new NotImplementedException("Missing symbol characters"),
+		};
 	}
 }

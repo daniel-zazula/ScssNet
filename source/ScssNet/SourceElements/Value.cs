@@ -1,18 +1,17 @@
-﻿namespace ScssNet.SourceElements
+﻿namespace ScssNet.SourceElements;
+
+public interface IValue : ISourceElement { }
+
+public class MissingValue : IValue
 {
-	public interface IValue : ISourceElement { }
+	public SourceCoordinates Start { get; }
+	public SourceCoordinates End { get; }
+	public IEnumerable<Issue> Issues { get; }
 
-	public class MissingValue : IValue
+	internal MissingValue(SourceCoordinates start)
 	{
-		public SourceCoordinates Start { get; }
-		public SourceCoordinates End { get; }
-		public IEnumerable<Issue> Issues { get; }
-
-		internal MissingValue(SourceCoordinates start)
-		{
-			Start = start;
-			End = start;
-			Issues = [new Issue(IssueType.Error, "Missing value (measure unit, string or function)")];
-		}
+		Start = start;
+		End = start;
+		Issues = [new Issue(IssueType.Error, "Missing value (measure unit, string or function)")];
 	}
 }

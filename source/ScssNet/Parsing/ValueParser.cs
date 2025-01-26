@@ -2,14 +2,13 @@
 using ScssNet.SourceElements;
 using ScssNet.Tokens;
 
-namespace ScssNet.Parsing
+namespace ScssNet.Parsing;
+
+internal class ValueParser
 {
-	internal class ValueParser
+	internal IValue? Parse(TokenReader tokenReader)
 	{
-		internal IValue? Parse(TokenReader tokenReader)
-		{
-			return tokenReader.Match<IValueToken>();
-			// TBA more comples values like function calls
-		}
+		return tokenReader.Match<IValueToken>();
+		// TBA more comples values like function calls
 	}
 }
