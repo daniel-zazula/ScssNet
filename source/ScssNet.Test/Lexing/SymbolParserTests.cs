@@ -1,4 +1,5 @@
 ﻿using ScssNet.Lexing;
+using ScssNet.Tokens;
 using Shouldly;
 
 namespace ScssNet.Test.Lexing

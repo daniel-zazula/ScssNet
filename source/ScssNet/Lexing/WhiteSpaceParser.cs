@@ -1,23 +1,8 @@
 ﻿using System.Text;
+using ScssNet.Tokens;
 
 namespace ScssNet.Lexing
 {
-	public class WhiteSpaceToken: IToken
-	{
-		public string Text { get; }
-
-		public SourceCoordinates Start { get; }
-		public SourceCoordinates End { get; }
-		public IEnumerable<Issue> Issues => [];
-
-		internal WhiteSpaceToken(string text, SourceCoordinates start, SourceCoordinates end)
-		{
-			Text = text;
-			Start = start;
-			End = end;
-		}
-	}
-
 	internal class WhiteSpaceParser
 	{
 		public WhiteSpaceToken? Parse(ISourceReader reader)

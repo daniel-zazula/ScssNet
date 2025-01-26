@@ -1,12 +1,8 @@
 ﻿using ScssNet.Lexing;
+using ScssNet.SourceElements;
 
 namespace ScssNet.Parsing
 {
-	public interface ISelector: ISourceElement
-	{
-
-	}
-
 	internal class SelectorParser
 	(
 		Lazy<TagSelectorParser> tagSelectorParser, Lazy<IdSelectorParser> idSelectorParser, Lazy<ClassSelectorParser> classSelectorParser,

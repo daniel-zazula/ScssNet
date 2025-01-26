@@ -1,18 +1,8 @@
 ﻿using ScssNet.Lexing;
+using ScssNet.SourceElements;
 
 namespace ScssNet.Parsing
 {
-	public class SelectorList(ICollection<ISelector> selectors): ISourceElement
-	{
-		public ICollection<ISelector> Selectors => selectors;
-
-		public IEnumerable<Issue> Issues => selectors.ConcatIssues();
-
-		public SourceCoordinates Start => Selectors.First().Start;
-
-		public SourceCoordinates End => Selectors.Last().End;
-	}
-
 	internal class SelectorListParser(Lazy<SelectorParser> selectorParser)
 	{
 		internal SelectorList? Parse(TokenReader tokenReader)

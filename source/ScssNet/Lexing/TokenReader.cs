@@ -1,4 +1,6 @@
-﻿namespace ScssNet.Lexing
+﻿using ScssNet.Tokens;
+
+namespace ScssNet.Lexing
 {
 	internal class TokenReader
 	(

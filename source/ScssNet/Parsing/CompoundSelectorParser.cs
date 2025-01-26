@@ -1,12 +1,8 @@
 ﻿using ScssNet.Lexing;
+using ScssNet.SourceElements;
 
 namespace ScssNet.Parsing
 {
-	public interface ICompoundSelector: ISourceElement
-	{
-		ICompoundSelector? Qualifier { get; }
-	}
-
 	internal class CompoundSelectorParser
 	(
 		Lazy<IdSelectorParser> idSelectorParser, Lazy<ClassSelectorParser> classSelectorParser, Lazy<AttributteSelectorParser> attributteSelectorParser
