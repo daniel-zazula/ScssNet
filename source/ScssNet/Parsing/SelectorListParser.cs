@@ -1,5 +1,6 @@
 ﻿using ScssNet.Lexing;
 using ScssNet.SourceElements;
+using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
@@ -11,15 +12,26 @@ internal class SelectorListParser(Lazy<SelectorParser> selectorParser)
 		if(selector == null)
 			return null;
 
-		var selectors = new List<ISelector>();
-		while(selector != null)
+		var selectors = new List<ISelector>
 		{
-			selectors.Add(selector);
+			selector
+		};
+
+		SymbolToken? commaToken;
+		do
+		{
 			selector = ParseSelector(selectorParser, tokenReader);
+			if (selector == null)
+				break;
+
+			selectors.Add(selector);
+			commaToken = tokenReader.Match(Symbol.Comma);
 		}
+		while(commaToken != null);
 
 		return new SelectorList([.. selectors]);
 
-		static ISelector? ParseSelector(Lazy<SelectorParser> selectorParser, TokenReader tokenReader) => selectorParser.Value.Parse(tokenReader);
+		static ISelector? ParseSelector(Lazy<SelectorParser> selectorParser, TokenReader tokenReader)
+			=> selectorParser.Value.Parse(tokenReader);
 	}
 }
