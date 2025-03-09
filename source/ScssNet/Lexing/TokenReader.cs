@@ -22,28 +22,16 @@ internal class TokenReader
 	private readonly CommentParser CommentParser = commentParser;
 	private readonly WhiteSpaceParser WhiteSpaceParser = whiteSpaceParser;
 
-	public IToken? Peek()
-	{
-		return Peek(true);
-	}
-
-	public IToken? Read()
-	{
-		var token = Peek();
-		ReadNextToken();
-		return token;
-	}
-
 	public SourceCoordinates GetCoordinates() => SourceReader.GetCoordinates();
 
-	public SymbolToken? Match(Symbol symbol, bool skipWhitespace = true)
+	public SymbolToken? Match(Symbol symbol, bool skipWhitespaceOrComment = true)
 	{
-		return Match([symbol], skipWhitespace);
+		return Match([symbol], skipWhitespaceOrComment);
 	}
 
-	public SymbolToken? Match(ICollection<Symbol> symbols, bool skipWhitespace = true)
+	public SymbolToken? Match(ICollection<Symbol> symbols, bool skipWhitespaceOrComment = true)
 	{
-		if(Peek(skipWhitespace) is SymbolToken symbolToken && symbols.Contains(symbolToken.Symbol))
+		if(Peek(skipWhitespaceOrComment) is SymbolToken symbolToken && symbols.Contains(symbolToken.Symbol))
 		{
 			ReadNextToken();
 			return symbolToken;
@@ -52,13 +40,17 @@ internal class TokenReader
 		return null;
 	}
 
-	public T? Match<T>(bool skipWhitespace = true)
+	public T? Match<T>(bool skipWhitespaceOrComment = true)
 		where T : IToken
 	{
-		if(typeof(T) == typeof(SymbolToken))
+		var typeOfT = typeof(T);
+		if(typeOfT == typeof(SymbolToken))
 			throw new InvalidOperationException("Use Match(Symbol symbol, ...) for matching symbols.");
 
-		if(Peek(skipWhitespace) is T token)
+		if(typeOfT == typeof(WhiteSpaceToken) || typeOfT == typeof(CommentToken))
+			skipWhitespaceOrComment = false;
+
+		if(Peek(skipWhitespaceOrComment) is T token)
 		{
 			ReadNextToken();
 			return token;
@@ -67,14 +59,14 @@ internal class TokenReader
 		return default;
 	}
 
-	public SymbolToken Require(Symbol symbol, bool skipWhitespace = true)
+	public SymbolToken Require(Symbol symbol, bool skipWhitespaceOrComment = true)
 	{
-		return Match(symbol, skipWhitespace) ?? SymbolToken.CreateMissing(symbol, GetCoordinates());
+		return Match(symbol, skipWhitespaceOrComment) ?? SymbolToken.CreateMissing(symbol, GetCoordinates());
 	}
 
-	public IdentifierToken RequireIdentifier(bool skipWhitespace = true)
+	public IdentifierToken RequireIdentifier(bool skipWhitespaceOrComment = true)
 	{
-		return Match<IdentifierToken>(skipWhitespace) ?? IdentifierToken.CreateMissing(GetCoordinates());
+		return Match<IdentifierToken>(skipWhitespaceOrComment) ?? IdentifierToken.CreateMissing(GetCoordinates());
 	}
 
 	public StringToken RequireString()
@@ -82,19 +74,19 @@ internal class TokenReader
 		return Match<StringToken>() ?? StringToken.CreateMissing(GetCoordinates());
 	}
 
-	private IToken? Peek(bool skipWhitespace)
+	private IToken? Peek(bool skipWhitespaceOrComment)
 	{
-		if(NextToken == null && !SourceReader.End)
+		if (SourceReader.End)
+			return NextToken;
+
+		if(NextToken == null)
 			ReadNextToken();
 
-		if(skipWhitespace)
+		if(skipWhitespaceOrComment)
 		{
-			while(NextToken is WhiteSpaceToken)
+			while(NextToken is WhiteSpaceToken or CommentToken)
 			{
-				if(SourceReader.End)
-					NextToken = null;
-				else
-					ReadNextToken();
+				ReadNextToken();
 			}
 		}
 
@@ -103,6 +95,12 @@ internal class TokenReader
 
 	private void ReadNextToken()
 	{
+		if (SourceReader.End)
+		{
+			NextToken = null;
+			return;
+		}
+
 		NextToken = (IToken?)IdentifierParser.Parse(SourceReader)
 			?? (IToken?)SymbolParser.Parse(SourceReader)
 			?? (IToken?)UnitValueParser.Parse(SourceReader)
