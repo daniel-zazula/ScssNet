@@ -44,6 +44,7 @@ internal static class ServiceCollectionExtensions
 	internal static void AddGenerators(this IServiceCollection services)
 	{
 		services.AddLazy<RuleSetGenerator>();
+		services.AddLazy<SelectorListGenerator>();
 	}
 
 	private static void AddLazy<TService>(this IServiceCollection services) where TService : class
