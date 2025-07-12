@@ -7,7 +7,7 @@ internal class ClassSelectorGenerator(Lazy<CompoundSelectorGenerator> compoundSe
 {
 	public void Generate(ClassSelector classSelector, TextWriter writer)
 	{
-		writer.Write(".");
+		writer.Write('.');
 		writer.Write(classSelector.Identifier);
 		if (classSelector.Qualifier is not null)
 			compoundSelectorGenerator.Value.Generate(classSelector.Qualifier, writer);
