@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ScssNet.Generation;
 using ScssNet.Lexing;
 using ScssNet.Parsing;
 
@@ -38,6 +39,11 @@ internal static class ServiceCollectionExtensions
 		services.AddLazy<RuleParser>();
 		services.AddLazy<BlockParser>();
 		services.AddLazy<RuleSetParser>();
+	}
+
+	internal static void AddGenerators(this IServiceCollection services)
+	{
+		services.AddLazy<RuleSetGenerator>();
 	}
 
 	private static void AddLazy<TService>(this IServiceCollection services) where TService : class
