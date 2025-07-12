@@ -48,6 +48,7 @@ internal static class ServiceCollectionExtensions
 		services.AddLazy<ClassSelectorGenerator>();
 		services.AddLazy<CompoundSelectorGenerator>();
 		services.AddLazy<IdSelectorGenerator>();
+		services.AddLazy<TagSelectorGenerator>();
 	}
 
 	private static void AddLazy<TService>(this IServiceCollection services) where TService : class
