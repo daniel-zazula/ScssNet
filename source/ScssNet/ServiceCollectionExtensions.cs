@@ -50,6 +50,7 @@ internal static class ServiceCollectionExtensions
 		services.AddLazySingleton<CompoundSelectorGenerator>();
 		services.AddLazySingleton<IdSelectorGenerator>();
 		services.AddLazySingleton<TagSelectorGenerator>();
+		services.AddLazySingleton<AttributteSelectorGenerator>();
 	}
 
 	private static void AddLazySingleton<TService>(this IServiceCollection services) where TService : class

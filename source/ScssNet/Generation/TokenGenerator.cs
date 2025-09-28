@@ -14,4 +14,9 @@ internal class TokenGenerator
 	{
 		writer.Write(identifierToken.Text);
 	}
+
+	public void Generate(StringToken stringToken, TextWriter writer)
+	{
+		writer.Write(stringToken.Text);
+	}
 }
