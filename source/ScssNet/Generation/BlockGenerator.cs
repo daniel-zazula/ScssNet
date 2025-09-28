@@ -3,15 +3,15 @@ using ScssNet.SourceElements;
 
 namespace ScssNet.Generation;
 
-internal class BlockGenerator(RuleGenerator ruleGenerator)
+internal class BlockGenerator(TokenGenerator tokenGenerator, Lazy<RuleGenerator> ruleGenerator)
 {
 	public void Generate(Block block, TextWriter writer)
 	{
-		writer.Write("{");
+		tokenGenerator.Generate(block.OpenBrace, writer);
 		foreach(var rule in block.Rules)
 		{
-			ruleGenerator.Generate(rule, writer);
+			ruleGenerator.Value.Generate(rule, writer);
 		}
-		writer.Write("}");
+		tokenGenerator.Generate(block.CloseBrace, writer);
 	}
 }

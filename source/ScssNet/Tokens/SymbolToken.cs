@@ -31,6 +31,11 @@ public class SymbolToken : IToken
 		return new SymbolToken(symbol, start, start, [new Issue(IssueType.Error, "Expected " + ToChars(symbol))]);
 	}
 
+	internal string ToChars()
+	{
+		return ToChars(Symbol);
+	}
+
 	private static string ToChars(Symbol symbol)
 	{
 		return symbol switch

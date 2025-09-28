@@ -26,32 +26,33 @@ internal static class ServiceCollectionExtensions
 
 	internal static void AddParsers(this IServiceCollection services)
 	{
-		services.AddLazy<TagSelectorParser>();
-		services.AddLazy<ClassSelectorParser>();
-		services.AddLazy<IdSelectorParser>();
-		services.AddLazy<AttributteSelectorParser>();
-		services.AddLazy<CompoundSelectorParser>();
-		services.AddLazy<SubSelectorParser>();
-		services.AddLazy<SelectorListParser>();
-		services.AddLazy<ValueParser>();
-		services.AddLazy<RuleParser>();
-		services.AddLazy<BlockParser>();
-		services.AddLazy<RuleSetParser>();
+		services.AddLazySingleton<TagSelectorParser>();
+		services.AddLazySingleton<ClassSelectorParser>();
+		services.AddLazySingleton<IdSelectorParser>();
+		services.AddLazySingleton<AttributteSelectorParser>();
+		services.AddLazySingleton<CompoundSelectorParser>();
+		services.AddLazySingleton<SubSelectorParser>();
+		services.AddLazySingleton<SelectorListParser>();
+		services.AddLazySingleton<ValueParser>();
+		services.AddLazySingleton<RuleParser>();
+		services.AddLazySingleton<BlockParser>();
+		services.AddLazySingleton<RuleSetParser>();
 	}
 
 	internal static void AddGenerators(this IServiceCollection services)
 	{
-		services.AddLazy<RuleSetGenerator>();
-		services.AddLazy<SelectorListGenerator>();
-		services.AddLazy<BlockGenerator>();
-		services.AddLazy<SelectorGenerator>();
-		services.AddLazy<ClassSelectorGenerator>();
-		services.AddLazy<CompoundSelectorGenerator>();
-		services.AddLazy<IdSelectorGenerator>();
-		services.AddLazy<TagSelectorGenerator>();
+		services.AddSingleton<TokenGenerator>();
+		services.AddLazySingleton<RuleSetGenerator>();
+		services.AddLazySingleton<SelectorListGenerator>();
+		services.AddLazySingleton<BlockGenerator>();
+		services.AddLazySingleton<SelectorGenerator>();
+		services.AddLazySingleton<ClassSelectorGenerator>();
+		services.AddLazySingleton<CompoundSelectorGenerator>();
+		services.AddLazySingleton<IdSelectorGenerator>();
+		services.AddLazySingleton<TagSelectorGenerator>();
 	}
 
-	private static void AddLazy<TService>(this IServiceCollection services) where TService : class
+	private static void AddLazySingleton<TService>(this IServiceCollection services) where TService : class
 	{
 		services.AddSingleton<TService>();
 		services.AddSingleton(sp => new Lazy<TService>(() => sp.GetRequiredService<TService>()));

@@ -4,8 +4,8 @@ namespace ScssNet.SourceElements;
 
 public class AttributteSelector
 (
-	SymbolToken openBracket, IdentifierToken attribute, SymbolToken? @operator, StringToken? value, IdentifierToken? modifier, SymbolToken closeBracket,
-	ICompoundSelector? qualifier
+	SymbolToken openBracket, IdentifierToken attribute, SymbolToken? @operator, StringToken? value,
+	IdentifierToken? modifier, SymbolToken closeBracket, ICompoundSelector? qualifier
 ) : ISourceElement, ISelector, ICompoundSelector
 {
 	public SymbolToken OpenBracket => openBracket;

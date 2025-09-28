@@ -3,7 +3,7 @@ using ScssNet.SourceElements;
 
 namespace ScssNet.Generation;
 
-internal class SelectorListGenerator(SelectorGenerator selectorGenerator)
+internal class SelectorListGenerator(Lazy<SelectorGenerator> selectorGenerator)
 {
 	public void Generate(SelectorList selectorList, TextWriter writer)
 	{
@@ -14,7 +14,7 @@ internal class SelectorListGenerator(SelectorGenerator selectorGenerator)
 			{
 				writer.Write(", ");
 			}
-			selectorGenerator.Generate(selector, writer);
+			selectorGenerator.Value.Generate(selector, writer);
 			firstItem = false;
 		}
 	}

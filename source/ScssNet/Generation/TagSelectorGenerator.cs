@@ -3,11 +3,14 @@ using ScssNet.SourceElements;
 
 namespace ScssNet.Generation;
 
-internal class TagSelectorGenerator(Lazy<CompoundSelectorGenerator> compoundSelectorGenerator)
+internal class TagSelectorGenerator
+(
+	TokenGenerator tokenGenerator, Lazy<CompoundSelectorGenerator> compoundSelectorGenerator
+)
 {
 	public void Generate(TagSelector tagSelector, TextWriter writer)
 	{
-		writer.Write(tagSelector.Identifier);
+		tokenGenerator.Generate(tagSelector.Identifier, writer);
 		if(tagSelector.Qualifier is not null)
 			compoundSelectorGenerator.Value.Generate(tagSelector.Qualifier, writer);
 	}
