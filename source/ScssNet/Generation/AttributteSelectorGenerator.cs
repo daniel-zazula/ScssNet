@@ -1,30 +1,29 @@
-﻿using System.IO;
-using ScssNet.SourceElements;
+﻿using ScssNet.SourceElements;
 
 namespace ScssNet.Generation;
 
-internal class AttributteSelectorGenerator(TokenGenerator tokenGenerator)
+internal class AttributteSelectorGenerator
 {
-	public void Generate(AttributteSelector classSelector, TextWriter writer)
+	public void Generate(AttributteSelector classSelector, CssWriter writer)
 	{
-		tokenGenerator.Generate(classSelector.OpenBracket, writer);
-		tokenGenerator.Generate(classSelector.Attribute, writer);
+		writer.Write(classSelector.OpenBracket);
+		writer.Write(classSelector.Attribute);
 
 		if (classSelector.Operator is not null)
 		{
-			tokenGenerator.Generate(classSelector.Operator, writer);
+			writer.Write(classSelector.Operator);
 
 			if (classSelector.Value is not null)
 			{
-				tokenGenerator.Generate(classSelector.Value, writer);
+				writer.Write(classSelector.Value);
 
 				if (classSelector.Modifier is not null)
 				{
-					tokenGenerator.Generate(classSelector.Modifier, writer);
+					writer.Write(classSelector.Modifier);
 				}
 			}
 		}
 
-		tokenGenerator.Generate(classSelector.CloseBracket, writer);
+		writer.Write(classSelector.CloseBracket);
 	}
 }

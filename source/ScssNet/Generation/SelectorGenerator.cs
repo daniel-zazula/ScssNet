@@ -9,7 +9,7 @@ internal class SelectorGenerator
 	Lazy<ClassSelectorGenerator> classSelectorGenerator, Lazy<AttributteSelectorGenerator> attributteSelectorGenerator
 )
 {
-	public void Generate(ISelector selector, TextWriter writer)
+	public void Generate(ISelector selector, CssWriter writer)
 	{
 		switch(selector)
 		{

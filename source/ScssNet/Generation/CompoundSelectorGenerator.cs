@@ -1,5 +1,4 @@
-﻿using System.IO;
-using ScssNet.SourceElements;
+﻿using ScssNet.SourceElements;
 
 namespace ScssNet.Generation;
 
@@ -9,7 +8,7 @@ internal class CompoundSelectorGenerator
 	Lazy<AttributteSelectorGenerator> attributteSelectorGenerator
 )
 {
-	public void Generate(ICompoundSelector compoundSelector, TextWriter writer)
+	public void Generate(ICompoundSelector compoundSelector, CssWriter writer)
 	{
 		switch(compoundSelector)
 		{

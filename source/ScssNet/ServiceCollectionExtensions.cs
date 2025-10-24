@@ -41,7 +41,6 @@ internal static class ServiceCollectionExtensions
 
 	internal static void AddGenerators(this IServiceCollection services)
 	{
-		services.AddSingleton<TokenGenerator>();
 		services.AddLazySingleton<RuleSetGenerator>();
 		services.AddLazySingleton<SelectorListGenerator>();
 		services.AddLazySingleton<BlockGenerator>();

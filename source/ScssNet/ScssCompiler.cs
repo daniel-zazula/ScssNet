@@ -16,7 +16,7 @@ public class ScssCompiler
 		return cssWriter.ToString();
 	}
 
-	private void Compile(TextReader scssReader, TextWriter cssWriter)
+	private void Compile(TextReader scssReader, TextWriter textWriter)
 	{
 		var services = new ServiceCollection();
 		services.AddSingleton(scssReader);
@@ -28,6 +28,7 @@ public class ScssCompiler
 		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var ruleSetParser = provider.GetRequiredService<RuleSetParser>();
 		var ruleSetGenerator = provider.GetRequiredService<RuleSetGenerator>();
+		var cssWriter = new CssWriter(textWriter);
 
 		var ruleSet = ruleSetParser.Parse(tokenReader);
 		while(ruleSet != null)

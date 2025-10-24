@@ -1,17 +1,18 @@
-﻿using System.IO;
-using ScssNet.SourceElements;
+﻿using ScssNet.SourceElements;
 
 namespace ScssNet.Generation;
 
-internal class BlockGenerator(TokenGenerator tokenGenerator, Lazy<RuleGenerator> ruleGenerator)
+internal class BlockGenerator(Lazy<RuleGenerator> ruleGenerator)
 {
-	public void Generate(Block block, TextWriter writer)
+	public void Generate(Block block, CssWriter writer)
 	{
-		tokenGenerator.Generate(block.OpenBrace, writer);
+		writer.Write(block.OpenBrace);
+
 		foreach(var rule in block.Rules)
 		{
 			ruleGenerator.Value.Generate(rule, writer);
 		}
-		tokenGenerator.Generate(block.CloseBrace, writer);
+
+		writer.Write(block.CloseBrace);
 	}
 }

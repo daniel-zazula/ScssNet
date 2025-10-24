@@ -5,7 +5,7 @@ namespace ScssNet.Generation;
 
 internal class SelectorListGenerator(Lazy<SelectorGenerator> selectorGenerator)
 {
-	public void Generate(SelectorList selectorList, TextWriter writer)
+	public void Generate(SelectorList selectorList, CssWriter writer)
 	{
 		var firstItem = true;
 		foreach(var selector in selectorList.Selectors)

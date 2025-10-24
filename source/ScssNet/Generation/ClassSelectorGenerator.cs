@@ -1,17 +1,14 @@
-﻿using System.IO;
-using ScssNet.SourceElements;
+﻿using ScssNet.SourceElements;
 
 namespace ScssNet.Generation;
 
-internal class ClassSelectorGenerator
-(
-	TokenGenerator tokenGenerator, Lazy<CompoundSelectorGenerator> compoundSelectorGenerator
-)
+internal class ClassSelectorGenerator(Lazy<CompoundSelectorGenerator> compoundSelectorGenerator)
 {
-	public void Generate(ClassSelector classSelector, TextWriter writer)
+	public void Generate(ClassSelector classSelector, CssWriter writer)
 	{
-		tokenGenerator.Generate(classSelector.Dot, writer);
-		tokenGenerator.Generate(classSelector.Identifier, writer);
+		writer.Write(classSelector.Dot);
+		writer.Write(classSelector.Identifier);
+
 		if (classSelector.Qualifier is not null)
 			compoundSelectorGenerator.Value.Generate(classSelector.Qualifier, writer);
 	}

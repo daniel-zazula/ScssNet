@@ -1,16 +1,13 @@
-﻿using System.IO;
-using ScssNet.SourceElements;
+﻿using ScssNet.SourceElements;
 
 namespace ScssNet.Generation;
 
-internal class TagSelectorGenerator
-(
-	TokenGenerator tokenGenerator, Lazy<CompoundSelectorGenerator> compoundSelectorGenerator
-)
+internal class TagSelectorGenerator(Lazy<CompoundSelectorGenerator> compoundSelectorGenerator)
 {
-	public void Generate(TagSelector tagSelector, TextWriter writer)
+	public void Generate(TagSelector tagSelector, CssWriter writer)
 	{
-		tokenGenerator.Generate(tagSelector.Identifier, writer);
+		writer.Write(tagSelector.Identifier);
+
 		if(tagSelector.Qualifier is not null)
 			compoundSelectorGenerator.Value.Generate(tagSelector.Qualifier, writer);
 	}
