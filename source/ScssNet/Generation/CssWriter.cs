@@ -24,4 +24,9 @@ internal class CssWriter(TextWriter textWriter)
 	{
 		textWriter.Write(stringToken.Text);
 	}
+
+	internal void Write(HexValueToken hexValueToken)
+	{
+		textWriter.Write(hexValueToken.Value);
+	}
 }
