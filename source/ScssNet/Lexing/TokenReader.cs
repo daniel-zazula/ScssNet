@@ -7,7 +7,7 @@ internal class TokenReader
 	ISourceReader sourceReader, IdentifierParser identifierParser, SymbolParser symbolParser,
 	UnitValueParser unitValueParser, HexValueParser hexValueParser, StringParser stringParser,
 	CommentParser commentParser, WhiteSpaceParser whiteSpaceParser
-)
+) : ITokenReader
 {
 	public bool End => NextToken == null && SourceReader.End;
 
@@ -76,7 +76,7 @@ internal class TokenReader
 
 	private IToken? Peek(bool skipWhitespaceOrComment)
 	{
-		if (SourceReader.End)
+		if(SourceReader.End)
 			return NextToken;
 
 		if(NextToken == null)
@@ -95,7 +95,7 @@ internal class TokenReader
 
 	private void ReadNextToken()
 	{
-		if (SourceReader.End)
+		if(SourceReader.End)
 		{
 			NextToken = null;
 			return;
