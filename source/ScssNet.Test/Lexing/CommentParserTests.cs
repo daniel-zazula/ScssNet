@@ -6,36 +6,42 @@ namespace ScssNet.Test.Lexing;
 [TestClass]
 public class CommentParserTests
 {
-	internal static IEnumerable<object[]> CommentParams = new[] { "//line comment\r\n", "/*two line\r\ncomment*/" }.ToParams();
+	private static readonly string[] Comments = ["//line comment\r\n", "/*two line\r\ncomment*/"];
+	internal static IEnumerable<object[]> CommentParams => Comments.ToParams();
 
-	[DataTestMethod]
-	[DataRow("CR+LF")]
-	[DataRow("CR")]
-	[DataRow("LF")]
-	public void ShouldParseSingleLineComment(string lineBreakName)
-	{
-		const string comment = "// single line comment";
-		string lineBreak = ReplaceReadableLineBreak(lineBreakName);
-		var source = $"{comment}{lineBreak}";
-		TestCommentParsing(source, comment, lineBreak);
-	}
-
-	[DataTestMethod]
-	[DataRow(" ")]
-	[DataRow("CR+LF")]
-	[DataRow("CR")]
-	[DataRow("LF")]
-	public void ShouldParseMultiLineComment(string spacer)
-	{
-		var source = $"/*part 1{ReplaceReadableLineBreak(spacer)}part 2*/";
-		TestCommentParsing(source, source);
-	}
-
-	public static IEnumerable<object[]> NonComments => HexValueParserTests.HexValueParams
+	private static IEnumerable<object[]> NonComments => HexValueParserTests.HexValueParams
 		.Concat(IdentifierParserTests.IdentifierParams)
 		.Concat(StringParserTests.StringParams)
 		.Concat(SymbolParserTests.SymbolParams)
 		.Concat(UnitValueParserTests.UnitValueParams);
+
+	private static readonly string[] Spacers = [" ", "\r\n", "\r", "\n"];
+	private static IEnumerable<object[]> SpacerParams => Spacers.ToParams();
+
+
+	[DataTestMethod]
+	[DynamicData(nameof(SpacerParams))]
+	public void ShouldParseSingleLineComment(string spacer)
+	{
+		var comment = "// single line comment";
+		var remaining = spacer;
+
+		if(spacer == " ")
+		{
+			comment += " ";
+			remaining = "";
+		}
+
+		TestCommentParsing(comment, remaining);
+	}
+
+	[DataTestMethod]
+	[DynamicData(nameof(SpacerParams))]
+	public void ShouldParseMultiLineComment(string spacer)
+	{
+		var source = $"/*part 1{spacer}part 2*/";
+		TestCommentParsing(source);
+	}
 
 	[DataTestMethod]
 	[DynamicData(nameof(NonComments))]
@@ -50,9 +56,31 @@ public class CommentParserTests
 		sourceReader.End.ShouldBeFalse();
 	}
 
-	private static void TestCommentParsing(string source, string commentText, string remainingSource = "")
+	[TestMethod]
+	public void ShouldParseUnterminatedMultiLineComment()
 	{
-		var sourceReader = new SourceReaderMock(source);
+		const string comment = "/* unterminated";
+		TestCommentParsing(comment);
+	}
+
+	[TestMethod]
+	public void ShouldParseSingleLineCommentAtEof()
+	{
+		const string comment = "// comment at eof";
+		TestCommentParsing(comment);
+	}
+
+	[TestMethod]
+	public void ShouldParseCommentFollowedImmediatelyByToken()
+	{
+		const string comment = "/*c*/";
+		const string identifier = ".identifier";
+		TestCommentParsing(comment, identifier);
+	}
+
+	private static void TestCommentParsing(string commentText, string remainingSource = "")
+	{
+		var sourceReader = new SourceReaderMock(commentText + remainingSource);
 		var commentParser = new CommentParser();
 
 		var comment = commentParser.Parse(sourceReader);
@@ -61,20 +89,9 @@ public class CommentParserTests
 		comment!.Text.ShouldBe(commentText);
 
 		var remainingSourceLength = remainingSource.Length;
-		if (remainingSourceLength > 0)
+		if(remainingSourceLength > 0)
 			sourceReader.Peek(remainingSourceLength).ShouldBe(remainingSource);
 		else
 			sourceReader.End.ShouldBeTrue();
-	}
-
-	private static string ReplaceReadableLineBreak(string possibleLineBreak)
-	{
-		return possibleLineBreak.ToUpper() switch
-		{
-			"CR+LF" => "\r\n",
-			"CR" => "\r",
-			"LF" => "\n",
-			_ => possibleLineBreak
-		};
 	}
 }
