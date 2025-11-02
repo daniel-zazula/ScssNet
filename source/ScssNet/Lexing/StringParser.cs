@@ -5,7 +5,7 @@ namespace ScssNet.Lexing;
 
 internal class StringParser
 {
-	public StringToken? Parse(ISourceReader reader)
+	public StringToken? Parse(ISourceReader reader, Separator? leadingSeparator, Func<Separator?> getTrailingSeparator)
 	{
 		if(reader.End || !IsStringDelimiter(reader.Peek()))
 			return null;
@@ -27,7 +27,10 @@ internal class StringParser
 			sb.Append(previousChar);
 		};
 
-		return new StringToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
+		return new StringToken
+		(
+			sb.ToString(), startCoordinates, reader.GetCoordinates(), leadingSeparator, getTrailingSeparator()
+		);
 	}
 
 	private bool IsStringDelimiter(char c) => c == '\'' || c == '"';

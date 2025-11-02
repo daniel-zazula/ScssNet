@@ -1,27 +1,31 @@
 ﻿namespace ScssNet.Tokens;
 
-public class StringToken : IToken
+public record StringToken: IToken
 {
 	public string Text { get; }
 
 	public SourceCoordinates Start { get; }
 	public SourceCoordinates End { get; }
-	public IEnumerable<Issue> Issues => _issues;
+	public Separator? LeadingSeparator { get; }
+	public Separator? TrailingSeparator { get; }
+	public IEnumerable<Issue> Issues { get; }
 
-	private readonly ICollection<Issue> _issues = [];
-
-	internal StringToken(string text, SourceCoordinates start, SourceCoordinates end) : this(text, start, end, []) { }
-
-	private StringToken(string text, SourceCoordinates start, SourceCoordinates end, ICollection<Issue> issues)
+	internal StringToken
+	(
+		string text, SourceCoordinates start, SourceCoordinates end, Separator? before, Separator? after,
+		ICollection<Issue>? issues = null
+	)
 	{
 		Text = text;
 		Start = start;
 		End = end;
-		_issues = issues;
+		LeadingSeparator = before;
+		TrailingSeparator = after;
+		Issues = issues ?? [];
 	}
 
 	internal static StringToken CreateMissing(SourceCoordinates start)
 	{
-		return new StringToken("", start, start, [new Issue(IssueType.Error, "Expected string")]);
+		return new StringToken("", start, start, null, null, [new Issue(IssueType.Error, "Expected string")]);
 	}
 }

@@ -1,29 +1,31 @@
-﻿using ScssNet.Parsing;
+﻿namespace ScssNet.Tokens;
 
-namespace ScssNet.Tokens;
-
-public class IdentifierToken : IValueToken
+public record IdentifierToken: ISeparatedToken, IValueToken
 {
 	public string Text { get; }
 
 	public SourceCoordinates Start { get; }
 	public SourceCoordinates End { get; }
-	public IEnumerable<Issue> Issues => _issues;
+	public Separator? LeadingSeparator { get; }
+	public Separator? TrailingSeparator { get; }
+	public IEnumerable<Issue> Issues { get; }
 
-	private readonly ICollection<Issue> _issues = [];
-
-	internal IdentifierToken(string text, SourceCoordinates start, SourceCoordinates end) : this(text, start, end, []) { }
-
-	private IdentifierToken(string text, SourceCoordinates start, SourceCoordinates end, ICollection<Issue> issues)
+	internal IdentifierToken
+	(
+		string text, SourceCoordinates start, SourceCoordinates end, Separator? before, Separator? after,
+		ICollection<Issue>? issues = null
+	)
 	{
 		Text = text;
 		Start = start;
 		End = end;
-		_issues = issues;
+		LeadingSeparator = before;
+		TrailingSeparator = after;
+		Issues = issues ?? [];
 	}
 
 	internal static IdentifierToken CreateMissing(SourceCoordinates start)
 	{
-		return new IdentifierToken("", start, start, [new Issue(IssueType.Error, "Expected identifier")]);
+		return new IdentifierToken("", start, start, null, null, [new Issue(IssueType.Error, "Expected identifier")]);
 	}
 }

@@ -4,7 +4,7 @@ namespace ScssNet.Lexing;
 
 internal class SymbolParser
 {
-	public SymbolToken? Parse(ISourceReader reader)
+	public SymbolToken? Parse(ISourceReader reader, Separator? leadingSeparator, Func<Separator?> getTrailingSeparator)
 	{
 		if (reader.End)
 			return null;
@@ -17,7 +17,10 @@ internal class SymbolParser
 		var startCoordinates = reader.GetCoordinates();
 		reader.Read(symbol >= Symbol.ContainsWord ? 2 : 1);
 
-		return new SymbolToken(symbol.Value, startCoordinates, reader.GetCoordinates());
+		return new SymbolToken
+		(
+			symbol.Value, startCoordinates, reader.GetCoordinates(), leadingSeparator, getTrailingSeparator()
+		);
 	}
 
 	private Symbol? ParseTwoCharacterSymbol(ISourceReader reader)

@@ -1,6 +1,6 @@
 ﻿namespace ScssNet.Tokens;
 
-public class CommentToken : IToken
+public record CommentToken: IToken, ISeparatorToken
 {
 	public string Text { get; }
 

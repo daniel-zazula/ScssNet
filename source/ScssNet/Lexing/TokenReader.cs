@@ -13,6 +13,7 @@ internal class TokenReader
 
 	private readonly ISourceReader SourceReader = sourceReader;
 	private IToken? NextToken;
+	private Separator? LastSeparator;
 
 	private readonly IdentifierParser IdentifierParser = identifierParser;
 	private readonly SymbolParser SymbolParser = symbolParser;
@@ -100,13 +101,40 @@ internal class TokenReader
 			NextToken = null;
 			return;
 		}
+		else if(NextToken is null)
+		{
+			LastSeparator = ReadSeparator();
+		}
 
-		NextToken = (IToken?)IdentifierParser.Parse(SourceReader)
-			?? (IToken?)SymbolParser.Parse(SourceReader)
-			?? (IToken?)UnitValueParser.Parse(SourceReader)
-			?? (IToken?)HexValueParser.Parse(SourceReader)
-			?? (IToken?)StringParser.Parse(SourceReader)
-			?? (IToken?)CommentParser.Parse(SourceReader)
-			?? WhiteSpaceParser.Parse(SourceReader);
+		var separatedToken = (ISeparatedToken?)IdentifierParser.Parse(SourceReader, LastSeparator, ReadSeparator)
+			?? (ISeparatedToken?)SymbolParser.Parse(SourceReader, LastSeparator, ReadSeparator)
+			?? (ISeparatedToken?)UnitValueParser.Parse(SourceReader, LastSeparator, ReadSeparator)
+			?? (ISeparatedToken?)HexValueParser.Parse(SourceReader, LastSeparator, ReadSeparator)
+			?? (ISeparatedToken?)StringParser.Parse(SourceReader, LastSeparator, ReadSeparator)
+			?? throw new Exception("Failed to parse any tokens");
+
+		LastSeparator = separatedToken.TrailingSeparator;
+
+		NextToken = separatedToken;
+	}
+
+	private Separator ReadSeparator()
+	{
+		var tokens = new List<ISeparatorToken>();
+
+		var token = ReadSeparatorToken();
+		while(token != null)
+		{
+			tokens.Add(token);
+			token = ReadSeparatorToken();
+		}
+
+		return new Separator(tokens);
+
+		ISeparatorToken? ReadSeparatorToken()
+		{
+			return (ISeparatorToken?)CommentParser.Parse(SourceReader)
+				?? WhiteSpaceParser.Parse(SourceReader);
+		}
 	}
 }

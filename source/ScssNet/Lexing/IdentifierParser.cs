@@ -5,7 +5,10 @@ namespace ScssNet.Lexing;
 
 internal class IdentifierParser
 {
-	public IdentifierToken? Parse(ISourceReader reader)
+	public IdentifierToken? Parse
+	(
+		ISourceReader reader, Separator? leadingSeparator, Func<Separator?> getTrailingSeparator
+	)
 	{
 		if(reader.End || !IsIdentifierStart(reader.Peek(3)))
 			return null;
@@ -17,7 +20,10 @@ internal class IdentifierParser
 		while(!reader.End && IsIdentifierChar(reader.Peek()))
 			sb.Append(reader.Read());
 
-		return new IdentifierToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
+		return new IdentifierToken
+		(
+			sb.ToString(), startCoordinates, reader.GetCoordinates(), leadingSeparator, getTrailingSeparator()
+		);
 	}
 
 	private bool IsIdentifierStart(string peeked)

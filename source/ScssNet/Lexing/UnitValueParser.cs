@@ -5,7 +5,10 @@ namespace ScssNet.Lexing;
 
 internal class UnitValueParser
 {
-	public UnitValueToken? Parse(ISourceReader reader)
+	public UnitValueToken? Parse
+	(
+		ISourceReader reader, Separator? leadingSeparator, Func<Separator?> getTrailingSeparator
+	)
 	{
 		if(!IsUnitStart(reader))
 			return null;
@@ -29,10 +32,16 @@ internal class UnitValueParser
 		if(!reader.End && reader.Peek() == '%')
 			stringBuilder.Append(reader.Read());
 		else
+		{
 			while(!reader.End && char.IsLetter(reader.Peek()))
 				stringBuilder.Append(reader.Read());
+		}
 
-		return new UnitValueToken(amount, stringBuilder.ToString(), startCoordinates, reader.GetCoordinates());
+		return new UnitValueToken
+		(
+			amount, stringBuilder.ToString(), startCoordinates, reader.GetCoordinates(), leadingSeparator,
+			getTrailingSeparator()
+		);
 	}
 
 	private static bool IsUnitStart(ISourceReader reader)

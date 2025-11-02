@@ -6,29 +6,36 @@ public enum Symbol
 	ContainsWord, StartsWithWord, StartsWith, EndsWith, Contains
 }
 
-public class SymbolToken : IToken
+public record SymbolToken: IToken
 {
 	public Symbol Symbol { get; }
 
 	public SourceCoordinates Start { get; }
 	public SourceCoordinates End { get; }
-	public IEnumerable<Issue> Issues => _issues;
+	public Separator? LeadingSeparator { get; }
+	public Separator? TrailingSeparator { get; }
+	public IEnumerable<Issue> Issues { get; }
 
-	private readonly ICollection<Issue> _issues = [];
-
-	internal SymbolToken(Symbol symbol, SourceCoordinates start, SourceCoordinates end) : this(symbol, start, end, []) { }
-
-	private SymbolToken(Symbol symbol, SourceCoordinates start, SourceCoordinates end, ICollection<Issue> issues)
+	internal SymbolToken
+	(
+		Symbol symbol, SourceCoordinates start, SourceCoordinates end, Separator? before, Separator? after,
+		ICollection<Issue>? issues = null
+	)
 	{
 		Symbol = symbol;
 		Start = start;
 		End = end;
-		_issues = issues;
+		LeadingSeparator = before;
+		TrailingSeparator = after;
+		Issues = issues ?? [];
 	}
 
 	internal static SymbolToken CreateMissing(Symbol symbol, SourceCoordinates start)
 	{
-		return new SymbolToken(symbol, start, start, [new Issue(IssueType.Error, "Expected " + ToChars(symbol))]);
+		return new SymbolToken
+		(
+			symbol, start, start, null, null, [new Issue(IssueType.Error, "Expected " + ToChars(symbol))]
+		);
 	}
 
 	internal string ToChars()

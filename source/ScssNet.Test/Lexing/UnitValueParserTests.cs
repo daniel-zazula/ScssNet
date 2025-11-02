@@ -1,4 +1,5 @@
 ﻿using ScssNet.Lexing;
+using ScssNet.Tokens;
 using Shouldly;
 
 namespace ScssNet.Test.Lexing;
@@ -6,7 +7,12 @@ namespace ScssNet.Test.Lexing;
 [TestClass]
 public class UnitValueParserTests
 {
-	internal static IEnumerable<object[]> UnitValueParams = new[] { "3", "10px", "50%", "-10.2cm", "-200mm", "2Q", "-3.5in", "10pt", "5pc" }.ToParams();
+	internal static IEnumerable<object[]> UnitValueParams = new[]
+	{
+		"3", "10px", "50%", "-10.2cm", "-200mm", "2Q", "-3.5in", "10pt", "5pc"
+	}.ToParams();
+	private static readonly Separator? LeadingSeparator = null;
+	private static readonly Separator TrailingSeparator = new([]);
 
 	[DataTestMethod]
 	[DataRow("3", "")]
@@ -23,11 +29,13 @@ public class UnitValueParserTests
 		var sourceReader = new SourceReaderMock($"{amount}{unit}");
 		var unitParser = new UnitValueParser();
 
-		var unitToken = unitParser.Parse(sourceReader);
+		var unitToken = unitParser.Parse(sourceReader, LeadingSeparator, () => TrailingSeparator);
 
 		unitToken.ShouldNotBeNull();
 		unitToken!.Amount.ShouldBe(decimal.Parse(amount));
 		unitToken!.Unit.ShouldBe(unit);
+		unitToken.LeadingSeparator.ShouldBe(LeadingSeparator);
+		unitToken.TrailingSeparator.ShouldBe(TrailingSeparator);
 		sourceReader.End.ShouldBeTrue();
 	}
 
@@ -44,7 +52,7 @@ public class UnitValueParserTests
 		var sourceReader = new SourceReaderMock(source);
 		var unitValueParser = new UnitValueParser();
 
-		var unitValue = unitValueParser.Parse(sourceReader);
+		var unitValue = unitValueParser.Parse(sourceReader, LeadingSeparator, () => TrailingSeparator);
 
 		unitValue.ShouldBeNull();
 		sourceReader.End.ShouldBeFalse();

@@ -1,6 +1,6 @@
 ﻿namespace ScssNet.Tokens;
 
-public class WhiteSpaceToken : IToken
+public record WhiteSpaceToken: IToken, ISeparatorToken
 {
 	public string Text { get; }
 
