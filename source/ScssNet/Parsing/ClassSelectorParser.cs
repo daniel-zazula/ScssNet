@@ -6,13 +6,13 @@ namespace ScssNet.Parsing;
 
 internal class ClassSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser)
 {
-	internal ClassSelector? Parse(TokenReader tokenReader, bool skipWhitespace = true)
+	internal ClassSelector? Parse(ITokenReader tokenReader)
 	{
-		var dot = tokenReader.Match(Symbol.Hash, skipWhitespace);
+		var dot = tokenReader.Match(Symbol.Hash);
 		if(dot is null)
 			return null;
 
-		var identifier = tokenReader.RequireIdentifier(false);
+		var identifier = tokenReader.RequireIdentifier();
 		var compoundSelector = compoundSelectorParser.Value.Parse(tokenReader);
 
 		return new ClassSelector(dot, identifier, compoundSelector);

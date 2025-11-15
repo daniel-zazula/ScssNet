@@ -6,9 +6,9 @@ namespace ScssNet.Parsing;
 
 internal class AttributteSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser)
 {
-	internal AttributteSelector? Parse(TokenReader tokenReader, bool skipWhitespace = true)
+	internal AttributteSelector? Parse(ITokenReader tokenReader)
 	{
-		var openBracket = tokenReader.Match(Symbol.OpenBracket, skipWhitespace);
+		var openBracket = tokenReader.Match(Symbol.OpenBracket);
 		if(openBracket is null)
 			return null;
 

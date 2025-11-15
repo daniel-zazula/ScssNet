@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class BlockParser(Lazy<RuleParser> ruleParser)
 {
-	internal Block? Parse(TokenReader tokenReader)
+	internal Block? Parse(ITokenReader tokenReader)
 	{
 		var openBrace = tokenReader.Match(Symbol.OpenBrace);
 		if(openBrace is null)

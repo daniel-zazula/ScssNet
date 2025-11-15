@@ -11,7 +11,7 @@ internal class SelectorParser
 	Lazy<SubSelectorParser> subSelectorParser
 )
 {
-	internal ISelector? Parse(TokenReader tokenReader)
+	internal ISelector? Parse(ITokenReader tokenReader)
 	{
 		var selector = (ISelector?)tagSelectorParser.Value.Parse(tokenReader)
 			?? (ISelector?)idSelectorParser.Value.Parse(tokenReader)

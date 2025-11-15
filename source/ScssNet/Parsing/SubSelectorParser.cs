@@ -5,7 +5,7 @@ namespace ScssNet.Parsing;
 
 internal class SubSelectorParser(Lazy<SelectorParser> selectorParser)
 {
-	internal SubSelector? Parse(TokenReader tokenReader, ISelector parentSelector)
+	internal SubSelector? Parse(ITokenReader tokenReader, ISelector parentSelector)
 	{
 		var selector = selectorParser.Value.Parse(tokenReader);
 		if (selector == null)

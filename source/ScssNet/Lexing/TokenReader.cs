@@ -25,14 +25,14 @@ internal class TokenReader
 
 	public SourceCoordinates GetCoordinates() => SourceReader.GetCoordinates();
 
-	public SymbolToken? Match(Symbol symbol, bool skipWhitespaceOrComment = true)
+	public SymbolToken? Match(Symbol symbol)
 	{
-		return Match([symbol], skipWhitespaceOrComment);
+		return Match([symbol]);
 	}
 
-	public SymbolToken? Match(ICollection<Symbol> symbols, bool skipWhitespaceOrComment = true)
+	public SymbolToken? Match(ICollection<Symbol> symbols)
 	{
-		if(Peek(skipWhitespaceOrComment) is SymbolToken symbolToken && symbols.Contains(symbolToken.Symbol))
+		if(Peek() is SymbolToken symbolToken && symbols.Contains(symbolToken.Symbol))
 		{
 			ReadNextToken();
 			return symbolToken;
@@ -41,17 +41,13 @@ internal class TokenReader
 		return null;
 	}
 
-	public T? Match<T>(bool skipWhitespaceOrComment = true)
-		where T : IToken
+	public T? Match<T>() where T : IToken
 	{
 		var typeOfT = typeof(T);
 		if(typeOfT == typeof(SymbolToken))
 			throw new InvalidOperationException("Use Match(Symbol symbol, ...) for matching symbols.");
 
-		if(typeOfT == typeof(WhiteSpaceToken) || typeOfT == typeof(CommentToken))
-			skipWhitespaceOrComment = false;
-
-		if(Peek(skipWhitespaceOrComment) is T token)
+		if(Peek() is T token)
 		{
 			ReadNextToken();
 			return token;
@@ -60,14 +56,14 @@ internal class TokenReader
 		return default;
 	}
 
-	public SymbolToken Require(Symbol symbol, bool skipWhitespaceOrComment = true)
+	public SymbolToken Require(Symbol symbol)
 	{
-		return Match(symbol, skipWhitespaceOrComment) ?? SymbolToken.CreateMissing(symbol, GetCoordinates());
+		return Match(symbol) ?? SymbolToken.CreateMissing(symbol, GetCoordinates());
 	}
 
-	public IdentifierToken RequireIdentifier(bool skipWhitespaceOrComment = true)
+	public IdentifierToken RequireIdentifier()
 	{
-		return Match<IdentifierToken>(skipWhitespaceOrComment) ?? IdentifierToken.CreateMissing(GetCoordinates());
+		return Match<IdentifierToken>() ?? IdentifierToken.CreateMissing(GetCoordinates());
 	}
 
 	public StringToken RequireString()
@@ -75,21 +71,18 @@ internal class TokenReader
 		return Match<StringToken>() ?? StringToken.CreateMissing(GetCoordinates());
 	}
 
-	private IToken? Peek(bool skipWhitespaceOrComment)
+	public bool LastTokenWasSeparator()
+	{
+		return LastSeparator != null;
+	}
+
+	private IToken? Peek()
 	{
 		if(SourceReader.End)
-			return NextToken;
+			return null;
 
 		if(NextToken == null)
 			ReadNextToken();
-
-		if(skipWhitespaceOrComment)
-		{
-			while(NextToken is WhiteSpaceToken or CommentToken)
-			{
-				ReadNextToken();
-			}
-		}
 
 		return NextToken;
 	}

@@ -7,11 +7,12 @@ namespace ScssNet.Lexing
 		bool End { get; }
 
 		SourceCoordinates GetCoordinates();
-		SymbolToken? Match(ICollection<Symbol> symbols, bool skipWhitespaceOrComment = true);
-		SymbolToken? Match(Symbol symbol, bool skipWhitespaceOrComment = true);
-		T? Match<T>(bool skipWhitespaceOrComment = true) where T : IToken;
-		SymbolToken Require(Symbol symbol, bool skipWhitespaceOrComment = true);
-		IdentifierToken RequireIdentifier(bool skipWhitespaceOrComment = true);
+		SymbolToken? Match(ICollection<Symbol> symbols);
+		SymbolToken? Match(Symbol symbol);
+		T? Match<T>() where T : IToken;
+		SymbolToken Require(Symbol symbol);
+		IdentifierToken RequireIdentifier();
 		StringToken RequireString();
+		bool LastTokenWasSeparator();
 	}
 }

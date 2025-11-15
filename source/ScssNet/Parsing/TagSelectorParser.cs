@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class TagSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser)
 {
-	internal TagSelector? Parse(TokenReader tokenReader)
+	internal TagSelector? Parse(ITokenReader tokenReader)
 	{
 		var identifier = tokenReader.Match<IdentifierToken>();
 		if(identifier is null)

@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class RuleParser(Lazy<ValueParser> valueParser)
 {
-	internal Rule? Parse(TokenReader tokenReader)
+	internal Rule? Parse(ITokenReader tokenReader)
 	{
 		var property = tokenReader.Match<IdentifierToken>();
 		if(property is null)
