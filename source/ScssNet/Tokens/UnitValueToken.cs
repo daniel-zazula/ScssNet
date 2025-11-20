@@ -1,6 +1,8 @@
-﻿namespace ScssNet.Tokens;
+﻿using ScssNet.SourceElements;
 
-public record UnitValueToken: IToken
+namespace ScssNet.Tokens;
+
+public record UnitValueToken: IToken, ISeparatedToken, IValueToken
 {
 	public decimal Amount { get; }
 	public string Unit { get; }

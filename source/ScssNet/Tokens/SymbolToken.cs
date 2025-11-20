@@ -6,7 +6,7 @@ public enum Symbol
 	ContainsWord, StartsWithWord, StartsWith, EndsWith, Contains
 }
 
-public record SymbolToken: IToken
+public record SymbolToken: IToken, ISeparatedToken
 {
 	public Symbol Symbol { get; }
 

@@ -1,6 +1,6 @@
 ﻿namespace ScssNet.Tokens;
 
-public interface ISeparatedToken : IToken
+public interface ISeparatedToken: IToken
 {
 	Separator? LeadingSeparator { get; }
 

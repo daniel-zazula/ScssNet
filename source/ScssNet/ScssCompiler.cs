@@ -16,10 +16,10 @@ public class ScssCompiler
 		return cssWriter.ToString();
 	}
 
-	private void Compile(TextReader scssReader, TextWriter textWriter)
+	private void Compile(TextReader textReader, TextWriter textWriter)
 	{
 		var services = new ServiceCollection();
-		services.AddSingleton(scssReader);
+		services.AddSingleton(textReader);
 		services.AddReaders();
 		services.AddTokenParsers();
 		services.AddParsers();

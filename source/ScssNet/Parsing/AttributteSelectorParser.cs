@@ -21,7 +21,7 @@ internal class AttributteSelectorParser(Lazy<CompoundSelectorParser> compoundSel
 		if(@operator != null)
 		{
 			value = tokenReader.RequireString();
-			modifier = tokenReader.RequireIdentifier();
+			modifier = tokenReader.Match<IdentifierToken>();
 		}
 
 		var closeBracket = tokenReader.Require(Symbol.CloseBracket);

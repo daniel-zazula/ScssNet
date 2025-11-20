@@ -20,7 +20,7 @@ internal static class ServiceCollectionExtensions
 
 	internal static void AddReaders(this IServiceCollection services)
 	{
-		services.AddSingleton<SourceReader>();
+		services.AddSingleton<ISourceReader, SourceReader>();
 		services.AddSingleton<ITokenReader, TokenReader>();
 	}
 

@@ -78,11 +78,11 @@ internal class TokenReader
 
 	private IToken? Peek()
 	{
-		if(SourceReader.End)
-			return null;
-
-		if(NextToken == null)
+		if(!SourceReader.End && NextToken == null)
+		{
+			// Reads the first token
 			ReadNextToken();
+		}
 
 		return NextToken;
 	}

@@ -1,6 +1,8 @@
-﻿namespace ScssNet.Tokens;
+﻿using ScssNet.SourceElements;
 
-public record HexValueToken: ISeparatedToken, IValueToken
+namespace ScssNet.Tokens;
+
+public record HexValueToken: IToken, ISeparatedToken, IValueToken
 {
 	public string Value { get; }
 

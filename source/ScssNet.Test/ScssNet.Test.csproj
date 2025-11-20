@@ -34,8 +34,4 @@
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Parsing\" />
-  </ItemGroup>
-
 </Project>
