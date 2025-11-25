@@ -14,7 +14,7 @@ internal class RuleParser(Lazy<ValueParser> valueParser)
 
 		var colon = tokenReader.Require(Symbol.Colon);
 		var value = valueParser.Value.Parse(tokenReader) ?? new MissingValue(tokenReader.GetCoordinates());
-		var semiColon = tokenReader.Require(Symbol.SemiColon);
+		var semiColon = tokenReader.Match(Symbol.SemiColon);
 
 		return new Rule(property, colon, value, semiColon);
 	}

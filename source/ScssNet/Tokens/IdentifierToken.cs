@@ -1,6 +1,6 @@
 ﻿namespace ScssNet.Tokens;
 
-public record IdentifierToken: IToken, ISeparatedToken
+public record IdentifierToken: IToken, ISeparatedToken, IValueToken
 {
 	public string Text { get; }
 

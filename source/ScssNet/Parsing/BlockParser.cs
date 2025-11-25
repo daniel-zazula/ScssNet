@@ -12,11 +12,14 @@ internal class BlockParser(Lazy<RuleParser> ruleParser)
 		if(openBrace is null)
 			return null;
 
-		var rule = ruleParser.Value.Parse(tokenReader);
 		var rules = new List<Rule>();
+		var rule = ruleParser.Value.Parse(tokenReader);
 		while(rule != null)
 		{
 			rules.Add(rule);
+			if(rule.SemiColon is null)
+				break;
+
 			rule = ruleParser.Value.Parse(tokenReader);
 		}
 
