@@ -6,12 +6,13 @@ using Shouldly;
 
 namespace ScssNet.Test.Parsing;
 
+[TestClass]
 public class RuleParserTests : ParserTestBase
 {
 	[DataTestMethod]
 	[DataRow(";")]
 	[DataRow("")]
-	public void ShouldParseIdSelectorInRule(string semiColon)
+	public void ShouldParseRule(string semiColon)
 	{
 		var source = $"-moz-color: red{semiColon}";
 		var provider = BuildServiceProvider(source);

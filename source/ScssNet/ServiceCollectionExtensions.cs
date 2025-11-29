@@ -33,6 +33,7 @@ internal static class ServiceCollectionExtensions
 		services.AddLazySingleton<CompoundSelectorParser>();
 		services.AddLazySingleton<SubSelectorParser>();
 		services.AddLazySingleton<SelectorListParser>();
+		services.AddLazySingleton<SelectorParser>();
 		services.AddLazySingleton<ValueParser>();
 		services.AddLazySingleton<RuleParser>();
 		services.AddLazySingleton<BlockParser>();
