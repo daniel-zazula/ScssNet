@@ -7,7 +7,7 @@ internal class IdentifierParser
 {
 	public IdentifierToken? Parse
 	(
-		ISourceReader reader, Separator? leadingSeparator, Func<Separator?> getTrailingSeparator
+		ISourceReader reader, Separator leadingSeparator, Func<Separator> getTrailingSeparator
 	)
 	{
 		if(reader.End || !IsIdentifierStart(reader.Peek(3)))

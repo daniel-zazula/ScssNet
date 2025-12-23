@@ -4,7 +4,7 @@ namespace ScssNet.Lexing;
 
 internal class SymbolParser
 {
-	public SymbolToken? Parse(ISourceReader reader, Separator? leadingSeparator, Func<Separator?> getTrailingSeparator)
+	public SymbolToken? Parse(ISourceReader reader, Separator leadingSeparator, Func<Separator> getTrailingSeparator)
 	{
 		if (reader.End)
 			return null;

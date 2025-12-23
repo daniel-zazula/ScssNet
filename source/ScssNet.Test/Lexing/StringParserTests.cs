@@ -9,8 +9,6 @@ public class StringParserTests
 {
 	private static readonly string[] strings = [ "\"Some string\"", "'Other string'" ];
 	public static IEnumerable<object[]> StringParams => strings.ToParams();
-	private static readonly Separator? LeadingSeparator = null;
-	private static readonly Separator TrailingSeparator = new([]);
 
 	[DataTestMethod]
 	[DynamicData(nameof(StringParams))]
@@ -19,12 +17,12 @@ public class StringParserTests
 		var sourceReader = new SourceReaderMock(source);
 		var stringParser = new StringParser();
 
-		var stringToken = stringParser.Parse(sourceReader, LeadingSeparator, () => TrailingSeparator);
+		var stringToken = stringParser.Parse(sourceReader, Separator.Empty, () => Separator.Empty);
 
 		stringToken.ShouldNotBeNull();
 		stringToken!.Text.ShouldBe(source);
-		stringToken.LeadingSeparator.ShouldBe(LeadingSeparator);
-		stringToken.TrailingSeparator.ShouldBe(TrailingSeparator);
+		stringToken.LeadingSeparator.ShouldBe(Separator.Empty);
+		stringToken.TrailingSeparator.ShouldBe(Separator.Empty);
 		sourceReader.End.ShouldBeTrue();
 	}
 
@@ -41,7 +39,7 @@ public class StringParserTests
 		var sourceReader = new SourceReaderMock(source);
 		var stringParser = new StringParser();
 
-		var @string = stringParser.Parse(sourceReader, LeadingSeparator, () => TrailingSeparator);
+		var @string = stringParser.Parse(sourceReader, Separator.Empty, () => Separator.Empty);
 
 		@string.ShouldBeNull();
 		sourceReader.End.ShouldBeFalse();

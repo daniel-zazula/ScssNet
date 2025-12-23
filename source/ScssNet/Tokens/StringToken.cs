@@ -6,13 +6,13 @@ public record StringToken: IToken, ISeparatedToken
 
 	public SourceCoordinates Start { get; }
 	public SourceCoordinates End { get; }
-	public Separator? LeadingSeparator { get; }
-	public Separator? TrailingSeparator { get; }
+	public Separator LeadingSeparator { get; }
+	public Separator TrailingSeparator { get; }
 	public IEnumerable<Issue> Issues { get; }
 
 	internal StringToken
 	(
-		string text, SourceCoordinates start, SourceCoordinates end, Separator? before, Separator? after,
+		string text, SourceCoordinates start, SourceCoordinates end, Separator before, Separator after,
 		ICollection<Issue>? issues = null
 	)
 	{
@@ -26,6 +26,7 @@ public record StringToken: IToken, ISeparatedToken
 
 	internal static StringToken CreateMissing(SourceCoordinates start)
 	{
-		return new StringToken("", start, start, null, null, [new Issue(IssueType.Error, "Expected string")]);
+		var issue = new Issue(IssueType.Error, "Expected string");
+		return new StringToken("", start, start, Separator.Empty, Separator.Empty, [issue]);
 	}
 }

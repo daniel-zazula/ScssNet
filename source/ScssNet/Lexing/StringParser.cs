@@ -5,7 +5,7 @@ namespace ScssNet.Lexing;
 
 internal class StringParser
 {
-	public StringToken? Parse(ISourceReader reader, Separator? leadingSeparator, Func<Separator?> getTrailingSeparator)
+	public StringToken? Parse(ISourceReader reader, Separator leadingSeparator, Func<Separator> getTrailingSeparator)
 	{
 		if(reader.End || !IsStringDelimiter(reader.Peek()))
 			return null;

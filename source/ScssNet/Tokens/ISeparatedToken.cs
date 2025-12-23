@@ -2,7 +2,7 @@
 
 public interface ISeparatedToken: IToken
 {
-	Separator? LeadingSeparator { get; }
+	Separator LeadingSeparator { get; }
 
-	Separator? TrailingSeparator { get; }
+	Separator TrailingSeparator { get; }
 }

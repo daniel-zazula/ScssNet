@@ -8,13 +8,13 @@ public record HexValueToken: IToken, ISeparatedToken, IValueToken
 
 	public SourceCoordinates Start { get; }
 	public SourceCoordinates End { get; }
-	public Separator? LeadingSeparator { get; }
-	public Separator? TrailingSeparator { get; }
+	public Separator LeadingSeparator { get; }
+	public Separator TrailingSeparator { get; }
 	public IEnumerable<Issue> Issues => [];
 
 	public HexValueToken
 	(
-		string value, SourceCoordinates start, SourceCoordinates end, Separator? before, Separator? after
+		string value, SourceCoordinates start, SourceCoordinates end, Separator before, Separator after
 	)
 	{
 		Value = value;

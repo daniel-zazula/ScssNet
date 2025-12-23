@@ -11,8 +11,6 @@ public class SymbolParserTests
 	{
 		".", ":", ";", "{", "}", "[", "]", "=", "~=", "|=", "^=", "$=", "*="
 	}.ToParams();
-	private static readonly Separator? LeadingSeparator = null;
-	private static readonly Separator TrailingSeparator = new([]);
 
 	[DataTestMethod]
 	[DataRow(".", Symbol.Dot)]
@@ -34,12 +32,12 @@ public class SymbolParserTests
 		var sourceReader = new SourceReaderMock(source);
 		var symbolParser = new SymbolParser();
 
-		var symbolToken = symbolParser.Parse(sourceReader, LeadingSeparator, () => TrailingSeparator);
+		var symbolToken = symbolParser.Parse(sourceReader, Separator.Empty, () => Separator.Empty);
 
 		symbolToken.ShouldNotBeNull();
 		symbolToken!.Symbol.ShouldBe(symbol);
-		symbolToken.LeadingSeparator.ShouldBe(LeadingSeparator);
-		symbolToken.TrailingSeparator.ShouldBe(TrailingSeparator);
+		symbolToken.LeadingSeparator.ShouldBe(Separator.Empty);
+		symbolToken.TrailingSeparator.ShouldBe(Separator.Empty);
 		sourceReader.End.ShouldBeTrue();
 	}
 
@@ -55,7 +53,7 @@ public class SymbolParserTests
 		var sourceReader = new SourceReaderMock(source);
 		var symbolParser = new SymbolParser();
 
-		var symbol = symbolParser.Parse(sourceReader, LeadingSeparator, () => TrailingSeparator);
+		var symbol = symbolParser.Parse(sourceReader, Separator.Empty, () => Separator.Empty);
 
 		symbol.ShouldBeNull();
 		sourceReader.End.ShouldBeFalse();

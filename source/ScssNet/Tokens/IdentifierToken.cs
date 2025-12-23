@@ -6,13 +6,13 @@ public record IdentifierToken: IToken, ISeparatedToken, IValueToken
 
 	public SourceCoordinates Start { get; }
 	public SourceCoordinates End { get; }
-	public Separator? LeadingSeparator { get; }
-	public Separator? TrailingSeparator { get; }
+	public Separator LeadingSeparator { get; }
+	public Separator TrailingSeparator { get; }
 	public IEnumerable<Issue> Issues { get; }
 
 	internal IdentifierToken
 	(
-		string text, SourceCoordinates start, SourceCoordinates end, Separator? before, Separator? after,
+		string text, SourceCoordinates start, SourceCoordinates end, Separator before, Separator after,
 		ICollection<Issue>? issues = null
 	)
 	{
@@ -26,6 +26,7 @@ public record IdentifierToken: IToken, ISeparatedToken, IValueToken
 
 	internal static IdentifierToken CreateMissing(SourceCoordinates start)
 	{
-		return new IdentifierToken("", start, start, null, null, [new Issue(IssueType.Error, "Expected identifier")]);
+		var issue = new Issue(IssueType.Error, "Expected identifier");
+		return new IdentifierToken("", start, start, Separator.Empty, Separator.Empty, [issue]);
 	}
 }

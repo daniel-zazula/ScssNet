@@ -12,13 +12,13 @@ public record SymbolToken: IToken, ISeparatedToken
 
 	public SourceCoordinates Start { get; }
 	public SourceCoordinates End { get; }
-	public Separator? LeadingSeparator { get; }
-	public Separator? TrailingSeparator { get; }
+	public Separator LeadingSeparator { get; }
+	public Separator TrailingSeparator { get; }
 	public IEnumerable<Issue> Issues { get; }
 
 	internal SymbolToken
 	(
-		Symbol symbol, SourceCoordinates start, SourceCoordinates end, Separator? before, Separator? after,
+		Symbol symbol, SourceCoordinates start, SourceCoordinates end, Separator before, Separator after,
 		ICollection<Issue>? issues = null
 	)
 	{
@@ -32,10 +32,8 @@ public record SymbolToken: IToken, ISeparatedToken
 
 	internal static SymbolToken CreateMissing(Symbol symbol, SourceCoordinates start)
 	{
-		return new SymbolToken
-		(
-			symbol, start, start, null, null, [new Issue(IssueType.Error, "Expected " + ToChars(symbol))]
-		);
+		var issue = new Issue(IssueType.Error, "Expected " + ToChars(symbol));
+		return new SymbolToken(symbol, start, start, Separator.Empty, Separator.Empty, [issue]);
 	}
 
 	internal string ToChars()

@@ -9,13 +9,13 @@ public record UnitValueToken: IToken, ISeparatedToken, IValueToken
 
 	public SourceCoordinates Start { get; }
 	public SourceCoordinates End { get; }
-	public Separator? LeadingSeparator { get; }
-	public Separator? TrailingSeparator { get; }
+	public Separator LeadingSeparator { get; }
+	public Separator TrailingSeparator { get; }
 	public IEnumerable<Issue> Issues => [];
 
 	internal UnitValueToken
 	(
-		decimal amount, string unit, SourceCoordinates start, SourceCoordinates end, Separator? before, Separator? after
+		decimal amount, string unit, SourceCoordinates start, SourceCoordinates end, Separator before, Separator after
 	)
 	{
 		Amount = amount;

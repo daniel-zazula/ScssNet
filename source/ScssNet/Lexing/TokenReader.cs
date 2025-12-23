@@ -122,7 +122,7 @@ internal class TokenReader
 			token = ReadSeparatorToken();
 		}
 
-		return new Separator(tokens);
+		return tokens.Count > 0 ? new Separator(tokens) : Separator.Empty;
 
 		ISeparatorToken? ReadSeparatorToken()
 		{

@@ -92,7 +92,7 @@ public class TokenReaderTests
 		return services.BuildServiceProvider();
 	}
 
-	private static void AssertSingleSpaceSeparator(Separator? separator)
+	private static void AssertSingleSpaceSeparator(Separator separator)
 	{
 		separator.ShouldNotBeNull();
 		var token = separator!.Tokens.ShouldHaveSingleItem();

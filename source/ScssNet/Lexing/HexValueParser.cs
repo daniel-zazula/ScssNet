@@ -7,7 +7,7 @@ internal class HexValueParser
 {
 	public HexValueToken? Parse
 	(
-		ISourceReader reader, Separator? leadingSeparator, Func<Separator?> getTrailingSeparator
+		ISourceReader reader, Separator leadingSeparator, Func<Separator> getTrailingSeparator
 	)
 	{
 		if(reader.Peek() != '#')

@@ -7,7 +7,7 @@ internal class UnitValueParser
 {
 	public UnitValueToken? Parse
 	(
-		ISourceReader reader, Separator? leadingSeparator, Func<Separator?> getTrailingSeparator
+		ISourceReader reader, Separator leadingSeparator, Func<Separator> getTrailingSeparator
 	)
 	{
 		if(!IsUnitStart(reader))
