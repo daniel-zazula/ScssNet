@@ -40,6 +40,7 @@ internal class SymbolParser
 	{
 		return reader.Peek() switch
 		{
+			',' => Symbol.Comma,
 			'.' => Symbol.Dot,
 			'#' => Symbol.Hash,
 			':' => Symbol.Colon,
