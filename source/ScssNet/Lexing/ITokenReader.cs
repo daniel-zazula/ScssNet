@@ -13,6 +13,6 @@ namespace ScssNet.Lexing
 		SymbolToken Require(Symbol symbol);
 		IdentifierToken RequireIdentifier();
 		StringToken RequireString();
-		bool LastTokenWasSeparator();
+		bool LastSeparatorWasEmpty();
 	}
 }

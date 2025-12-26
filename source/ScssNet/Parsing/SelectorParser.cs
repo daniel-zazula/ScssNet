@@ -21,8 +21,7 @@ internal class SelectorParser
 		if(selector == null)
 			return null;
 
-		var separator = (IToken?)tokenReader.Match<WhiteSpaceToken>() ?? tokenReader.Match<CommentToken>();
-		if (separator != null)
+		if (tokenReader.LastSeparatorWasEmpty())
 		{
 			var subSelector = (ISelector?)subSelectorParser.Value.Parse(tokenReader, selector);
 			return subSelector ?? selector;

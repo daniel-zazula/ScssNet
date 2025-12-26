@@ -11,7 +11,7 @@ internal class CompoundSelectorParser
 {
 	internal ICompoundSelector? Parse(ITokenReader tokenReader)
 	{
-		if (tokenReader.LastTokenWasSeparator())
+		if (!tokenReader.LastSeparatorWasEmpty())
 			return null;
 
 		return (ICompoundSelector?)idSelectorParser.Value.Parse(tokenReader)

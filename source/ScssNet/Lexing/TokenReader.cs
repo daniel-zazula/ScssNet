@@ -71,9 +71,9 @@ internal class TokenReader
 		return Match<StringToken>() ?? StringToken.CreateMissing(GetCoordinates());
 	}
 
-	public bool LastTokenWasSeparator()
+	public bool LastSeparatorWasEmpty()
 	{
-		return LastSeparator != null;
+		return LastSeparator is null || LastSeparator.Tokens.Count == 0;
 	}
 
 	private IToken? Peek()
