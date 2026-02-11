@@ -12,8 +12,7 @@ internal class TokenReader
 	public bool End => NextToken == null && SourceReader.End;
 
 	private readonly ISourceReader SourceReader = sourceReader;
-	private IToken? NextToken;
-	private Separator? LastSeparator;
+	private ISeparatedToken? NextToken;
 
 	private readonly IdentifierParser IdentifierParser = identifierParser;
 	private readonly SymbolParser SymbolParser = symbolParser;
@@ -71,11 +70,6 @@ internal class TokenReader
 		return Match<StringToken>() ?? StringToken.CreateMissing(GetCoordinates());
 	}
 
-	public bool LastSeparatorWasEmpty()
-	{
-		return LastSeparator is null || LastSeparator.Tokens.Count == 0;
-	}
-
 	private IToken? Peek()
 	{
 		if(!SourceReader.End && NextToken == null)
@@ -94,19 +88,17 @@ internal class TokenReader
 			NextToken = null;
 			return;
 		}
-		else if(NextToken is null)
-		{
-			LastSeparator = ReadSeparator();
-		}
 
-		var separatedToken = (ISeparatedToken?)IdentifierParser.Parse(SourceReader, LastSeparator, ReadSeparator)
-			?? (ISeparatedToken?)SymbolParser.Parse(SourceReader, LastSeparator, ReadSeparator)
-			?? (ISeparatedToken?)UnitValueParser.Parse(SourceReader, LastSeparator, ReadSeparator)
-			?? (ISeparatedToken?)HexValueParser.Parse(SourceReader, LastSeparator, ReadSeparator)
-			?? (ISeparatedToken?)StringParser.Parse(SourceReader, LastSeparator, ReadSeparator)
+		var leadingSeparator = NextToken is null
+			? ReadSeparator()
+			: NextToken.TrailingSeparator;
+
+		var separatedToken = (ISeparatedToken?)IdentifierParser.Parse(SourceReader, leadingSeparator, ReadSeparator)
+			?? (ISeparatedToken?)SymbolParser.Parse(SourceReader, leadingSeparator, ReadSeparator)
+			?? (ISeparatedToken?)UnitValueParser.Parse(SourceReader, leadingSeparator, ReadSeparator)
+			?? (ISeparatedToken?)HexValueParser.Parse(SourceReader, leadingSeparator, ReadSeparator)
+			?? (ISeparatedToken?)StringParser.Parse(SourceReader, leadingSeparator, ReadSeparator)
 			?? throw new Exception("Failed to parse any tokens");
-
-		LastSeparator = separatedToken.TrailingSeparator;
 
 		NextToken = separatedToken;
 	}
