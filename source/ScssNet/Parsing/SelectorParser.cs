@@ -1,6 +1,5 @@
 ﻿using ScssNet.Lexing;
 using ScssNet.SourceElements;
-using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
