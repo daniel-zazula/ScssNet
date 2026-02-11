@@ -4,7 +4,7 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class IdSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser)
+internal class IdSelectorParser(Lazy<SelectorParser> selectorParser)
 {
 	internal IdSelector? Parse(ITokenReader tokenReader)
 	{
@@ -13,8 +13,11 @@ internal class IdSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorPar
 			return null;
 
 		var identifier = tokenReader.RequireIdentifier();
-		var compoundSelector = compoundSelectorParser.Value.Parse(tokenReader);
 
-		return new IdSelector(hash, identifier, compoundSelector);
+		var selectorQualifier = identifier.TrailingSeparator == Separator.Empty
+			? selectorParser.Value.ParseQualifier(tokenReader)
+			: default;
+
+		return new IdSelector(hash, identifier, selectorQualifier);
 	}
 }

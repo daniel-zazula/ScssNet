@@ -4,7 +4,7 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class AttributteSelectorParser(Lazy<CompoundSelectorParser> compoundSelectorParser)
+internal class AttributteSelectorParser(Lazy<SelectorParser> selectorParser)
 {
 	internal AttributteSelector? Parse(ITokenReader tokenReader)
 	{
@@ -25,8 +25,11 @@ internal class AttributteSelectorParser(Lazy<CompoundSelectorParser> compoundSel
 		}
 
 		var closeBracket = tokenReader.Require(Symbol.CloseBracket);
-		var compoundSelector = compoundSelectorParser.Value.Parse(tokenReader);
 
-		return new AttributteSelector(openBracket, attribute, @operator, value, modifier, closeBracket, compoundSelector);
+		var selectorQualifier = closeBracket.TrailingSeparator == Separator.Empty
+			? selectorParser.Value.ParseQualifier(tokenReader)
+			: default;;
+
+		return new AttributteSelector(openBracket, attribute, @operator, value, modifier, closeBracket, selectorQualifier);
 	}
 }

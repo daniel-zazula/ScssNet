@@ -8,7 +8,7 @@ internal class CompoundSelectorGenerator
 	Lazy<AttributteSelectorGenerator> attributteSelectorGenerator
 )
 {
-	public void Generate(ICompoundSelector compoundSelector, CssWriter writer)
+	public void Generate(ISelectorQualifier compoundSelector, CssWriter writer)
 	{
 		switch(compoundSelector)
 		{
