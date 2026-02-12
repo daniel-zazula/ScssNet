@@ -4,9 +4,9 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class AttributteSelectorParser(Lazy<SelectorParser> selectorParser)
+internal class AttributeSelectorParser(Lazy<SelectorParser> selectorParser)
 {
-	internal AttributteSelector? Parse(ITokenReader tokenReader)
+	internal AttributeSelector? Parse(ITokenReader tokenReader)
 	{
 		var openBracket = tokenReader.Match(Symbol.OpenBracket);
 		if(openBracket is null)
@@ -30,6 +30,6 @@ internal class AttributteSelectorParser(Lazy<SelectorParser> selectorParser)
 			? selectorParser.Value.ParseQualifier(tokenReader)
 			: default;;
 
-		return new AttributteSelector(openBracket, attribute, @operator, value, modifier, closeBracket, selectorQualifier);
+		return new AttributeSelector(openBracket, attribute, @operator, value, modifier, closeBracket, selectorQualifier);
 	}
 }

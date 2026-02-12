@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 internal class SelectorParser
 (
 	Lazy<TagSelectorParser> tagSelectorParser, Lazy<IdSelectorParser> idSelectorParser,
-	Lazy<ClassSelectorParser> classSelectorParser, Lazy<AttributteSelectorParser> attributteSelectorParser
+	Lazy<ClassSelectorParser> classSelectorParser, Lazy<AttributeSelectorParser> attributeSelectorParser
 )
 {
 	internal ISelector? Parse(ITokenReader tokenReader)
@@ -14,7 +14,7 @@ internal class SelectorParser
 		var selector = (ISelector?)tagSelectorParser.Value.Parse(tokenReader)
 			?? (ISelector?)idSelectorParser.Value.Parse(tokenReader)
 			?? (ISelector?)classSelectorParser.Value.Parse(tokenReader)
-			?? attributteSelectorParser.Value.Parse(tokenReader);
+			?? attributeSelectorParser.Value.Parse(tokenReader);
 
 		if(selector == null)
 			return null;
@@ -29,6 +29,6 @@ internal class SelectorParser
 
 		return (ISelectorQualifier?)idSelectorParser.Value.Parse(tokenReader)
 			?? (ISelectorQualifier?)classSelectorParser.Value.Parse(tokenReader)
-			?? attributteSelectorParser.Value.Parse(tokenReader);
+			?? attributeSelectorParser.Value.Parse(tokenReader);
 	}
 }

@@ -2,9 +2,9 @@
 
 namespace ScssNet.Generation;
 
-internal class AttributteSelectorGenerator
+internal class AttributeSelectorGenerator
 {
-	public void Generate(AttributteSelector classSelector, CssWriter writer)
+	public void Generate(AttributeSelector classSelector, CssWriter writer)
 	{
 		writer.Write(classSelector.OpenBracket);
 		writer.Write(classSelector.Attribute);

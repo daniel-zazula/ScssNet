@@ -7,7 +7,7 @@ using Shouldly;
 namespace ScssNet.Test.Parsing;
 
 [TestClass]
-public class AttributteSelectorParserTests: ParserTestBase
+public class AttributeSelectorParserTests: ParserTestBase
 {
 	[TestMethod]
 	public void ShouldParseAttributeSelector()
@@ -16,7 +16,7 @@ public class AttributteSelectorParserTests: ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<ITokenReader>();
-		var attributeSelectorParser = provider.GetRequiredService<AttributteSelectorParser>();
+		var attributeSelectorParser = provider.GetRequiredService<AttributeSelectorParser>();
 
 		var attributeSelector = attributeSelectorParser.Parse(tokenReader);
 		attributeSelector.ShouldNotBeNull();
@@ -43,7 +43,7 @@ public class AttributteSelectorParserTests: ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<ITokenReader>();
-		var attributeSelectorParser = provider.GetRequiredService<AttributteSelectorParser>();
+		var attributeSelectorParser = provider.GetRequiredService<AttributeSelectorParser>();
 
 		var attributeSelector = attributeSelectorParser.Parse(tokenReader);
 		attributeSelector.ShouldNotBeNull();
@@ -68,7 +68,7 @@ public class AttributteSelectorParserTests: ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<ITokenReader>();
-		var attributeSelectorParser = provider.GetRequiredService<AttributteSelectorParser>();
+		var attributeSelectorParser = provider.GetRequiredService<AttributeSelectorParser>();
 
 		var attributeSelector = attributeSelectorParser.Parse(tokenReader);
 		attributeSelector.ShouldNotBeNull();

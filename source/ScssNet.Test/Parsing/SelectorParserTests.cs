@@ -31,10 +31,10 @@ public class SelectorParserTests : ParserTestBase
 	}
 
 	[TestMethod]
-	public void ShouldParseAttributteSelector()
+	public void ShouldParseAttributeSelector()
 	{
-		var attributteSelector = ShouldParseSelector<AttributteSelector>("[href]");
-		attributteSelector.Attribute.Text.ShouldBe("href");
+		var attributeSelector = ShouldParseSelector<AttributeSelector>("[href]");
+		attributeSelector.Attribute.Text.ShouldBe("href");
 	}
 
 	private static T ShouldParseSelector<T>(string source)

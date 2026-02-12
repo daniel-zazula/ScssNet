@@ -5,7 +5,7 @@ namespace ScssNet.Generation;
 internal class CompoundSelectorGenerator
 (
 	Lazy<IdSelectorGenerator> idSelectorGenerator, Lazy<ClassSelectorGenerator> classSelectorGenerator,
-	Lazy<AttributteSelectorGenerator> attributteSelectorGenerator
+	Lazy<AttributeSelectorGenerator> attributeSelectorGenerator
 )
 {
 	public void Generate(ISelectorQualifier compoundSelector, CssWriter writer)
@@ -18,8 +18,8 @@ internal class CompoundSelectorGenerator
 			case ClassSelector classSelector:
 				classSelectorGenerator.Value.Generate(classSelector, writer);
 				break;
-			case AttributteSelector attributteSelector:
-				attributteSelectorGenerator.Value.Generate(attributteSelector, writer);
+			case AttributeSelector attributeSelector:
+				attributeSelectorGenerator.Value.Generate(attributeSelector, writer);
 				break;
 		}
 	}

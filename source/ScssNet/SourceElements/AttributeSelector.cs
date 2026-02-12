@@ -2,7 +2,7 @@
 
 namespace ScssNet.SourceElements;
 
-public class AttributteSelector
+public class AttributeSelector
 (
 	SymbolToken openBracket, IdentifierToken attribute, SymbolToken? @operator, StringToken? value,
 	IdentifierToken? modifier, SymbolToken closeBracket, ISelectorQualifier? qualifier

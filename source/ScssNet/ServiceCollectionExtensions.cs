@@ -29,7 +29,7 @@ internal static class ServiceCollectionExtensions
 		services.AddLazySingleton<TagSelectorParser>();
 		services.AddLazySingleton<ClassSelectorParser>();
 		services.AddLazySingleton<IdSelectorParser>();
-		services.AddLazySingleton<AttributteSelectorParser>();
+		services.AddLazySingleton<AttributeSelectorParser>();
 		services.AddLazySingleton<SelectorListParser>();
 		services.AddLazySingleton<SelectorParser>();
 		services.AddLazySingleton<ValueParser>();
@@ -48,7 +48,7 @@ internal static class ServiceCollectionExtensions
 		services.AddLazySingleton<CompoundSelectorGenerator>();
 		services.AddLazySingleton<IdSelectorGenerator>();
 		services.AddLazySingleton<TagSelectorGenerator>();
-		services.AddLazySingleton<AttributteSelectorGenerator>();
+		services.AddLazySingleton<AttributeSelectorGenerator>();
 	}
 
 	private static void AddLazySingleton<TService>(this IServiceCollection services) where TService : class

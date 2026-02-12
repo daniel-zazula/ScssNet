@@ -6,7 +6,7 @@ namespace ScssNet.Generation;
 internal class SelectorGenerator
 (
 	Lazy<TagSelectorGenerator> tagSelectorGenerator, Lazy<IdSelectorGenerator> idSelectorGenerator,
-	Lazy<ClassSelectorGenerator> classSelectorGenerator, Lazy<AttributteSelectorGenerator> attributteSelectorGenerator
+	Lazy<ClassSelectorGenerator> classSelectorGenerator, Lazy<AttributeSelectorGenerator> attributeSelectorGenerator
 )
 {
 	public void Generate(ISelector selector, CssWriter writer)
@@ -22,8 +22,8 @@ internal class SelectorGenerator
 			case ClassSelector classSelector:
 				classSelectorGenerator.Value.Generate(classSelector, writer);
 				break;
-			case AttributteSelector attributteSelector:
-				attributteSelectorGenerator.Value.Generate(attributteSelector, writer);
+			case AttributeSelector attributeSelector:
+				attributeSelectorGenerator.Value.Generate(attributeSelector, writer);
 				break;
 		}
 	}
