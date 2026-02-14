@@ -2,7 +2,7 @@
 
 namespace ScssNet.SourceElements;
 
-public class TagSelector(IdentifierToken identifier, ISelectorQualifier? qualifier) : ISourceElement, ISelector
+public class TagSelector(IdentifierToken identifier, ISelectorQualifier? qualifier) : ICompositeSelector
 {
 	public IdentifierToken Identifier => identifier;
 	public ISelectorQualifier? Qualifier => qualifier;

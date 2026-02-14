@@ -2,7 +2,10 @@
 
 namespace ScssNet.SourceElements;
 
-public class IdSelector(SymbolToken hash, IdentifierToken identifier, ISelectorQualifier? qualifier) : ISourceElement, ISelector, ISelectorQualifier
+public class IdSelector
+(
+	SymbolToken hash, IdentifierToken identifier, ISelectorQualifier? qualifier
+) : ISelectorQualifier
 {
 	public SymbolToken Hash => hash;
 	public IdentifierToken Identifier => identifier;

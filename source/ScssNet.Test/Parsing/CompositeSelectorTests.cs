@@ -41,7 +41,7 @@ public class CompositeSelectorTests : ParserTestBase
 		TestQualifier(qualifiers, tagSelector, 0);
 	}
 
-	private static void TestQualifier(string[] qualifiers, ISelector selector, int index)
+	private static void TestQualifier(string[] qualifiers, ICompositeSelector selector, int index)
 	{
 		var qualifierSource = qualifiers[index];
 		var qualifier = selector.Qualifier;

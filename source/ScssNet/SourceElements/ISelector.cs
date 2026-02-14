@@ -2,7 +2,14 @@
 
 public interface ISelector : ISourceElement
 {
-	public ISelectorQualifier? Qualifier { get; }
-
 	public bool HasSeparatorAfter();
+}
+
+public interface ICompositeSelector : ISelector
+{
+	public ISelectorQualifier? Qualifier { get; }
+}
+
+public interface ISelectorQualifier : ICompositeSelector
+{
 }
