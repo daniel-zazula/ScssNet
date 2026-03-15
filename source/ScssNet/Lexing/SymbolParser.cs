@@ -50,6 +50,9 @@ internal class SymbolParser
 			'[' => Symbol.OpenBracket,
 			']' => Symbol.CloseBracket,
 			'=' => Symbol.Equals,
+			'>' => Symbol.GreaterThan,
+			'+' => Symbol.Plus,
+			'~' => Symbol.Tilde,
 			_ => null
 		};
 	}

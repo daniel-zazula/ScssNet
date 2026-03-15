@@ -3,7 +3,7 @@
 public enum Symbol
 {
 	Comma, Dot, Hash, Colon, SemiColon, OpenBrace, CloseBrace, OpenBracket, CloseBracket, Equals,
-	ContainsWord, StartsWithWord, StartsWith, EndsWith, Contains
+	ContainsWord, StartsWithWord, StartsWith, EndsWith, Contains, GreaterThan, Plus, Tilde
 }
 
 public record SymbolToken: IToken, ISeparatedToken
@@ -60,6 +60,9 @@ public record SymbolToken: IToken, ISeparatedToken
 			Symbol.OpenBracket => "[",
 			Symbol.CloseBracket => "]",
 			Symbol.Equals => "=",
+			Symbol.GreaterThan => ">",
+			Symbol.Plus => "+",
+			Symbol.Tilde => "~",
 			_ => throw new NotImplementedException("Missing symbol characters"),
 		};
 	}
