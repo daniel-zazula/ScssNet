@@ -9,6 +9,9 @@ internal class RuleGenerator(Lazy<ValueGenerator> valueGenerator)
 		writer.Write(rule.Property);
 		writer.Write(rule.Colon);
 		valueGenerator.Value.Generate(rule.Value, writer);
-		writer.Write(rule.SemiColon);
+		if (rule.SemiColon != null)
+		{
+			writer.Write(rule.SemiColon);
+		}
 	}
 }

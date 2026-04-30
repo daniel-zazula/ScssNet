@@ -13,5 +13,5 @@ public class Rule(IdentifierToken property, SymbolToken colon, IValue value, Sym
 
 	public SourceCoordinates Start => Property.Start;
 
-	public SourceCoordinates End => SemiColon.End;
+	public SourceCoordinates End => SemiColon?.End ?? Value.End;
 }
