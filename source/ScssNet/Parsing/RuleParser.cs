@@ -13,7 +13,7 @@ internal class RuleParser(Lazy<ValueParser> valueParser)
 			return null;
 
 		var colon = tokenReader.Require(Symbol.Colon);
-		var value = valueParser.Value.Parse(tokenReader) ?? new MissingValue(tokenReader.GetCoordinates());
+		var value = valueParser.Value.Parse(tokenReader) ?? throw new NotImplementedException("Handle missing value");
 		var semiColon = tokenReader.Match(Symbol.SemiColon);
 
 		return new Rule(property, colon, value, semiColon);
