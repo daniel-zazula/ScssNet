@@ -21,10 +21,4 @@ public class AttributeSelector
 	public SourceCoordinates Start => openBracket.Start;
 
 	public SourceCoordinates End => SourceElement.List(closeBracket, qualifier).LastEnd();
-
-	public bool HasSeparatorAfter()
-	{
-		return qualifier?.HasSeparatorAfter()
-			?? CloseBracket.TrailingSeparator == Separator.Empty;
-	}
 }

@@ -45,7 +45,7 @@ internal class SelectorParser
 		var combinator = tokenReader.Match([Symbol.GreaterThan, Symbol.Tilde, Symbol.Plus]);
 		if(combinator is null)
 		{
-			return previousSelector.HasSeparatorAfter()
+			return previousSelector.HasTrailingSeparator()
 				? ParseDescendant(tokenReader, previousSelector)
 				: null;
 		}

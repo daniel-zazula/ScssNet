@@ -16,10 +16,4 @@ public class ClassSelector
 	public SourceCoordinates Start => dot.Start;
 
 	public SourceCoordinates End => SourceElement.List(identifier, qualifier).LastEnd();
-
-	public bool HasSeparatorAfter()
-	{
-		return qualifier?.HasSeparatorAfter()
-			?? Identifier.TrailingSeparator == Separator.Empty;
-	}
 }

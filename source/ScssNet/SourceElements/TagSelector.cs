@@ -12,10 +12,4 @@ public class TagSelector(IdentifierToken identifier, ISelectorQualifier? qualifi
 	public SourceCoordinates Start => identifier.Start;
 
 	public SourceCoordinates End => SourceElement.List(identifier, qualifier).LastEnd();
-
-	public bool HasSeparatorAfter()
-	{
-		return qualifier?.HasSeparatorAfter()
-			?? Identifier.TrailingSeparator == Separator.Empty;
-	}
 }

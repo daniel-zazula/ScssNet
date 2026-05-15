@@ -16,10 +16,4 @@ public class IdSelector
 	public SourceCoordinates Start => Hash.Start;
 
 	public SourceCoordinates End => SourceElement.List(identifier, qualifier).LastEnd();
-
-	public bool HasSeparatorAfter()
-	{
-		return qualifier?.HasSeparatorAfter()
-			?? Identifier.TrailingSeparator == Separator.Empty;
-	}
 }

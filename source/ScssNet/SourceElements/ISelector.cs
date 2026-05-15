@@ -2,7 +2,6 @@
 
 public interface ISelector : ISourceElement
 {
-	public bool HasSeparatorAfter();
 }
 
 public interface ICompositeSelector : ISelector
@@ -12,6 +11,7 @@ public interface ICompositeSelector : ISelector
 
 public interface IComplexSelector : ISelector
 {
+	ISelector Selector { get; }
 }
 
 public interface ISelectorQualifier : ICompositeSelector
