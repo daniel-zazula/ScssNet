@@ -9,7 +9,7 @@ namespace ScssNet.Test.Parsing;
 [TestClass]
 public class ValueParserTests : ParserTestBase
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("1cm")]
 	[DataRow("2mm")]
 	[DataRow("2Q")]
@@ -34,7 +34,7 @@ public class ValueParserTests : ParserTestBase
 		tokenReader.End.ShouldBeTrue();
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("red")]
 	[DataRow("flex-start")]
 	public void ShouldParseIdentifierValue(string valueString)

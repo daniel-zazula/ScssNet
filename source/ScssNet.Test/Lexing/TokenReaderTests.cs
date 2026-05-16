@@ -11,7 +11,7 @@ public class TokenReaderTests
 {
 	public static IEnumerable<object[]> SymbolsSource => AddSpacing(".");
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(SymbolsSource))]
 	public void ShouldMatchSymbolToken(string source)
 	{
@@ -38,7 +38,7 @@ public class TokenReaderTests
 	private const string IdentifierText = "identifier";
 	public static IEnumerable<object[]> IdentifiersSource => AddSpacing(IdentifierText);
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(IdentifiersSource))]
 	public void ShouldMatchIdentifierToken(string source)
 	{
@@ -49,7 +49,7 @@ public class TokenReaderTests
 	private const string StringText = @"""some string""";
 	public static IEnumerable<object[]> StringsSource => AddSpacing(StringText);
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(StringsSource))]
 	public void ShouldMatchStringToken(string source)
 	{

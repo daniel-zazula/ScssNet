@@ -19,7 +19,7 @@ public class CommentParserTests
 	private static IEnumerable<object[]> SpacerParams => Spacers.ToParams();
 
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(SpacerParams))]
 	public void ShouldParseSingleLineComment(string spacer)
 	{
@@ -35,7 +35,7 @@ public class CommentParserTests
 		TestCommentParsing(comment, remaining);
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(SpacerParams))]
 	public void ShouldParseMultiLineComment(string spacer)
 	{
@@ -43,7 +43,7 @@ public class CommentParserTests
 		TestCommentParsing(source);
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(NonComments))]
 	public void ShouldNotParseNonComments(string source)
 	{

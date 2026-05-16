@@ -10,7 +10,7 @@ public class IdentifierParserTests
 	private static readonly string[] Identifiers = ["table", "CamelCase", "custom-class", "-experimental-property"];
 	public static IEnumerable<object[]> IdentifierParams => Identifiers.ToParams();
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(IdentifierParams))]
 	public void ShouldParseIdentifier(string source)
 	{
@@ -32,7 +32,7 @@ public class IdentifierParserTests
 		.Concat(SymbolParserTests.SymbolParams)
 		.Concat(UnitValueParserTests.UnitValueParams);
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(NonIdentifiers))]
 	public void ShouldNotParseNonIdentifiers(string source)
 	{

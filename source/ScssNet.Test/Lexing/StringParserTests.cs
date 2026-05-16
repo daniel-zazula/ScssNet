@@ -10,7 +10,7 @@ public class StringParserTests
 	private static readonly string[] strings = [ "\"Some string\"", "'Other string'" ];
 	public static IEnumerable<object[]> StringParams => strings.ToParams();
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(StringParams))]
 	public void ShouldParseString(string source)
 	{
@@ -32,7 +32,7 @@ public class StringParserTests
 		.Concat(SymbolParserTests.SymbolParams)
 		.Concat(UnitValueParserTests.UnitValueParams);
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(NonStrings))]
 	public void ShouldNotParseNonStrings(string source)
 	{

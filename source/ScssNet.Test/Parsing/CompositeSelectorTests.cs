@@ -15,8 +15,8 @@ public class CompositeSelectorTests : ParserTestBase
 	internal static IEnumerable<object[]> CompositeSelectorQualifierParams => new Permutations<string>(CompositeSelectorQualifiers)
 		.Select(p => new object[] { p.ToArray() });
 
-	[DataTestMethod]
-	[DynamicData(nameof(CompositeSelectorQualifierParams), DynamicDataSourceType.Property)]
+	[TestMethod]
+	[DynamicData(nameof(CompositeSelectorQualifierParams))]
 	public void ShouldParseCompositeSelectors(string[] qualifiers)
 	{
 		qualifiers.Length.ShouldBe(CompositeSelectorQualifiers.Length);

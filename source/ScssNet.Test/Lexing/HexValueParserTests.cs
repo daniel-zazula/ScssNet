@@ -14,7 +14,7 @@ public class HexValueParserTests
 	}.ToParams();
 	public static IEnumerable<object[]> HexValueParams => HexValues;
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(HexValueParams))]
 	public void ShouldParseHexValues(string value)
 	{
@@ -36,7 +36,7 @@ public class HexValueParserTests
 		.Concat(SymbolParserTests.SymbolParams)
 		.Concat(UnitValueParserTests.UnitValueParams);
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(NonHexValues))]
 	public void ShouldNotParseNonHexValues(string value)
 	{

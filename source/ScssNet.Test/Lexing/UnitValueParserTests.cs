@@ -12,7 +12,7 @@ public class UnitValueParserTests
 		"3", "10px", "50%", "-10.2cm", "-200mm", "2Q", "-3.5in", "10pt", "5pc"
 	}.ToParams();
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("3", "")]
 	[DataRow("10", "px")]
 	[DataRow("50", "%")]
@@ -43,7 +43,7 @@ public class UnitValueParserTests
 		.Concat(StringParserTests.StringParams)
 		.Concat(SymbolParserTests.SymbolParams);
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(NonUnitValues))]
 	public void ShouldNotParseNonUnitValues(string source)
 	{

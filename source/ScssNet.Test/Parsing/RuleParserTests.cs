@@ -9,7 +9,7 @@ namespace ScssNet.Test.Parsing;
 [TestClass]
 public class RuleParserTests : ParserTestBase
 {
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(";")]
 	[DataRow("")]
 	public void ShouldParseRule(string semiColon)

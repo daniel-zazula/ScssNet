@@ -24,7 +24,7 @@ public class BlockParserTests: ParserTestBase
 		tokenReader.End.ShouldBeTrue();
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(";")]
 	[DataRow("")]
 	public void ShouldParseBlockWithSingleRule(string semicolon)
@@ -42,7 +42,7 @@ public class BlockParserTests: ParserTestBase
 		tokenReader.End.ShouldBeTrue();
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(";")]
 	[DataRow("")]
 	public void ShouldParseBlockWithMultipleRules(string semicolon)

@@ -12,7 +12,7 @@ public class SymbolParserTests
 		".", ":", ";", "{", "}", "[", "]", "=", "~=", "|=", "^=", "$=", "*="
 	}.ToParams();
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(".", Symbol.Dot)]
 	[DataRow("#", Symbol.Hash)]
 	[DataRow(":", Symbol.Colon)]
@@ -46,7 +46,7 @@ public class SymbolParserTests
 		.Concat(StringParserTests.StringParams)
 		.Concat(UnitValueParserTests.UnitValueParams);
 
-	[DataTestMethod]
+	[TestMethod]
 	[DynamicData(nameof(NonSymbols))]
 	public void ShouldNotParseNonSymbols(string source)
 	{

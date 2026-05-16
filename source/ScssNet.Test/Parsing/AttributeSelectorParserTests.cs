@@ -30,7 +30,7 @@ public class AttributeSelectorParserTests: ParserTestBase
 		tokenReader.End.ShouldBeTrue();
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(["=", Symbol.Equals])]
 	[DataRow(["~=", Symbol.ContainsWord])]
 	[DataRow(["|=", Symbol.StartsWithWord])]
@@ -57,7 +57,7 @@ public class AttributeSelectorParserTests: ParserTestBase
 		tokenReader.End.ShouldBeTrue();
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("i")]
 	[DataRow("I")]
 	[DataRow("s")]
