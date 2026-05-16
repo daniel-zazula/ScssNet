@@ -1,4 +1,4 @@
-﻿using ScssNet.SourceElements;
+﻿using ScssNet.Structures;
 using ScssNet.Lexing;
 using ScssNet.Tokens;
 

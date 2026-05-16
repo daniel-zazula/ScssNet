@@ -3,7 +3,7 @@ using Combinatorics.Collections;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Lexing;
 using ScssNet.Parsing;
-using ScssNet.SourceElements;
+using ScssNet.Structures;
 using Shouldly;
 
 namespace ScssNet.Test.Parsing;

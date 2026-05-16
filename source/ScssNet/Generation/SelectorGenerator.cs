@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using ScssNet.SourceElements;
+using ScssNet.Structures;
 
 namespace ScssNet.Generation;
 

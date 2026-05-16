@@ -1,6 +1,4 @@
-﻿using ScssNet.SourceElements;
-
-namespace ScssNet.Tokens;
+﻿namespace ScssNet.Tokens;
 
 public record UnitValueToken: IToken, ISeparatedToken, IValueToken
 {

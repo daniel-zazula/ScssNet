@@ -1,6 +1,6 @@
 ﻿using ScssNet.Tokens;
 
-namespace ScssNet.SourceElements;
+namespace ScssNet.Structures;
 
 public class TagSelector(IdentifierToken identifier, ISelectorQualifier? qualifier) : ICompositeSelector
 {

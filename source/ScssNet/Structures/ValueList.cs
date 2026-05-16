@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace ScssNet.SourceElements;
+namespace ScssNet.Structures;
 
 public record ValueList : IValue
 {

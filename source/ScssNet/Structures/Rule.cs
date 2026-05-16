@@ -1,8 +1,8 @@
 ﻿using ScssNet.Tokens;
 
-namespace ScssNet.SourceElements;
+namespace ScssNet.Structures;
 
-public class Rule(IdentifierToken property, SymbolToken colon, IValue value, SymbolToken? semiColon) : ISourceElement
+public class Rule(IdentifierToken property, SymbolToken colon, IValue value, SymbolToken? semiColon) : ISyntaxStructure
 {
 	public IdentifierToken Property => property;
 	public SymbolToken Colon => colon;

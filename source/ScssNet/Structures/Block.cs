@@ -1,8 +1,8 @@
 ﻿using ScssNet.Tokens;
 
-namespace ScssNet.SourceElements;
+namespace ScssNet.Structures;
 
-public class Block(SymbolToken openBrace, ICollection<Rule> rules, SymbolToken closeBrace) : ISourceElement
+public class Block(SymbolToken openBrace, ICollection<Rule> rules, SymbolToken closeBrace) : ISyntaxStructure
 {
 	public SymbolToken OpenBrace => openBrace;
 	public ICollection<Rule> Rules => rules;

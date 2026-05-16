@@ -1,4 +1,4 @@
-﻿using ScssNet.SourceElements;
+﻿using ScssNet.Structures;
 using ScssNet.Tokens;
 
 namespace ScssNet.Generation;

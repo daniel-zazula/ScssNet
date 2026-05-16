@@ -1,4 +1,4 @@
-﻿namespace ScssNet.SourceElements;
+﻿namespace ScssNet.Structures;
 
 public class DescendantSelector
 (

@@ -1,6 +1,10 @@
-﻿namespace ScssNet.SourceElements;
+﻿namespace ScssNet.Structures;
 
-public interface ISelector : ISourceElement
+public interface ISyntaxStructure : ISourceElement
+{
+}
+
+public interface ISelector : ISyntaxStructure
 {
 }
 

@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Lexing;
 using ScssNet.Parsing;
-using ScssNet.SourceElements;
 using ScssNet.Tokens;
 using Shouldly;
 

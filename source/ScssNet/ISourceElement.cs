@@ -7,6 +7,8 @@ public interface ISourceElement
 	SourceCoordinates End { get; }
 }
 
+public interface IValue : ISourceElement { }
+
 internal static class SourceElement
 {
 	internal static IEnumerable<ISourceElement?> List(params ISourceElement?[] sourceElements)

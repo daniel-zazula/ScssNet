@@ -1,6 +1,6 @@
-﻿namespace ScssNet.SourceElements;
+﻿namespace ScssNet.Structures;
 
-public class SelectorList(ICollection<ISelector> selectors) : ISourceElement
+public class SelectorList(ICollection<ISelector> selectors) : ISyntaxStructure
 {
 	public ICollection<ISelector> Selectors => selectors;
 
