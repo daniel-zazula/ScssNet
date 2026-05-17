@@ -1,5 +1,4 @@
 ﻿using System;
-using Combinatorics.Collections;
 using ScssNet.Structures;
 using Shouldly;
 

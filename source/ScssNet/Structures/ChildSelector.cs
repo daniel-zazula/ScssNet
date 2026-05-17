@@ -5,13 +5,13 @@ namespace ScssNet.Structures;
 public class ChildSelector
 (
 	ISelector parentSelector, SymbolToken childOperatorSymbolToken, ISelector selector
-) : IComplexSelector
+) : SourceElement, IComplexSelector
 {
 	public ISelector Selector => selector;
 
 	public ISelector ParentSelector => parentSelector;
 
-	public IEnumerable<Issue> Issues => SourceElement.List(parentSelector, childOperatorSymbolToken, selector).ConcatIssues();
+	public IEnumerable<Issue> Issues => ConcatIssuesFrom(parentSelector, childOperatorSymbolToken, selector);
 
 	public SourceCoordinates Start => parentSelector.Start;
 

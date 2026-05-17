@@ -3,13 +3,13 @@
 public class DescendantSelector
 (
 	ISelector ascendantSelector, ISelector selector
-) : IComplexSelector
+) : SourceElement, IComplexSelector
 {
 	public ISelector Selector => selector;
 
 	public ISelector AscendantSelector => ascendantSelector;
 
-	public IEnumerable<Issue> Issues => SourceElement.List(ascendantSelector, selector).ConcatIssues();
+	public IEnumerable<Issue> Issues => ConcatIssuesFrom(AscendantSelector, Selector);
 
 	public SourceCoordinates Start => ascendantSelector.Start;
 

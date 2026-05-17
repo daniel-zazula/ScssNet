@@ -9,19 +9,19 @@ public interface ISourceElement
 
 public interface IValue : ISourceElement { }
 
-internal static class SourceElement
+public abstract class SourceElement
 {
-	internal static IEnumerable<ISourceElement?> List(params ISourceElement?[] sourceElements)
+	protected static IEnumerable<Issue> ConcatIssuesFrom(params ISourceElement?[] sourceElements)
 	{
-		return sourceElements;
+		return ConcatIssuesFrom((IEnumerable<ISourceElement?>)sourceElements);
 	}
 
-	internal static IEnumerable<Issue> ConcatIssues(this IEnumerable<ISourceElement?> sourceElements)
+	protected static IEnumerable<Issue> ConcatIssuesFrom(IEnumerable<ISourceElement?> sourceElements)
 	{
 		return sourceElements.SelectMany(se => se?.Issues ?? []);
 	}
 
-	internal static SourceCoordinates LastEnd(this IEnumerable<ISourceElement?> sourceElements)
+	protected static SourceCoordinates LastEnd(params ISourceElement?[] sourceElements)
 	{
 		return sourceElements.Last(se => se is not null)!.End;
 	}

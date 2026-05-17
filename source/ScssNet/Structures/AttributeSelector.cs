@@ -6,7 +6,7 @@ public class AttributeSelector
 (
 	SymbolToken openBracket, IdentifierToken attribute, SymbolToken? @operator, StringToken? value,
 	IdentifierToken? modifier, SymbolToken closeBracket, ISelectorQualifier? qualifier
-) : ISelectorQualifier
+) : SourceElement, ISelectorQualifier
 {
 	public SymbolToken OpenBracket => openBracket;
 	public IdentifierToken Attribute => attribute;
@@ -16,9 +16,9 @@ public class AttributeSelector
 	public SymbolToken CloseBracket => closeBracket;
 	public ISelectorQualifier? Qualifier => qualifier;
 
-	public IEnumerable<Issue> Issues => SourceElement.List(openBracket, attribute, @operator, value, modifier, closeBracket, qualifier).ConcatIssues();
+	public IEnumerable<Issue> Issues => ConcatIssuesFrom(openBracket, attribute, @operator, value, modifier, closeBracket, qualifier);
 
 	public SourceCoordinates Start => openBracket.Start;
 
-	public SourceCoordinates End => SourceElement.List(closeBracket, qualifier).LastEnd();
+	public SourceCoordinates End => LastEnd(closeBracket, qualifier);
 }

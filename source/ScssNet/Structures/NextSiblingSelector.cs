@@ -5,13 +5,13 @@ namespace ScssNet.Structures;
 public class NextSiblingSelector
 (
 	ISelector previousSiblingSelector, SymbolToken nextSiblingSymbolToken, ISelector selector
-) : IComplexSelector
+) : SourceElement, IComplexSelector
 {
 	public ISelector Selector => selector;
 
 	public ISelector PreviousSiblingSelector => previousSiblingSelector;
 
-	public IEnumerable<Issue> Issues => SourceElement.List(previousSiblingSelector, nextSiblingSymbolToken, selector).ConcatIssues();
+	public IEnumerable<Issue> Issues => ConcatIssuesFrom(previousSiblingSelector, nextSiblingSymbolToken, selector);
 
 	public SourceCoordinates Start => previousSiblingSelector.Start;
 
