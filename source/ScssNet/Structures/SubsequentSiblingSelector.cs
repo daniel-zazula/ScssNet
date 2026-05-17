@@ -9,6 +9,8 @@ public class SubsequentSiblingSelector
 {
 	public ISelector Selector => selector;
 
+	public ISelector PrecedingSiblingSelector => precedingSiblingSelector;
+
 	public IEnumerable<Issue> Issues => SourceElement.List(precedingSiblingSelector, subsequentSiblingSymbolToken, selector).ConcatIssues();
 
 	public SourceCoordinates Start => precedingSiblingSelector.Start;

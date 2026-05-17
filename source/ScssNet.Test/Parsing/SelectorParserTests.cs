@@ -1,13 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using ScssNet.Lexing;
-using ScssNet.Parsing;
-using ScssNet.Structures;
+﻿using ScssNet.Structures;
 using Shouldly;
 
 namespace ScssNet.Test.Parsing;
 
 [TestClass]
-public class SelectorParserTests : ParserTestBase
+public class SelectorParserTests : SelectorParserTestsBase
 {
 	[TestMethod]
 	public void ShouldParseTagSelector()
@@ -35,20 +32,5 @@ public class SelectorParserTests : ParserTestBase
 	{
 		var attributeSelector = ShouldParseSelector<AttributeSelector>("[href]");
 		attributeSelector.Attribute.Text.ShouldBe("href");
-	}
-
-	private static T ShouldParseSelector<T>(string source)
-	{
-		var provider = BuildServiceProvider(source);
-
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
-		var selectorParser = provider.GetRequiredService<SelectorParser>();
-
-		var selector = selectorParser.Parse(tokenReader).ShouldNotBeNull();
-
-		selector.Issues.ShouldBeEmpty();
-		tokenReader.End.ShouldBeTrue();
-
-		return selector.ShouldBeOfType<T>();
 	}
 }

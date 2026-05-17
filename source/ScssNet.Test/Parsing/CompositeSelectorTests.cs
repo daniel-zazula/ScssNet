@@ -11,9 +11,13 @@ namespace ScssNet.Test.Parsing;
 [TestClass]
 public class CompositeSelectorTests : ParserTestBase
 {
-	private static readonly string[] CompositeSelectorQualifiers = ["#my-id", ".my-class", "[my-attr]"];
-	internal static IEnumerable<object[]> CompositeSelectorQualifierParams => new Permutations<string>(CompositeSelectorQualifiers)
-		.Select(p => new object[] { p.ToArray() });
+	const string tagText = "div";
+	const string idText = "#my-id";
+	const string classText = ".my-class";
+	const string attributeText = "[my-attr]";
+
+	private static readonly string[] CompositeSelectorQualifiers = [idText, classText, attributeText];
+	internal static IEnumerable<object[]> CompositeSelectorQualifierParams => BuildSelectorPermutations();
 
 	[TestMethod]
 	[DynamicData(nameof(CompositeSelectorQualifierParams))]
@@ -21,7 +25,7 @@ public class CompositeSelectorTests : ParserTestBase
 	{
 		qualifiers.Length.ShouldBe(CompositeSelectorQualifiers.Length);
 
-		var compositeSelector = "div" + string.Concat(qualifiers);
+		var compositeSelector = tagText + string.Concat(qualifiers);
 
 		var provider = BuildServiceProvider(compositeSelector);
 
@@ -35,10 +39,16 @@ public class CompositeSelectorTests : ParserTestBase
 
 		var tagSelector = selector.ShouldBeOfType<TagSelector>();
 		tagSelector.ShouldNotBeNull();
-		tagSelector.Identifier.Text.ShouldBe("div");
+		tagSelector.Identifier.Text.ShouldBe(tagText);
 
 		//TODO: Recursively get the qualifiers
 		TestQualifier(qualifiers, tagSelector, 0);
+	}
+
+	private static IEnumerable<object[]> BuildSelectorPermutations()
+	{
+		return new Permutations<string>(CompositeSelectorQualifiers)
+			.Select(p => new object[] { p.ToArray() });
 	}
 
 	private static void TestQualifier(string[] qualifiers, ICompositeSelector selector, int index)
@@ -50,17 +60,17 @@ public class CompositeSelectorTests : ParserTestBase
 
 		switch(qualifierSource)
 		{
-			case "#my-id":
+			case idText:
 				var idSelector = qualifier.ShouldBeOfType<IdSelector>();
 				idSelector.Identifier.Text.ShouldBe("my-id");
 				break;
 
-			case ".my-class":
+			case classText:
 				var classSelector = qualifier.ShouldBeOfType<ClassSelector>();
 				classSelector.Identifier.Text.ShouldBe("my-class");
 				break;
 
-			case "[my-attr]":
+			case attributeText:
 				var attributeSelector = qualifier.ShouldBeOfType<AttributeSelector>();
 				attributeSelector.Attribute.Text.ShouldBe("my-attr");
 				break;

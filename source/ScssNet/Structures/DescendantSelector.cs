@@ -7,6 +7,8 @@ public class DescendantSelector
 {
 	public ISelector Selector => selector;
 
+	public ISelector AscendantSelector => ascendantSelector;
+
 	public IEnumerable<Issue> Issues => SourceElement.List(ascendantSelector, selector).ConcatIssues();
 
 	public SourceCoordinates Start => ascendantSelector.Start;

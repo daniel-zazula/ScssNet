@@ -4,12 +4,14 @@ namespace ScssNet.Structures;
 
 public class NextSiblingSelector
 (
-	ISelector previousSiblingSelector, SymbolToken subsequentSiblingSymbolToken, ISelector selector
+	ISelector previousSiblingSelector, SymbolToken nextSiblingSymbolToken, ISelector selector
 ) : IComplexSelector
 {
 	public ISelector Selector => selector;
 
-	public IEnumerable<Issue> Issues => SourceElement.List(previousSiblingSelector, subsequentSiblingSymbolToken, selector).ConcatIssues();
+	public ISelector PreviousSiblingSelector => previousSiblingSelector;
+
+	public IEnumerable<Issue> Issues => SourceElement.List(previousSiblingSelector, nextSiblingSymbolToken, selector).ConcatIssues();
 
 	public SourceCoordinates Start => previousSiblingSelector.Start;
 
