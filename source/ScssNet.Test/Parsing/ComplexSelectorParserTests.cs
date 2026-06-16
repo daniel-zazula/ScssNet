@@ -1,18 +1,11 @@
-﻿using System;
-using ScssNet.Structures;
-using Shouldly;
+﻿using ScssNet.Structures;
 
 namespace ScssNet.Test.Parsing;
 
 [TestClass]
 public class ComplexSelectorParserTests : SelectorParserTestsBase
 {
-	const string tagText = "div";
-	const string idText = "#my-id";
-	const string classText = ".my-class";
-	const string attributeText = "[attr=\"value\"]";
-
-	private static readonly string[] Selectors = [tagText, idText, classText, attributeText];
+	private static readonly string[] SelectorList = [Selectors.TagSelector, Selectors.IdSelector, Selectors.ClassSelector, Selectors.AttributeSelector];
 	internal static IEnumerable<object[]> SelectorParams => BuildSelectorPermutations();
 
 	[TestMethod]
@@ -53,35 +46,14 @@ public class ComplexSelectorParserTests : SelectorParserTestsBase
 
 	private static void AssertSelector(string source, ISelector selector)
 	{
-		switch (source)
-		{
-			case tagText:
-				var tagSelector = selector.ShouldBeOfType<TagSelector>();
-				tagSelector.Identifier.Text.ShouldBe(tagText);
-				break;
-			case idText:
-				var idSelector = selector.ShouldBeOfType<IdSelector>();
-				idSelector.Identifier.Text.ShouldBe("my-id");
-				break;
-			case classText:
-				var classSelector = selector.ShouldBeOfType<ClassSelector>();
-				classSelector.Identifier.Text.ShouldBe("my-class");
-				break;
-			case attributeText:
-				var attributeSelector = selector.ShouldBeOfType<AttributeSelector>();
-				attributeSelector.Attribute.Text.ShouldBe("attr");
-				attributeSelector.Value?.Text.ShouldBe(@"""value""");
-				break;
-			default:
-				throw new InvalidOperationException($"Unexpected selector: {source}");
-		}
+		selector.Assert(source);
 	}
 
 	private static IEnumerable<object[]> BuildSelectorPermutations()
 	{
-		foreach (var firstSelector in Selectors)
+		foreach (var firstSelector in SelectorList)
 		{
-			foreach (var secondSelector in Selectors)
+			foreach (var secondSelector in SelectorList)
 			{
 				yield return new object[] { firstSelector, secondSelector };
 			}

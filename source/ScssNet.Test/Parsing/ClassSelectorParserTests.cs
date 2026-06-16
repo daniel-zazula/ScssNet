@@ -11,7 +11,7 @@ public class ClassSelectorParserTests: ParserTestBase
 	[TestMethod]
 	public void ShouldParseClassSelector()
 	{
-		var source = ".my-class";
+		var source = Selectors.ClassSelector;
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<ITokenReader>();
@@ -19,7 +19,7 @@ public class ClassSelectorParserTests: ParserTestBase
 
 		var classSelector = classSelectorParser.Parse(tokenReader);
 		classSelector.ShouldNotBeNull();
-		classSelector!.Identifier?.Text.ShouldBe("my-class");
+		classSelector.AssertClassText();
 		classSelector.Qualifier.ShouldBeNull();
 		classSelector.Issues.ShouldBeEmpty();
 		tokenReader.End.ShouldBeTrue();

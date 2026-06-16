@@ -11,7 +11,7 @@ public class IdSelectorParserTests : ParserTestBase
 	[TestMethod]
 	public void ShouldParseIdSelector()
 	{
-		var source = "#my-id";
+		var source = Selectors.IdSelector;
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<ITokenReader>();
@@ -19,7 +19,7 @@ public class IdSelectorParserTests : ParserTestBase
 
 		var idSelector = idSelectorParser.Parse(tokenReader);
 		idSelector.ShouldNotBeNull();
-		idSelector!.Identifier?.Text.ShouldBe("my-id");
+		idSelector.AssertIdText();
 		idSelector.Qualifier.ShouldBeNull();
 		idSelector.Issues.ShouldBeEmpty();
 		tokenReader.End.ShouldBeTrue();

@@ -12,7 +12,7 @@ public class AttributeSelectorParserTests: ParserTestBase
 	[TestMethod]
 	public void ShouldParseAttributeSelector()
 	{
-		var source = "[attr]";
+		var source = Selectors.AttributeSelector;
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<ITokenReader>();
@@ -20,7 +20,7 @@ public class AttributeSelectorParserTests: ParserTestBase
 
 		var attributeSelector = attributeSelectorParser.Parse(tokenReader);
 		attributeSelector.ShouldNotBeNull();
-		attributeSelector!.Attribute.Text.ShouldBe("attr");
+		attributeSelector.AssertAttributeName();
 		attributeSelector.Operator?.ShouldBeNull();
 		attributeSelector.Value?.ShouldBeNull();
 		attributeSelector.Modifier?.ShouldBeNull();
@@ -39,7 +39,7 @@ public class AttributeSelectorParserTests: ParserTestBase
 	[DataRow(["*=", Symbol.Contains])]
 	public void ShouldParseAttributeSelectorWithValue(string operatorString, Symbol operatorSymbol)
 	{
-		var source = $"[attr{operatorString}\"value\"]";
+		var source = $"[{Selectors.AttributeName}{operatorString}{Selectors.AttributeValue}]";
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<ITokenReader>();
@@ -47,9 +47,9 @@ public class AttributeSelectorParserTests: ParserTestBase
 
 		var attributeSelector = attributeSelectorParser.Parse(tokenReader);
 		attributeSelector.ShouldNotBeNull();
-		attributeSelector!.Attribute.Text.ShouldBe("attr");
+		attributeSelector.AssertAttributeName();
 		attributeSelector.Operator?.Symbol.ShouldBe(operatorSymbol);
-		attributeSelector.Value?.Text.ShouldBe("\"value\"");
+		attributeSelector.AssertAttributeValue();
 		attributeSelector.Modifier?.ShouldBeNull();
 		attributeSelector.Qualifier.ShouldBeNull();
 		attributeSelector.Issues.ShouldBeEmpty();
@@ -64,7 +64,7 @@ public class AttributeSelectorParserTests: ParserTestBase
 	[DataRow("S")]
 	public void ShouldParseAttributeSelectorWithValue(string modifier)
 	{
-		var source = $"[attr=\"value\" {modifier}]";
+		var source = $"[{Selectors.AttributeName}={Selectors.AttributeValue} {modifier}]";
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<ITokenReader>();
@@ -72,9 +72,9 @@ public class AttributeSelectorParserTests: ParserTestBase
 
 		var attributeSelector = attributeSelectorParser.Parse(tokenReader);
 		attributeSelector.ShouldNotBeNull();
-		attributeSelector!.Attribute.Text.ShouldBe("attr");
+		attributeSelector.AssertAttributeName();
 		attributeSelector.Operator?.Symbol.ShouldBe(Symbol.Equals);
-		attributeSelector.Value?.Text.ShouldBe("\"value\"");
+		attributeSelector.AssertAttributeValue();
 		attributeSelector.Modifier?.Text.ShouldBe(modifier);
 		attributeSelector.Qualifier?.ShouldBeNull();
 		attributeSelector.Issues.ShouldBeEmpty();
