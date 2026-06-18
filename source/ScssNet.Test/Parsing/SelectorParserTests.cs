@@ -1,5 +1,4 @@
 ﻿using ScssNet.Structures;
-using Shouldly;
 
 namespace ScssNet.Test.Parsing;
 

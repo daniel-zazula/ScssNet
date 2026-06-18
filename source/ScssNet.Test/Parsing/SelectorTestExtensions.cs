@@ -4,7 +4,7 @@ using Shouldly;
 
 namespace ScssNet.Test.Parsing;
 
-public static class SelectorTestHelper
+public static class SelectorTestExtensions
 {
 	public static void Assert(this ISelector selector, string source)
 	{
@@ -42,7 +42,7 @@ public static class SelectorTestHelper
 
 	public static void AssertIdText(this IdSelector selector)
 	{
-		selector.Identifier.Text.ShouldBe("my-id");
+		selector.Id.Value.ShouldBe(Selectors.IdSelector);
 	}
 
 	public static void AssertClassText(this ClassSelector selector)

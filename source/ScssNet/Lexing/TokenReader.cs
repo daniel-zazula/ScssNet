@@ -5,7 +5,7 @@ namespace ScssNet.Lexing;
 internal class TokenReader
 (
 	ISourceReader sourceReader, IdentifierParser identifierParser, SymbolParser symbolParser,
-	UnitValueParser unitValueParser, HexValueParser hexValueParser, StringParser stringParser,
+	UnitValueParser unitValueParser, HashValueParser hashValueParser, StringParser stringParser,
 	CommentParser commentParser, WhiteSpaceParser whiteSpaceParser
 ) : ITokenReader
 {
@@ -13,14 +13,6 @@ internal class TokenReader
 
 	private readonly ISourceReader SourceReader = sourceReader;
 	private ISeparatedToken? NextToken;
-
-	private readonly IdentifierParser IdentifierParser = identifierParser;
-	private readonly SymbolParser SymbolParser = symbolParser;
-	private readonly UnitValueParser UnitValueParser = unitValueParser;
-	private readonly HexValueParser HexValueParser = hexValueParser;
-	private readonly StringParser StringParser = stringParser;
-	private readonly CommentParser CommentParser = commentParser;
-	private readonly WhiteSpaceParser WhiteSpaceParser = whiteSpaceParser;
 
 	public SourceCoordinates GetCoordinates() => SourceReader.GetCoordinates();
 
@@ -44,7 +36,7 @@ internal class TokenReader
 	{
 		var typeOfT = typeof(T);
 		if(typeOfT == typeof(SymbolToken))
-			throw new InvalidOperationException("Use Match(Symbol symbol, ...) for matching symbols.");
+			throw new InvalidOperationException("Use Match(Symbol symbol) for matching symbols.");
 
 		if(Peek() is T token)
 		{
@@ -81,7 +73,7 @@ internal class TokenReader
 		return NextToken;
 	}
 
-	private void ReadNextToken()
+	private void ReadNextToken(bool acceptHexValue = false)
 	{
 		if(SourceReader.End)
 		{
@@ -93,14 +85,39 @@ internal class TokenReader
 			? ReadSeparator()
 			: NextToken.TrailingSeparator;
 
-		var separatedToken = (ISeparatedToken?)IdentifierParser.Parse(SourceReader, leadingSeparator, ReadSeparator)
-			?? (ISeparatedToken?)SymbolParser.Parse(SourceReader, leadingSeparator, ReadSeparator)
-			?? (ISeparatedToken?)UnitValueParser.Parse(SourceReader, leadingSeparator, ReadSeparator)
-			?? (ISeparatedToken?)HexValueParser.Parse(SourceReader, leadingSeparator, ReadSeparator)
-			?? (ISeparatedToken?)StringParser.Parse(SourceReader, leadingSeparator, ReadSeparator)
+		var separatedToken = ParseSymbol() ?? ParseIdentifier() ?? ParseUnitValue() ?? ParseString() ?? ParseHashValue()
 			?? throw new Exception("Failed to parse any tokens");
 
 		NextToken = separatedToken;
+
+		// Local functions
+
+		Separator GetTrailingSeparator() => ReadSeparator();
+
+		ISeparatedToken? ParseSymbol()
+		{
+			return symbolParser.Parse(SourceReader, leadingSeparator, GetTrailingSeparator);
+		}
+
+		ISeparatedToken? ParseIdentifier()
+		{
+			return identifierParser.Parse(SourceReader, leadingSeparator, GetTrailingSeparator);
+		}
+
+		ISeparatedToken? ParseUnitValue()
+		{
+			return unitValueParser.Parse(SourceReader, leadingSeparator, GetTrailingSeparator);
+		}
+
+		ISeparatedToken? ParseString()
+		{
+			return stringParser.Parse(SourceReader, leadingSeparator, GetTrailingSeparator);
+		}
+
+		ISeparatedToken? ParseHashValue()
+		{
+			return hashValueParser.Parse(SourceReader, leadingSeparator, GetTrailingSeparator);
+		}
 	}
 
 	private Separator ReadSeparator()
@@ -118,8 +135,8 @@ internal class TokenReader
 
 		ISeparatorToken? ReadSeparatorToken()
 		{
-			return (ISeparatorToken?)CommentParser.Parse(SourceReader)
-				?? WhiteSpaceParser.Parse(SourceReader);
+			return (ISeparatorToken?)commentParser.Parse(SourceReader)
+				?? whiteSpaceParser.Parse(SourceReader);
 		}
 	}
 }

@@ -42,7 +42,6 @@ internal class SymbolParser
 		{
 			',' => Symbol.Comma,
 			'.' => Symbol.Dot,
-			'#' => Symbol.Hash,
 			':' => Symbol.Colon,
 			';' => Symbol.SemiColon,
 			'{' => Symbol.OpenBrace,

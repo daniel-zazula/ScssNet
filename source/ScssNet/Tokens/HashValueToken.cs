@@ -1,6 +1,6 @@
 ﻿namespace ScssNet.Tokens;
 
-public record HexValueToken: IToken, ISeparatedToken, IValueToken
+public record HashValueToken: IToken, ISeparatedToken, IValueToken
 {
 	public string Value { get; }
 
@@ -10,7 +10,7 @@ public record HexValueToken: IToken, ISeparatedToken, IValueToken
 	public Separator TrailingSeparator { get; }
 	public IEnumerable<Issue> Issues => [];
 
-	public HexValueToken
+	public HashValueToken
 	(
 		string value, SourceCoordinates start, SourceCoordinates end, Separator before, Separator after
 	)

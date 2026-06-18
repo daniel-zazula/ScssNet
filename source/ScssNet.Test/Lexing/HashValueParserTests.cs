@@ -5,21 +5,27 @@ using Shouldly;
 namespace ScssNet.Test.Lexing;
 
 [TestClass]
-public class HexValueParserTests
+public class HashValueParserTests
 {
-	private static readonly IEnumerable<object[]> HexValues = new[]
+	private static readonly string[] HexColors = new[]
 	{
 		"#123", "#def", "#dEf", "#DEF", "#1b3", "#1B3", "#a2C", "#a2C", "#A2c", "#A2C",
 		"#654321", "#fedcba", "#FeDcBa", "#FEDCBA", "#6e4c2a", "#6E4c2A", "#6E4C2A", "#f5d3b1", "#f5D3b1", "#F5D3B1"
-	}.ToParams();
-	public static IEnumerable<object[]> HexValueParams => HexValues;
+	};
+
+	private static readonly string[] IdSelectors = new[]
+	{
+		"#four", "#with-dash", "#with_underscore", "#with123numbers", "#with-dash-and_underscore-123"
+	};
+
+	public static IEnumerable<object[]> HashValueParams => HexColors.Concat(IdSelectors).ToParams();
 
 	[TestMethod]
-	[DynamicData(nameof(HexValueParams))]
+	[DynamicData(nameof(HashValueParams))]
 	public void ShouldParseHexValues(string value)
 	{
 		var sourceReader = new SourceReaderMock(value);
-		var hexParser = new HexValueParser();
+		var hexParser = new HashValueParser();
 
 		var unitToken = hexParser.Parse(sourceReader, Separator.Empty, () => Separator.Empty);
 
@@ -41,7 +47,7 @@ public class HexValueParserTests
 	public void ShouldNotParseNonHexValues(string value)
 	{
 		var sourceReader = new SourceReaderMock(value);
-		var hexValueParser = new HexValueParser();
+		var hexValueParser = new HashValueParser();
 
 		var hexValue = hexValueParser.Parse(sourceReader, Separator.Empty, () => Separator.Empty);
 

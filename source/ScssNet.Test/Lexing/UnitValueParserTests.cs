@@ -38,7 +38,7 @@ public class UnitValueParserTests
 	}
 
 	public static IEnumerable<object[]> NonUnitValues => CommentParserTests.CommentParams
-		.Concat(HexValueParserTests.HexValueParams)
+		.Concat(HashValueParserTests.HashValueParams)
 		.Concat(IdentifierParserTests.IdentifierParams)
 		.Concat(StringParserTests.StringParams)
 		.Concat(SymbolParserTests.SymbolParams);

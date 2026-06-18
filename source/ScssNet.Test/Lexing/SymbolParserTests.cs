@@ -14,7 +14,6 @@ public class SymbolParserTests
 
 	[TestMethod]
 	[DataRow(".", Symbol.Dot)]
-	[DataRow("#", Symbol.Hash)]
 	[DataRow(":", Symbol.Colon)]
 	[DataRow(";", Symbol.SemiColon)]
 	[DataRow("{", Symbol.OpenBrace)]

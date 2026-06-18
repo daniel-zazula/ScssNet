@@ -32,9 +32,6 @@ internal class SelectorParser
 
 	internal ISelectorQualifier? ParseQualifier(ITokenReader tokenReader)
 	{
-		// A qualifier is an selector that comes after the first selector of a compound selector.
-		// For example, in the compound selector "div#my-id.my-class", "#my-id" and ".my-class" are qualifiers.
-
 		return (ISelectorQualifier?)idSelectorParser.Value.Parse(tokenReader)
 			?? (ISelectorQualifier?)classSelectorParser.Value.Parse(tokenReader)
 			?? attributeSelectorParser.Value.Parse(tokenReader);

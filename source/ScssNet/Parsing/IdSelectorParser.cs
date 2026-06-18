@@ -8,16 +8,14 @@ internal class IdSelectorParser(Lazy<SelectorParser> selectorParser)
 {
 	internal IdSelector? Parse(ITokenReader tokenReader)
 	{
-		var hash = tokenReader.Match(Symbol.Hash);
-		if(hash is null)
+		var hashValue = tokenReader.Match<HashValueToken>();
+		if(hashValue is null)
 			return null;
 
-		var identifier = tokenReader.RequireIdentifier();
-
-		var selectorQualifier = identifier.TrailingSeparator == Separator.Empty
+		var selectorQualifier = hashValue.TrailingSeparator == Separator.Empty
 			? selectorParser.Value.ParseQualifier(tokenReader)
 			: default;
 
-		return new IdSelector(hash, identifier, selectorQualifier);
+		return new IdSelector(hashValue, selectorQualifier);
 	}
 }

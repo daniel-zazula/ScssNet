@@ -9,7 +9,7 @@ public class CommentParserTests
 	private static readonly string[] Comments = ["//line comment\r\n", "/*two line\r\ncomment*/"];
 	internal static IEnumerable<object[]> CommentParams => Comments.ToParams();
 
-	private static IEnumerable<object[]> NonComments => HexValueParserTests.HexValueParams
+	private static IEnumerable<object[]> NonComments => HashValueParserTests.HashValueParams
 		.Concat(IdentifierParserTests.IdentifierParams)
 		.Concat(StringParserTests.StringParams)
 		.Concat(SymbolParserTests.SymbolParams)

@@ -9,7 +9,7 @@ internal class ValueGenerator
 	{
 		switch (value)
 		{
-			case HexValueToken hexValueToken:
+			case HashValueToken hexValueToken:
 				writer.Write(hexValueToken);
 				break;
 			case IdentifierToken identifierToken:

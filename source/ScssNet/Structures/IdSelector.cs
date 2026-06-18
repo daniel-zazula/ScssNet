@@ -4,16 +4,15 @@ namespace ScssNet.Structures;
 
 public class IdSelector
 (
-	SymbolToken hash, IdentifierToken identifier, ISelectorQualifier? qualifier
+	HashValueToken id, ISelectorQualifier? qualifier
 ) : SourceElement, ISelectorQualifier
 {
-	public SymbolToken Hash => hash;
-	public IdentifierToken Identifier => identifier;
+	public HashValueToken Id => id;
 	public ISelectorQualifier? Qualifier => qualifier;
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Hash, Identifier, Qualifier);
+	public IEnumerable<Issue> Issues => ConcatIssuesFrom(id, Qualifier);
 
-	public SourceCoordinates Start => Hash.Start;
+	public SourceCoordinates Start => Id.Start;
 
-	public SourceCoordinates End => LastEnd(Identifier, Qualifier);
+	public SourceCoordinates End => LastEnd(id, Qualifier);
 }

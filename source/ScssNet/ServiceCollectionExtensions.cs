@@ -10,7 +10,7 @@ internal static class ServiceCollectionExtensions
 	internal static void AddTokenParsers(this IServiceCollection services)
 	{
 		services.AddSingleton<CommentParser>();
-		services.AddSingleton<HexValueParser>();
+		services.AddSingleton<HashValueParser>();
 		services.AddSingleton<IdentifierParser>();
 		services.AddSingleton<StringParser>();
 		services.AddSingleton<SymbolParser>();

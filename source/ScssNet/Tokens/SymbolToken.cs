@@ -2,7 +2,7 @@
 
 public enum Symbol
 {
-	Comma, Dot, Hash, Colon, SemiColon, OpenBrace, CloseBrace, OpenBracket, CloseBracket, Equals,
+	Comma, Dot, Colon, SemiColon, OpenBrace, CloseBrace, OpenBracket, CloseBracket, Equals,
 	ContainsWord, StartsWithWord, StartsWith, EndsWith, Contains, GreaterThan, Plus, Tilde
 }
 
@@ -52,7 +52,6 @@ public record SymbolToken: IToken, ISeparatedToken
 			Symbol.Contains => "*=",
 			Symbol.Comma => ",",
 			Symbol.Dot => ".",
-			Symbol.Hash => "#",
 			Symbol.Colon => ":",
 			Symbol.SemiColon => ";",
 			Symbol.OpenBrace => "{",

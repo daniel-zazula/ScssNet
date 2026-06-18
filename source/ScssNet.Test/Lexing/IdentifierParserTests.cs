@@ -27,7 +27,7 @@ public class IdentifierParserTests
 	}
 
 	public static IEnumerable<object[]> NonIdentifiers => CommentParserTests.CommentParams
-		.Concat(HexValueParserTests.HexValueParams)
+		.Concat(HashValueParserTests.HashValueParams)
 		.Concat(StringParserTests.StringParams)
 		.Concat(SymbolParserTests.SymbolParams)
 		.Concat(UnitValueParserTests.UnitValueParams);

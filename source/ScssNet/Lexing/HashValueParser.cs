@@ -3,9 +3,9 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Lexing;
 
-internal class HexValueParser
+internal class HashValueParser
 {
-	public HexValueToken? Parse
+	public HashValueToken? Parse
 	(
 		ISourceReader reader, Separator leadingSeparator, Func<Separator> getTrailingSeparator
 	)
@@ -17,25 +17,24 @@ internal class HexValueParser
 
 		var stringBuilder = new StringBuilder();
 		stringBuilder.Append(reader.Read());
-		while(IsHexDigit(reader.Peek()))
+
+		while(IsHexOrIdChar(reader.Peek()))
+		{
 			stringBuilder.Append(reader.Read());
 
-		return new HexValueToken
+			if (reader.End)
+				break;
+		}
+
+		return new HashValueToken
 		(
 			stringBuilder.ToString(), startCoordinates, reader.GetCoordinates(), leadingSeparator,
 			getTrailingSeparator()
 		);
-	}
 
-	private static bool IsHexDigit(char peeked)
-	{
-		const int lowerCaseA = 'a';
-		const int lowerCaseF = 'f';
-		const int upperCaseA = 'A';
-		const int upperCaseF = 'F';
-
-		return char.IsDigit(peeked)
-			|| (lowerCaseA <= peeked && peeked <= lowerCaseF)
-			|| (upperCaseA <= peeked && peeked <= upperCaseF);
+		static bool IsHexOrIdChar(char c)
+		{
+			return char.IsLetterOrDigit(c) || c == '-' || c == '_';
+		}
 	}
 }

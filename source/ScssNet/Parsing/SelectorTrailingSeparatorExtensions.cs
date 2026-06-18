@@ -32,7 +32,7 @@ internal static class SelectorTrailingSeparatorExtensions
 	private static bool HasTrailingSeparator(this IdSelector idSelector)
 	{
 		return idSelector.Qualifier?.HasTrailingSeparator()
-			?? idSelector.Identifier.HasTrailingSeparator();
+			?? idSelector.Id.HasTrailingSeparator();
 	}
 
 	private static bool HasTrailingSeparator(this TagSelector tagSelector)
