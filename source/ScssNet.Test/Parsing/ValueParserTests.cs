@@ -22,7 +22,7 @@ public static class Values
 [TestClass]
 public class ValueParserTests : ParserTestBase
 {
-	internal static IEnumerable<object[]> UnitValueParams => Values.Units.Select(v => new object[] { v });
+	internal static IEnumerable<object[]> UnitValueParams => Values.Units.ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(UnitValueParams))]
@@ -40,7 +40,7 @@ public class ValueParserTests : ParserTestBase
 		tokenReader.End.ShouldBeTrue();
 	}
 
-	internal static IEnumerable<object[]> IdentifierValueParams => Values.IdentifierValues.Select(v => new object[] { v });
+	internal static IEnumerable<object[]> IdentifierValueParams => Values.IdentifierValues.ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(IdentifierValueParams))]
@@ -58,7 +58,7 @@ public class ValueParserTests : ParserTestBase
 		tokenReader.End.ShouldBeTrue();
 	}
 
-	internal static IEnumerable<object[]> StringValueParams => Values.StringValues.Select(v => new object[] { v });
+	internal static IEnumerable<object[]> StringValueParams => Values.StringValues.ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(StringValueParams))]
@@ -67,7 +67,7 @@ public class ValueParserTests : ParserTestBase
 		ShouldParseValue<StringToken>(valueString);
 	}
 
-	internal static IEnumerable<object[]> HexValueParams => Values.HexColorValues.Select(v => new object[] { v });
+	internal static IEnumerable<object[]> HexValueParams => Values.HexColorValues.ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(HexValueParams))]
