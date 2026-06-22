@@ -14,7 +14,7 @@ internal class ClassSelectorParser(Lazy<SelectorParser> selectorParser)
 
 		var identifier = tokenReader.RequireIdentifier();
 
-		var selectorQualifier = identifier.TrailingSeparator == Separator.Empty
+		var selectorQualifier = !identifier.HasTrailingSeparator()
 			? selectorParser.Value.ParseQualifier(tokenReader)
 			: default;
 

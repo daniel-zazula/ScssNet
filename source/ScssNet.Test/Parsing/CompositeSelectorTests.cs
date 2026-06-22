@@ -7,26 +7,40 @@ namespace ScssNet.Test.Parsing;
 [TestClass]
 public class CompositeSelectorTests : SelectorParserTestsBase
 {
-	private static readonly string[] CompositeSelectorQualifiers = [Selectors.IdSelector, Selectors.ClassSelector, Selectors.AttributeSelector];
-	internal static IEnumerable<object[]> CompositeSelectorQualifierParams => BuildSelectorPermutations();
+	internal static IEnumerable<object[]> CompositeSelectorParams => BuildSelectorPermutations();
 
 	[TestMethod]
-	[DynamicData(nameof(CompositeSelectorQualifierParams))]
-	public void ShouldParseCompositeSelectors(string[] qualifiers)
+	[DynamicData(nameof(CompositeSelectorParams))]
+	public void ShouldParseCompositeSelectors(string[] selectors)
 	{
-		qualifiers.Length.ShouldBe(CompositeSelectorQualifiers.Length);
+		var compositeSelectorSource = string.Concat(selectors);
 
-		var compositeSelectorSource = Selectors.TagSelector + string.Concat(qualifiers);
-
-		var tagSelector = ShouldParseSelector<TagSelector>(compositeSelectorSource);
-
-		TestQualifier(qualifiers, tagSelector, 0);
+		if(selectors[0] == Selectors.UniversalSelector)
+		{
+			var universalSelector = ShouldParseSelector<UniversalSelector>(compositeSelectorSource);
+			TestQualifier(selectors, universalSelector, 1);
+		}
+		else
+		{
+			var tagSelector = ShouldParseSelector<TagSelector>(compositeSelectorSource);
+			TestQualifier(selectors, tagSelector, 1);
+		}
 	}
 
 	private static IEnumerable<object[]> BuildSelectorPermutations()
 	{
-		return new Permutations<string>(CompositeSelectorQualifiers)
-			.Select(p => new object[] { p.ToArray() });
+		var mainSelectors = new string[] { Selectors.UniversalSelector, Selectors.TagSelector };
+		var qualifiers = new string[] { Selectors.IdSelector, Selectors.ClassSelector, Selectors.AttributeSelector };
+		var permutations = new Permutations<string>(qualifiers);
+
+		foreach(var mainSelector in mainSelectors)
+		{
+			foreach(var permutation in permutations)
+			{
+				var selectors = permutation.Prepend(mainSelector).ToArray();
+				yield return [selectors];
+			}
+		}
 	}
 
 	private static void TestQualifier(string[] qualifiers, ICompositeSelector selector, int index)
@@ -39,7 +53,7 @@ public class CompositeSelectorTests : SelectorParserTestsBase
 		qualifier.Assert(qualifierSource);
 
 		index++;
-		if (index < CompositeSelectorQualifiers.Length)
+		if (index < qualifiers.Length)
 		{
 			TestQualifier(qualifiers, qualifier, index);
 		}

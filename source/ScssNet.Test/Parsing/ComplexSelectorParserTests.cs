@@ -1,11 +1,11 @@
-﻿using ScssNet.Structures;
+﻿using Combinatorics.Collections;
+using ScssNet.Structures;
 
 namespace ScssNet.Test.Parsing;
 
 [TestClass]
 public class ComplexSelectorParserTests : SelectorParserTestsBase
 {
-	private static readonly string[] SelectorList = [Selectors.TagSelector, Selectors.IdSelector, Selectors.ClassSelector, Selectors.AttributeSelector];
 	internal static IEnumerable<object[]> SelectorParams => BuildSelectorPermutations();
 
 	[TestMethod]
@@ -51,12 +51,12 @@ public class ComplexSelectorParserTests : SelectorParserTestsBase
 
 	private static IEnumerable<object[]> BuildSelectorPermutations()
 	{
-		foreach (var firstSelector in SelectorList)
+		var selectors = new[]
 		{
-			foreach (var secondSelector in SelectorList)
-			{
-				yield return new object[] { firstSelector, secondSelector };
-			}
-		}
+			Selectors.UniversalSelector, Selectors.TagSelector, Selectors.IdSelector, Selectors.ClassSelector,
+			Selectors.AttributeSelector
+		};
+
+		return new Variations<string>(selectors, 2).Select(v => v.Cast<object>().ToArray());
 	}
 }

@@ -10,6 +10,10 @@ public static class SelectorTestExtensions
 	{
 		switch(source)
 		{
+			case Selectors.UniversalSelector:
+				selector.ShouldBeOfType<UniversalSelector>();
+				break;
+
 			case Selectors.TagSelector:
 				var tagSelector = selector.ShouldBeOfType<TagSelector>();
 				tagSelector.AssertTagText();

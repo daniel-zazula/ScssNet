@@ -1,1 +1,5 @@
-source/TestResults/
+.vs/
+bin/
+obj/
+*.user
+TestResults/

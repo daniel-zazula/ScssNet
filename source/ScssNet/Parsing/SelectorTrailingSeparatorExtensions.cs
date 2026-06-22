@@ -1,4 +1,5 @@
 ﻿using ScssNet.Structures;
+using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
@@ -8,41 +9,50 @@ internal static class SelectorTrailingSeparatorExtensions
 	{
 		return selector switch
 		{
-			AttributeSelector attributeSelector => attributeSelector.HasTrailingSeparator(),
-			ClassSelector classSelector => classSelector.HasTrailingSeparator(),
-			IdSelector idSelector => idSelector.HasTrailingSeparator(),
-			TagSelector tagSelector => tagSelector.HasTrailingSeparator(),
-			IComplexSelector complexSelector => complexSelector.HasTrailingSeparator(),
+			AttributeSelector attributeSelector => InnerHasTrailingSeparator(attributeSelector),
+			ClassSelector classSelector => InnerHasTrailingSeparator(classSelector),
+			IdSelector idSelector => InnerHasTrailingSeparator(idSelector),
+			TagSelector tagSelector => InnerHasTrailingSeparator(tagSelector),
+			UniversalSelector universalSelector => InnerHasTrailingSeparator(universalSelector),
+			IComplexSelector complexSelector => InnerHasTrailingSeparator(complexSelector),
 			_ => throw new NotImplementedException("Unknow Selector type")
 		};
 	}
 
-	private static bool HasTrailingSeparator(this AttributeSelector attributeSelector)
+	private static bool InnerHasTrailingSeparator(AttributeSelector attributeSelector)
 	{
-		return attributeSelector.Qualifier?.HasTrailingSeparator()
-			?? attributeSelector.CloseBracket.HasTrailingSeparator();
+		return InnerHasTrailingSeparator(attributeSelector.Qualifier, attributeSelector.CloseBracket);
 	}
 
-	private static bool HasTrailingSeparator(this ClassSelector classSelector)
+	private static bool InnerHasTrailingSeparator(ClassSelector classSelector)
 	{
-		return classSelector.Qualifier?.HasTrailingSeparator()
-			?? classSelector.Identifier.HasTrailingSeparator();
+		return InnerHasTrailingSeparator(classSelector.Qualifier, classSelector.Identifier);
 	}
 
-	private static bool HasTrailingSeparator(this IdSelector idSelector)
+	private static bool InnerHasTrailingSeparator(IdSelector idSelector)
 	{
-		return idSelector.Qualifier?.HasTrailingSeparator()
-			?? idSelector.Id.HasTrailingSeparator();
+		return InnerHasTrailingSeparator(idSelector.Qualifier, idSelector.Id);
 	}
 
-	private static bool HasTrailingSeparator(this TagSelector tagSelector)
+	private static bool InnerHasTrailingSeparator(TagSelector tagSelector)
 	{
-		return tagSelector.Qualifier?.HasTrailingSeparator()
-			?? tagSelector.Identifier.HasTrailingSeparator();
+		return InnerHasTrailingSeparator(tagSelector.Qualifier, tagSelector.Identifier);
 	}
 
-	private static bool HasTrailingSeparator(this IComplexSelector complexSelector)
+	private static bool InnerHasTrailingSeparator(UniversalSelector universalSelector)
 	{
-		return complexSelector.Selector.HasTrailingSeparator();
+		return InnerHasTrailingSeparator(universalSelector.Qualifier, universalSelector.Asterisk);
+	}
+
+	private static bool InnerHasTrailingSeparator(ISelectorQualifier? qualifier, ISeparatedToken token)
+	{
+		return qualifier is not null
+			? HasTrailingSeparator(qualifier)
+			: token.HasTrailingSeparator();
+	}
+
+	private static bool InnerHasTrailingSeparator(IComplexSelector complexSelector)
+	{
+		return HasTrailingSeparator(complexSelector.Selector);
 	}
 }

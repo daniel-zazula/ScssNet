@@ -2,6 +2,7 @@
 
 public static class Selectors
 {
+	public const string UniversalSelector = "*";
 	public const string TagSelector = "div";
 	public const string IdSelector = "#my-id";
 	public const string ClassSelector = ".my-class";

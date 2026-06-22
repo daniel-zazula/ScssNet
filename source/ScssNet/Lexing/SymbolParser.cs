@@ -44,6 +44,7 @@ internal class SymbolParser
 			'.' => Symbol.Dot,
 			':' => Symbol.Colon,
 			';' => Symbol.SemiColon,
+			'*' => Symbol.Asterisk,
 			'{' => Symbol.OpenBrace,
 			'}' => Symbol.CloseBrace,
 			'[' => Symbol.OpenBracket,
