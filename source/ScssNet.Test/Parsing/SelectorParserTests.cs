@@ -16,7 +16,7 @@ public class SelectorParserTests : SelectorParserTestsBase
 	public void ShouldParseIdSelector()
 	{
 		var idSelector = ShouldParseSelector<IdSelector>(Selectors.IdSelector);
-		idSelector.AssertIdText();
+		idSelector.AssertIdentifierText();
 	}
 
 	[TestMethod]

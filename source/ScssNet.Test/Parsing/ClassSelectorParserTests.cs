@@ -9,9 +9,11 @@ namespace ScssNet.Test.Parsing;
 public class ClassSelectorParserTests: ParserTestBase
 {
 	[TestMethod]
-	public void ShouldParseClassSelector()
+	[DataRow(Selectors.ClassSelector)]
+	[DataRow(".-name-with-dash")]
+	public void ShouldParseClassSelector(string source)
 	{
-		var source = Selectors.ClassSelector;
+		var text = source[1..]; // Remove the leading dot for comparison
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<ITokenReader>();
@@ -19,7 +21,7 @@ public class ClassSelectorParserTests: ParserTestBase
 
 		var classSelector = classSelectorParser.Parse(tokenReader);
 		classSelector.ShouldNotBeNull();
-		classSelector.AssertClassText();
+		classSelector.AssertClassText(text);
 		classSelector.Qualifier.ShouldBeNull();
 		classSelector.Issues.ShouldBeEmpty();
 		tokenReader.End.ShouldBeTrue();

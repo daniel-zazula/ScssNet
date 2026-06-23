@@ -9,9 +9,10 @@ namespace ScssNet.Test.Parsing;
 public class IdSelectorParserTests : ParserTestBase
 {
 	[TestMethod]
-	public void ShouldParseIdSelector()
+	[DataRow(Selectors.IdSelector)]
+	[DataRow("#-id-with-dash")]
+	public void ShouldParseIdSelector(string source)
 	{
-		var source = Selectors.IdSelector;
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<ITokenReader>();
@@ -19,7 +20,7 @@ public class IdSelectorParserTests : ParserTestBase
 
 		var idSelector = idSelectorParser.Parse(tokenReader);
 		idSelector.ShouldNotBeNull();
-		idSelector.AssertIdText();
+		idSelector.AssertIdentifierText(source);
 		idSelector.Qualifier.ShouldBeNull();
 		idSelector.Issues.ShouldBeEmpty();
 		tokenReader.End.ShouldBeTrue();

@@ -21,7 +21,7 @@ public static class SelectorTestExtensions
 
 			case Selectors.IdSelector:
 				var idSelector = selector.ShouldBeOfType<IdSelector>();
-				idSelector.AssertIdText();
+				idSelector.AssertIdentifierText();
 				break;
 
 			case Selectors.ClassSelector:
@@ -44,14 +44,14 @@ public static class SelectorTestExtensions
 		selector.Identifier.Text.ShouldBe(Selectors.TagSelector);
 	}
 
-	public static void AssertIdText(this IdSelector selector)
+	public static void AssertIdentifierText(this IdSelector selector, string text = Selectors.IdSelector)
 	{
-		selector.Identifier.Value.ShouldBe(Selectors.IdSelector);
+		selector.Identifier.Value.ShouldBe(text);
 	}
 
-	public static void AssertClassText(this ClassSelector selector)
+	public static void AssertClassText(this ClassSelector selector, string text = "my-class")
 	{
-		selector.Identifier.Text.ShouldBe("my-class");
+		selector.Identifier.Text.ShouldBe(text);
 	}
 
 	public static void AssertAttributeName(this AttributeSelector selector)
