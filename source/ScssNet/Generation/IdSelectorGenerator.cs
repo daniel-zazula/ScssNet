@@ -6,7 +6,7 @@ internal class IdSelectorGenerator(Lazy<CompoundSelectorGenerator> compoundSelec
 {
 	public void Generate(IdSelector idSelector, CssWriter writer)
 	{
-		writer.Write(idSelector.Id);
+		writer.Write(idSelector.Identifier);
 
 		if(idSelector.Qualifier is not null)
 			compoundSelectorGenerator.Value.Generate(idSelector.Qualifier, writer);

@@ -46,7 +46,7 @@ public static class SelectorTestExtensions
 
 	public static void AssertIdText(this IdSelector selector)
 	{
-		selector.Id.Value.ShouldBe(Selectors.IdSelector);
+		selector.Identifier.Value.ShouldBe(Selectors.IdSelector);
 	}
 
 	public static void AssertClassText(this ClassSelector selector)

@@ -31,7 +31,7 @@ internal static class SelectorTrailingSeparatorExtensions
 
 	private static bool InnerHasTrailingSeparator(IdSelector idSelector)
 	{
-		return InnerHasTrailingSeparator(idSelector.Qualifier, idSelector.Id);
+		return InnerHasTrailingSeparator(idSelector.Qualifier, idSelector.Identifier);
 	}
 
 	private static bool InnerHasTrailingSeparator(TagSelector tagSelector)
