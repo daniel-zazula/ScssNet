@@ -7,7 +7,10 @@ namespace ScssNet.Test.Lexing;
 [TestClass]
 public class IdentifierParserTests
 {
-	private static readonly string[] Identifiers = ["table", "CamelCase", "custom-class", "-experimental-property"];
+	private static readonly string[] Identifiers = 
+	[
+		"table", "CamelCase", "h4", "custom-class", "-experimental-property", "--custom-var"
+	];
 	public static IEnumerable<object[]> IdentifierParams => Identifiers.ToParams();
 
 	[TestMethod]

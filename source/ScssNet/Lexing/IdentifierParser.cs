@@ -28,14 +28,23 @@ internal class IdentifierParser
 
 	private bool IsIdentifierStart(string peeked)
 	{
-		var firstChar = peeked[0];
-		return char.IsLetter(firstChar) || firstChar == '_'
-			|| (peeked.Length > 1 && firstChar == '-' && char.IsLetter(peeked[1]))
-			|| (peeked.Length > 2 && peeked.Substring(2) == "--" && char.IsLetter(peeked[2]));
+		// One or two dashes is only a valid identifier start if followed by a letter or underscore.
+		// ie -10 is not an identifier, but -foo and --bar are.
+
+		var firstChar = peeked.Length > 0 ? peeked[0] : '\0';
+		var secondChar = peeked.Length > 1 ? peeked[1] : '\0';
+		var thirdChar = peeked.Length > 2 ? peeked[2] : '\0';
+
+		if(firstChar != '-')
+			return char.IsLetter(firstChar) || firstChar == '_';
+		else if(secondChar == '-')
+			return char.IsLetter(thirdChar);
+		else
+			return char.IsLetter(secondChar);
 	}
 
 	private bool IsIdentifierChar(char c)
 	{
-		return char.IsLetter(c) || c == '_' || c == '-';
+		return char.IsLetterOrDigit(c) || c == '_' || c == '-';
 	}
 }

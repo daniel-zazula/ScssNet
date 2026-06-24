@@ -8,7 +8,7 @@ internal class SelectorListParser(Lazy<SelectorParser> selectorParser)
 {
 	internal SelectorList? Parse(ITokenReader tokenReader)
 	{
-		var selector = ParseSelector(selectorParser, tokenReader);
+		var selector = ParseSelector();
 		if(selector == null)
 			return null;
 
@@ -20,7 +20,7 @@ internal class SelectorListParser(Lazy<SelectorParser> selectorParser)
 		SymbolToken? commaToken = tokenReader.Match(Symbol.Comma);
 		while(commaToken != null)
 		{
-			selector = ParseSelector(selectorParser, tokenReader);
+			selector = ParseSelector();
 			if (selector == null)
 				break;
 
@@ -30,7 +30,6 @@ internal class SelectorListParser(Lazy<SelectorParser> selectorParser)
 
 		return new SelectorList([.. selectors]);
 
-		static ISelector? ParseSelector(Lazy<SelectorParser> selectorParser, ITokenReader tokenReader)
-			=> selectorParser.Value.Parse(tokenReader);
+		ISelector? ParseSelector() => selectorParser.Value.Parse(tokenReader);
 	}
 }
