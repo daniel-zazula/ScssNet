@@ -33,7 +33,7 @@ public class SelectorListParserTests : ParserTestBase
 		{
 			var selectorSource = selectorsSource[i];
 			var selector = selectorList.Selectors.ElementAt(i);
-			selector.Assert(selectorSource);
+			selector.AssertText(selectorSource);
 		}
 
 		selectorList.Issues.ShouldBeEmpty();

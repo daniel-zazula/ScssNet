@@ -4,9 +4,9 @@ using Shouldly;
 
 namespace ScssNet.Test.Parsing;
 
-public static class SelectorTestExtensions
+internal static class SelectorTestExtensions
 {
-	public static void Assert(this ISelector selector, string source)
+	public static void AssertText(this ISelector selector, string source)
 	{
 		switch(source)
 		{
@@ -16,22 +16,32 @@ public static class SelectorTestExtensions
 
 			case Selectors.TagSelector:
 				var tagSelector = selector.ShouldBeOfType<TagSelector>();
-				tagSelector.AssertTagText();
+				tagSelector.AssertIdentifierText();
 				break;
 
 			case Selectors.IdSelector:
 				var idSelector = selector.ShouldBeOfType<IdSelector>();
-				idSelector.AssertIdentifierText();
+				idSelector.AssertIdentifierValue();
 				break;
 
 			case Selectors.ClassSelector:
 				var classSelector = selector.ShouldBeOfType<ClassSelector>();
-				classSelector.AssertClassText();
+				classSelector.AssertIdentifierText();
+				break;
+
+			case Selectors.PseudoClassSelector:
+				var pseudoClassSelector = selector.ShouldBeOfType<PseudoClassSelector>();
+				pseudoClassSelector.AssertIdentifierText();
+				break;
+
+			case Selectors.PseudoElementSelector:
+				var pseudoElementSelector = selector.ShouldBeOfType<PseudoElementSelector>();
+				pseudoElementSelector.AssertIdentifierText();
 				break;
 
 			case Selectors.AttributeSelector:
 				var attributeSelector = selector.ShouldBeOfType<AttributeSelector>();
-				attributeSelector.AssertAttributeName();
+				attributeSelector.AssertAttributeText();
 				break;
 
 			default:
@@ -39,27 +49,41 @@ public static class SelectorTestExtensions
 		}
 	}
 
-	public static void AssertTagText(this TagSelector selector)
+	public static void AssertIdentifierText(this TagSelector selector, string? text = null)
 	{
-		selector.Identifier.Text.ShouldBe(Selectors.TagSelector);
+		text = text ?? Selectors.TagSelector;
+		selector.Identifier.Text.ShouldBe(text);
 	}
 
-	public static void AssertIdentifierText(this IdSelector selector, string text = Selectors.IdSelector)
+	public static void AssertIdentifierValue(this IdSelector selector, string text = Selectors.IdSelector)
 	{
 		selector.Identifier.Value.ShouldBe(text);
 	}
 
-	public static void AssertClassText(this ClassSelector selector, string text = "my-class")
+	public static void AssertIdentifierText(this ClassSelector selector, string? text = null)
 	{
+		text = text ?? Selectors.ClassSelector.Substring(1);
 		selector.Identifier.Text.ShouldBe(text);
 	}
 
-	public static void AssertAttributeName(this AttributeSelector selector)
+	public static void AssertIdentifierText(this PseudoClassSelector selector, string? text = null)
+	{
+		text = text ?? Selectors.PseudoClassSelector.Substring(1);
+		selector.Identifier.Text.ShouldBe(text);
+	}
+
+	public static void AssertIdentifierText(this PseudoElementSelector selector, string? text = null)
+	{
+		text = text ?? Selectors.PseudoElementSelector.Substring(2);
+		selector.Identifier.Text.ShouldBe(text);
+	}
+
+	public static void AssertAttributeText(this AttributeSelector selector)
 	{
 		selector.Attribute.Text.ShouldBe(Selectors.AttributeName);
 	}
 
-	public static void AssertAttributeValue(this AttributeSelector selector)
+	public static void AssertValueText(this AttributeSelector selector)
 	{
 		selector.Value.ShouldNotBeNull();
 		selector.Value.Text.ShouldBe(Selectors.AttributeValue);

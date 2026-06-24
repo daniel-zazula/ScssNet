@@ -20,7 +20,7 @@ public class IdSelectorParserTests : ParserTestBase
 
 		var idSelector = idSelectorParser.Parse(tokenReader);
 		idSelector.ShouldNotBeNull();
-		idSelector.AssertIdentifierText(source);
+		idSelector.AssertIdentifierValue(source);
 		idSelector.Qualifier.ShouldBeNull();
 		idSelector.Issues.ShouldBeEmpty();
 		tokenReader.End.ShouldBeTrue();

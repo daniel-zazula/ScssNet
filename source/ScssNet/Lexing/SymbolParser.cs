@@ -32,6 +32,7 @@ internal class SymbolParser
 			"^=" => Symbol.StartsWith,
 			"$=" => Symbol.EndsWith,
 			"*=" => Symbol.Contains,
+			"::" => Symbol.DoubleColon,
 			_ => null
 		};
 	}

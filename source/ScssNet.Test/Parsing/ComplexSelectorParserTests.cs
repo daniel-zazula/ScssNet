@@ -12,7 +12,7 @@ public class ComplexSelectorParserTests : SelectorParserTestsBase
 	[DynamicData(nameof(SelectorParams))]
 	public void ShouldParseDescendantSelector(string firstSelector, string secondSelector)
 	{
-		var descendant = ShouldParseSelector<DescendantSelector>(firstSelector + " " + secondSelector);
+		var descendant = ShouldParseComplexSelector<DescendantSelector>(firstSelector, " ", secondSelector);
 		AssertSelector(firstSelector, descendant.AscendantSelector);
 		AssertSelector(secondSelector, descendant.Selector);
 	}
@@ -21,7 +21,7 @@ public class ComplexSelectorParserTests : SelectorParserTestsBase
 	[DynamicData(nameof(SelectorParams))]
 	public void ShouldParseChildSelector(string firstSelector, string secondSelector)
 	{
-		var childSelector = ShouldParseSelector<ChildSelector>(firstSelector + " > " + secondSelector);
+		var childSelector = ShouldParseComplexSelector<ChildSelector>(firstSelector, " > ", secondSelector);
 		AssertSelector(firstSelector, childSelector.ParentSelector);
 		AssertSelector(secondSelector, childSelector.Selector);
 	}
@@ -30,7 +30,7 @@ public class ComplexSelectorParserTests : SelectorParserTestsBase
 	[DynamicData(nameof(SelectorParams))]
 	public void ShouldParseSubsequentSiblingSelector(string firstSelector, string secondSelector)
 	{
-		var siblingSelector = ShouldParseSelector<SubsequentSiblingSelector>(firstSelector + " ~ " + secondSelector);
+		var siblingSelector = ShouldParseComplexSelector<SubsequentSiblingSelector>(firstSelector, " ~ ", secondSelector);
 		AssertSelector(firstSelector, siblingSelector.PrecedingSiblingSelector);
 		AssertSelector(secondSelector, siblingSelector.Selector);
 	}
@@ -39,14 +39,19 @@ public class ComplexSelectorParserTests : SelectorParserTestsBase
 	[DynamicData(nameof(SelectorParams))]
 	public void ShouldParseNextSiblingSelector(string firstSelector, string secondSelector)
 	{
-		var siblingSelector = ShouldParseSelector<NextSiblingSelector>(firstSelector + " + " + secondSelector);
+		var siblingSelector = ShouldParseComplexSelector<NextSiblingSelector>(firstSelector, " + ", secondSelector);
 		AssertSelector(firstSelector, siblingSelector.PreviousSiblingSelector);
 		AssertSelector(secondSelector, siblingSelector.Selector);
 	}
 
+	protected static T ShouldParseComplexSelector<T>(string firstSelector, string _operator, string secondSelector)
+	{
+		return ShouldParseSelector<T>(firstSelector + _operator + secondSelector);
+	}
+
 	private static void AssertSelector(string source, ISelector selector)
 	{
-		selector.Assert(source);
+		selector.AssertText(source);
 	}
 
 	private static IEnumerable<object[]> BuildSelectorPermutations()
@@ -54,7 +59,7 @@ public class ComplexSelectorParserTests : SelectorParserTestsBase
 		var selectors = new[]
 		{
 			Selectors.UniversalSelector, Selectors.TagSelector, Selectors.IdSelector, Selectors.ClassSelector,
-			Selectors.AttributeSelector
+			Selectors.PseudoClassSelector, Selectors.PseudoElementSelector, Selectors.AttributeSelector
 		};
 
 		return new Variations<string>(selectors, 2).Select(v => v.Cast<object>().ToArray());

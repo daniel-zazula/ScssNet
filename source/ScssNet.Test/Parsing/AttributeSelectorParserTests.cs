@@ -34,7 +34,7 @@ public class AttributeSelectorParserTests: ParserTestBase
 
 		var attributeSelector = ShouldParseAttributeSelector(source);
 		attributeSelector.Operator?.Symbol.ShouldBe(operatorSymbol);
-		attributeSelector.AssertAttributeValue();
+		attributeSelector.AssertValueText();
 		attributeSelector.Modifier?.ShouldBeNull();
 	}
 
@@ -49,7 +49,7 @@ public class AttributeSelectorParserTests: ParserTestBase
 
 		var attributeSelector = ShouldParseAttributeSelector(source);
 		attributeSelector.Operator?.Symbol.ShouldBe(Symbol.Equals);
-		attributeSelector.AssertAttributeValue();
+		attributeSelector.AssertValueText();
 		attributeSelector.Modifier?.Text.ShouldBe(modifier);
 	}
 
@@ -62,7 +62,7 @@ public class AttributeSelectorParserTests: ParserTestBase
 
 		var attributeSelector = attributeSelectorParser.Parse(tokenReader);
 		attributeSelector.ShouldNotBeNull();
-		attributeSelector.AssertAttributeName();
+		attributeSelector.AssertAttributeText();
 		attributeSelector.Qualifier.ShouldBeNull();
 		attributeSelector.Issues.ShouldBeEmpty();
 

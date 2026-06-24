@@ -21,7 +21,7 @@ public class ClassSelectorParserTests: ParserTestBase
 
 		var classSelector = classSelectorParser.Parse(tokenReader);
 		classSelector.ShouldNotBeNull();
-		classSelector.AssertClassText(text);
+		classSelector.AssertIdentifierText(text);
 		classSelector.Qualifier.ShouldBeNull();
 		classSelector.Issues.ShouldBeEmpty();
 		tokenReader.End.ShouldBeTrue();

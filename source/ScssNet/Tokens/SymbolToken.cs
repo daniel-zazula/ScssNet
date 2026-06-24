@@ -2,8 +2,12 @@
 
 public enum Symbol
 {
+	// One character symbols
 	Comma, Dot, Colon, SemiColon, Asterisk, OpenBrace, CloseBrace, OpenBracket, CloseBracket, Equals,
-	ContainsWord, StartsWithWord, StartsWith, EndsWith, Contains, GreaterThan, Plus, Tilde
+	Plus, Tilde,
+
+	// Two character symbols
+	ContainsWord, StartsWithWord, StartsWith, EndsWith, Contains, GreaterThan, DoubleColon
 }
 
 public record SymbolToken: IToken, ISeparatedToken
@@ -50,6 +54,7 @@ public record SymbolToken: IToken, ISeparatedToken
 			Symbol.StartsWith => "^=",
 			Symbol.EndsWith => "$=",
 			Symbol.Contains => "*=",
+			Symbol.DoubleColon => "::",
 			Symbol.Comma => ",",
 			Symbol.Dot => ".",
 			Symbol.Colon => ":",

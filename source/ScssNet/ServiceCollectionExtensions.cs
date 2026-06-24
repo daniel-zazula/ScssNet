@@ -31,6 +31,8 @@ internal static class ServiceCollectionExtensions
 		services.AddLazySingleton<IdSelectorParser>();
 		services.AddLazySingleton<AttributeSelectorParser>();
 		services.AddLazySingleton<UniversalSelectorParser>();
+		services.AddLazySingleton<PseudoClassSelectorParser>();
+		services.AddLazySingleton<PseudoElementSelectorParser>();
 		services.AddLazySingleton<SelectorListParser>();
 		services.AddLazySingleton<SelectorParser>();
 		services.AddLazySingleton<ValueParser>();

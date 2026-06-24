@@ -30,7 +30,11 @@ public class CompositeSelectorTests : SelectorParserTestsBase
 	private static IEnumerable<object[]> BuildSelectorPermutations()
 	{
 		var mainSelectors = new string[] { Selectors.UniversalSelector, Selectors.TagSelector };
-		var qualifiers = new string[] { Selectors.IdSelector, Selectors.ClassSelector, Selectors.AttributeSelector };
+		var qualifiers = new string[]
+		{
+			Selectors.IdSelector, Selectors.ClassSelector, Selectors.PseudoClassSelector,
+			Selectors.PseudoElementSelector, Selectors.AttributeSelector
+		};
 		var permutations = new Permutations<string>(qualifiers);
 
 		foreach(var mainSelector in mainSelectors)
@@ -50,7 +54,7 @@ public class CompositeSelectorTests : SelectorParserTestsBase
 
 		qualifier.ShouldNotBeNull();
 
-		qualifier.Assert(qualifierSource);
+		qualifier.AssertText(qualifierSource);
 
 		index++;
 		if (index < qualifiers.Length)
