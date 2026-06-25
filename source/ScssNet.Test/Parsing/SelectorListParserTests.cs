@@ -11,7 +11,7 @@ namespace ScssNet.Test.Parsing;
 [TestClass]
 public class SelectorListParserTests : ParserTestBase
 {
-	private static readonly string[] CompositeSelectorQualifiers = [Selectors.AttributeSelector, Selectors.IdSelector, Selectors.ClassSelector, Selectors.AttributeSelector];
+	private static readonly string[] CompositeSelectorQualifiers = [TestSelectors.AttributeSelector, TestSelectors.IdSelector, TestSelectors.ClassSelector, TestSelectors.AttributeSelector];
 	internal static IEnumerable<object[]> CompositeSelectorQualifierParams => BuildSelectorPermutations();
 
 	[TestMethod]

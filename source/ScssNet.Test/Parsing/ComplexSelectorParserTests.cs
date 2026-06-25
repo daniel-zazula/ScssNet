@@ -58,8 +58,8 @@ public class ComplexSelectorParserTests : SelectorParserTestsBase
 	{
 		var selectors = new[]
 		{
-			Selectors.UniversalSelector, Selectors.TagSelector, Selectors.IdSelector, Selectors.ClassSelector,
-			Selectors.PseudoClassSelector, Selectors.PseudoElementSelector, Selectors.AttributeSelector
+			TestSelectors.UniversalSelector, TestSelectors.TagSelector, TestSelectors.IdSelector, TestSelectors.ClassSelector,
+			TestSelectors.PseudoClassSelector, TestSelectors.PseudoElementSelector, TestSelectors.AttributeSelector
 		};
 
 		return new Variations<string>(selectors, 2).Select(v => v.Cast<object>().ToArray());

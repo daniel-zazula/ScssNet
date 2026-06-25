@@ -13,7 +13,7 @@ public class AttributeSelectorParserTests: ParserTestBase
 	[TestMethod]
 	public void ShouldParseAttributeSelector()
 	{
-		var source = Selectors.AttributeSelector;
+		var source = TestSelectors.AttributeSelector;
 
 		var attributeSelector = ShouldParseAttributeSelector(source);
 		attributeSelector.Operator?.ShouldBeNull();
@@ -30,7 +30,7 @@ public class AttributeSelectorParserTests: ParserTestBase
 	[DataRow(["*=", Symbol.Contains])]
 	public void ShouldParseAttributeSelectorWithValue(string operatorString, Symbol operatorSymbol)
 	{
-		var source = $"[{Selectors.AttributeName}{operatorString}{Selectors.AttributeValue}]";
+		var source = $"[{TestSelectors.AttributeName}{operatorString}{TestSelectors.AttributeValue}]";
 
 		var attributeSelector = ShouldParseAttributeSelector(source);
 		attributeSelector.Operator?.Symbol.ShouldBe(operatorSymbol);
@@ -45,7 +45,7 @@ public class AttributeSelectorParserTests: ParserTestBase
 	[DataRow("S")]
 	public void ShouldParseAttributeSelectorWithValue(string modifier)
 	{
-		var source = $"[{Selectors.AttributeName}={Selectors.AttributeValue} {modifier}]";
+		var source = $"[{TestSelectors.AttributeName}={TestSelectors.AttributeValue} {modifier}]";
 
 		var attributeSelector = ShouldParseAttributeSelector(source);
 		attributeSelector.Operator?.Symbol.ShouldBe(Symbol.Equals);

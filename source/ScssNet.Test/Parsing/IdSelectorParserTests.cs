@@ -9,7 +9,7 @@ namespace ScssNet.Test.Parsing;
 public class IdSelectorParserTests : ParserTestBase
 {
 	[TestMethod]
-	[DataRow(Selectors.IdSelector)]
+	[DataRow(TestSelectors.IdSelector)]
 	[DataRow("#-id-with-dash")]
 	public void ShouldParseIdSelector(string source)
 	{

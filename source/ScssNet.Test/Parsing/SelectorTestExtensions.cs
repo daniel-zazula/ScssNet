@@ -10,36 +10,36 @@ internal static class SelectorTestExtensions
 	{
 		switch(source)
 		{
-			case Selectors.UniversalSelector:
+			case TestSelectors.UniversalSelector:
 				selector.ShouldBeOfType<UniversalSelector>();
 				break;
 
-			case Selectors.TagSelector:
+			case TestSelectors.TagSelector:
 				var tagSelector = selector.ShouldBeOfType<TagSelector>();
 				tagSelector.AssertIdentifierText();
 				break;
 
-			case Selectors.IdSelector:
+			case TestSelectors.IdSelector:
 				var idSelector = selector.ShouldBeOfType<IdSelector>();
 				idSelector.AssertIdentifierValue();
 				break;
 
-			case Selectors.ClassSelector:
+			case TestSelectors.ClassSelector:
 				var classSelector = selector.ShouldBeOfType<ClassSelector>();
 				classSelector.AssertIdentifierText();
 				break;
 
-			case Selectors.PseudoClassSelector:
+			case TestSelectors.PseudoClassSelector:
 				var pseudoClassSelector = selector.ShouldBeOfType<PseudoClassSelector>();
 				pseudoClassSelector.AssertIdentifierText();
 				break;
 
-			case Selectors.PseudoElementSelector:
+			case TestSelectors.PseudoElementSelector:
 				var pseudoElementSelector = selector.ShouldBeOfType<PseudoElementSelector>();
 				pseudoElementSelector.AssertIdentifierText();
 				break;
 
-			case Selectors.AttributeSelector:
+			case TestSelectors.AttributeSelector:
 				var attributeSelector = selector.ShouldBeOfType<AttributeSelector>();
 				attributeSelector.AssertAttributeText();
 				break;
@@ -51,41 +51,41 @@ internal static class SelectorTestExtensions
 
 	public static void AssertIdentifierText(this TagSelector selector, string? text = null)
 	{
-		text = text ?? Selectors.TagSelector;
+		text = text ?? TestSelectors.TagSelector;
 		selector.Identifier.Text.ShouldBe(text);
 	}
 
-	public static void AssertIdentifierValue(this IdSelector selector, string text = Selectors.IdSelector)
+	public static void AssertIdentifierValue(this IdSelector selector, string text = TestSelectors.IdSelector)
 	{
 		selector.Identifier.Value.ShouldBe(text);
 	}
 
 	public static void AssertIdentifierText(this ClassSelector selector, string? text = null)
 	{
-		text = text ?? Selectors.ClassSelector.Substring(1);
+		text = text ?? TestSelectors.ClassSelector.Substring(1);
 		selector.Identifier.Text.ShouldBe(text);
 	}
 
 	public static void AssertIdentifierText(this PseudoClassSelector selector, string? text = null)
 	{
-		text = text ?? Selectors.PseudoClassSelector.Substring(1);
+		text = text ?? TestSelectors.PseudoClassSelector.Substring(1);
 		selector.Identifier.Text.ShouldBe(text);
 	}
 
 	public static void AssertIdentifierText(this PseudoElementSelector selector, string? text = null)
 	{
-		text = text ?? Selectors.PseudoElementSelector.Substring(2);
+		text = text ?? TestSelectors.PseudoElementSelector.Substring(2);
 		selector.Identifier.Text.ShouldBe(text);
 	}
 
 	public static void AssertAttributeText(this AttributeSelector selector)
 	{
-		selector.Attribute.Text.ShouldBe(Selectors.AttributeName);
+		selector.Attribute.Text.ShouldBe(TestSelectors.AttributeName);
 	}
 
 	public static void AssertValueText(this AttributeSelector selector)
 	{
 		selector.Value.ShouldNotBeNull();
-		selector.Value.Text.ShouldBe(Selectors.AttributeValue);
+		selector.Value.Text.ShouldBe(TestSelectors.AttributeValue);
 	}
 }

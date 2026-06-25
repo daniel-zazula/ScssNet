@@ -9,7 +9,7 @@ namespace ScssNet.Test.Parsing;
 public class PseudoClassSelectorParserTests: ParserTestBase
 {
 	[TestMethod]
-	[DataRow(Selectors.PseudoClassSelector)]
+	[DataRow(TestSelectors.PseudoClassSelector)]
 	[DataRow(":-name-with-dash")]
 	public void ShouldParsePseudoClassSelector(string source)
 	{

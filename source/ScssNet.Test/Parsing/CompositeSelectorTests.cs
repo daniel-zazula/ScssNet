@@ -15,7 +15,7 @@ public class CompositeSelectorTests : SelectorParserTestsBase
 	{
 		var compositeSelectorSource = string.Concat(selectors);
 
-		if(selectors[0] == Selectors.UniversalSelector)
+		if(selectors[0] == TestSelectors.UniversalSelector)
 		{
 			var universalSelector = ShouldParseSelector<UniversalSelector>(compositeSelectorSource);
 			TestQualifier(selectors, universalSelector, 1);
@@ -29,11 +29,11 @@ public class CompositeSelectorTests : SelectorParserTestsBase
 
 	private static IEnumerable<object[]> BuildSelectorPermutations()
 	{
-		var mainSelectors = new string[] { Selectors.UniversalSelector, Selectors.TagSelector };
+		var mainSelectors = new string[] { TestSelectors.UniversalSelector, TestSelectors.TagSelector };
 		var qualifiers = new string[]
 		{
-			Selectors.IdSelector, Selectors.ClassSelector, Selectors.PseudoClassSelector,
-			Selectors.PseudoElementSelector, Selectors.AttributeSelector
+			TestSelectors.IdSelector, TestSelectors.ClassSelector, TestSelectors.PseudoClassSelector,
+			TestSelectors.PseudoElementSelector, TestSelectors.AttributeSelector
 		};
 		var permutations = new Permutations<string>(qualifiers);
 

@@ -9,7 +9,7 @@ namespace ScssNet.Test.Parsing;
 public class PseudoElementSelectorParserTests: ParserTestBase
 {
 	[TestMethod]
-	[DataRow(Selectors.PseudoElementSelector)]
+	[DataRow(TestSelectors.PseudoElementSelector)]
 	[DataRow("::-my-element")]
 	public void ShouldParsePseudoElementSelector(string source)
 	{

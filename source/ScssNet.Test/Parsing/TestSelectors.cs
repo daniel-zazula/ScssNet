@@ -1,6 +1,6 @@
 ﻿namespace ScssNet.Test.Parsing;
 
-public static class Selectors
+public static class TestSelectors
 {
 	public const string UniversalSelector = "*";
 	public const string TagSelector = "div";

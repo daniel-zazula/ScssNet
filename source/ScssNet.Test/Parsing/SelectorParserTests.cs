@@ -8,28 +8,28 @@ public class SelectorParserTests : SelectorParserTestsBase
 	[TestMethod]
 	public void ShouldParseTagSelector()
 	{
-		var tagSelector = ShouldParseSelector<TagSelector>(Selectors.TagSelector);
+		var tagSelector = ShouldParseSelector<TagSelector>(TestSelectors.TagSelector);
 		tagSelector.AssertIdentifierText();
 	}
 
 	[TestMethod]
 	public void ShouldParseIdSelector()
 	{
-		var idSelector = ShouldParseSelector<IdSelector>(Selectors.IdSelector);
+		var idSelector = ShouldParseSelector<IdSelector>(TestSelectors.IdSelector);
 		idSelector.AssertIdentifierValue();
 	}
 
 	[TestMethod]
 	public void ShouldParseClassSelector()
 	{
-		var classSelector = ShouldParseSelector<ClassSelector>(Selectors.ClassSelector);
+		var classSelector = ShouldParseSelector<ClassSelector>(TestSelectors.ClassSelector);
 		classSelector.AssertIdentifierText();
 	}
 
 	[TestMethod]
 	public void ShouldParseAttributeSelector()
 	{
-		var attributeSelector = ShouldParseSelector<AttributeSelector>(Selectors.AttributeSelector);
+		var attributeSelector = ShouldParseSelector<AttributeSelector>(TestSelectors.AttributeSelector);
 		attributeSelector.AssertAttributeText();
 	}
 }
