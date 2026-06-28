@@ -12,20 +12,22 @@ internal class SelectorListParser(Lazy<SelectorParser> selectorParser)
 		if(selector == null)
 			return null;
 
-		var selectors = new List<ISelector>
+		SymbolToken? commaToken = tokenReader.Match(Symbol.Comma);
+
+		var selectors = new List<SelectorListItem>
 		{
-			selector
+			new(selector, commaToken)
 		};
 
-		SymbolToken? commaToken = tokenReader.Match(Symbol.Comma);
 		while(commaToken != null)
 		{
 			selector = ParseSelector();
 			if (selector == null)
 				break;
 
-			selectors.Add(selector);
 			commaToken = tokenReader.Match(Symbol.Comma);
+
+			selectors.Add(new(selector, commaToken));
 		}
 
 		return new SelectorList([.. selectors]);

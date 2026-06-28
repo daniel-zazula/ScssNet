@@ -1,9 +1,7 @@
-﻿using System;
-using Combinatorics.Collections;
+﻿using Combinatorics.Collections;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Lexing;
 using ScssNet.Parsing;
-using ScssNet.Structures;
 using Shouldly;
 
 namespace ScssNet.Test.Parsing;
@@ -11,11 +9,8 @@ namespace ScssNet.Test.Parsing;
 [TestClass]
 public class SelectorListParserTests : ParserTestBase
 {
-	private static readonly string[] CompositeSelectorQualifiers = [TestSelectors.AttributeSelector, TestSelectors.IdSelector, TestSelectors.ClassSelector, TestSelectors.AttributeSelector];
-	internal static IEnumerable<object[]> CompositeSelectorQualifierParams => BuildSelectorPermutations();
-
 	[TestMethod]
-	[DynamicData(nameof(CompositeSelectorQualifierParams))]
+	[DynamicData(nameof(BuildSelectorPermutations))]
 	public void ShouldParseSelectorList(string[] selectorsSource)
 	{
 		var source = string.Join(", ", selectorsSource);
@@ -26,14 +21,14 @@ public class SelectorListParserTests : ParserTestBase
 
 		var selectorList = selectorListParser.Parse(tokenReader);
 		selectorList.ShouldNotBeNull();
-		var selectors = selectorList.Selectors;
+		var selectors = selectorList.Items;
 		selectors.Count.ShouldBe(4);
 
 		for(var i = 0; i < selectorsSource.Length; i++)
 		{
 			var selectorSource = selectorsSource[i];
-			var selector = selectorList.Selectors.ElementAt(i);
-			selector.AssertText(selectorSource);
+			var item = selectorList.Items.ElementAt(i);
+			item.Selector.AssertText(selectorSource);
 		}
 
 		selectorList.Issues.ShouldBeEmpty();
@@ -42,6 +37,12 @@ public class SelectorListParserTests : ParserTestBase
 
 	private static IEnumerable<object[]> BuildSelectorPermutations()
 	{
+		var CompositeSelectorQualifiers = new string[]
+		{
+			TestSelectors.AttributeSelector, TestSelectors.IdSelector, TestSelectors.ClassSelector,
+			TestSelectors.AttributeSelector
+		};
+
 		return new Permutations<string>(CompositeSelectorQualifiers)
 			.Select(p => new object[] { p.ToArray() });
 	}

@@ -19,7 +19,7 @@ public class RuleSetParserTests : ParserTestBase
 
 		var ruleSet = ruleSetParser.Parse(tokenReader);
 		ruleSet.ShouldNotBeNull();
-		ruleSet.SelectorList.Selectors.ShouldHaveSingleItem();
+		ruleSet.SelectorList.Items.ShouldHaveSingleItem();
 		ruleSet.RuleBlock.Rules.ShouldHaveSingleItem();
 
 		ruleSet.Issues.ShouldBeEmpty();

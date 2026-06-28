@@ -1,5 +1,4 @@
-﻿using System.IO;
-using ScssNet.Structures;
+﻿using ScssNet.Structures;
 
 namespace ScssNet.Generation;
 
@@ -7,15 +6,13 @@ internal class SelectorListGenerator(Lazy<SelectorGenerator> selectorGenerator)
 {
 	public void Generate(SelectorList selectorList, CssWriter writer)
 	{
-		var firstItem = true;
-		foreach(var selector in selectorList.Selectors)
+		foreach(var item in selectorList.Items)
 		{
-			if(!firstItem)
+			selectorGenerator.Value.Generate(item.Selector, writer);
+			if(item.Comma != null)
 			{
-				writer.Write(", ");
+				writer.Write(item.Comma);
 			}
-			selectorGenerator.Value.Generate(selector, writer);
-			firstItem = false;
 		}
 	}
 }

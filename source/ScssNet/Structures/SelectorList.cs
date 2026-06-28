@@ -1,12 +1,25 @@
-﻿namespace ScssNet.Structures;
+﻿using ScssNet.Tokens;
 
-public class SelectorList(ICollection<ISelector> selectors) : SourceElement, ISyntaxStructure
+namespace ScssNet.Structures;
+
+public class SelectorList(ICollection<SelectorListItem> items) : SourceElement, ISyntaxStructure
 {
-	public ICollection<ISelector> Selectors => selectors;
+	public ICollection<SelectorListItem> Items => items;
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Selectors.Cast<ISourceElement>());
+	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Items.Cast<ISourceElement>());
 
-	public SourceCoordinates Start => Selectors.First().Start;
+	public SourceCoordinates Start => Items.First().Start;
 
-	public SourceCoordinates End => Selectors.Last().End;
+	public SourceCoordinates End => Items.Last().End;
+}
+
+public class SelectorListItem(ISelector selector, SymbolToken? comma) : SourceElement, ISyntaxStructure
+{
+	public ISelector Selector => selector;
+
+	public SymbolToken? Comma => comma;
+
+	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Selector, Comma);
+	public SourceCoordinates Start => Selector.Start;
+	public SourceCoordinates End => LastEnd(selector, comma);
 }
