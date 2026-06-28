@@ -1,18 +1,30 @@
 ﻿using System.Diagnostics;
+using ScssNet.Tokens;
 
 namespace ScssNet.Structures;
 
 public class ValueList : SourceElement, IValue
 {
-	public IReadOnlyList<IValue> Values { get; }
+	public IReadOnlyList<ValueListItem> Items { get; }
 
-	public SourceCoordinates Start => Values.First().Start;
-	public SourceCoordinates End => Values.Last().End;
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Values);
+	public SourceCoordinates Start => Items.First().Start;
+	public SourceCoordinates End => Items.Last().End;
+	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Items);
 
-	internal ValueList(IReadOnlyList<IValue> values)
+	internal ValueList(IReadOnlyList<ValueListItem> items)
 	{
-		Debug.Assert(values.Count > 1, "Value list must contain more than one value");
-		Values = values;
+		Debug.Assert(items.Count > 1, "value list must contain more than one value");
+		Items = items;
 	}
+}
+
+public class ValueListItem(IValue value, SymbolToken? comma = null) : SourceElement, ISourceElement
+{
+	public IValue Value => value;
+
+	public SymbolToken? Comma => comma;
+
+	public SourceCoordinates Start => Value.Start;
+	public SourceCoordinates End => LastEnd(Value, Comma);
+	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Value, Comma);
 }

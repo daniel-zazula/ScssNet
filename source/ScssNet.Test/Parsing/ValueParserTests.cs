@@ -6,23 +6,10 @@ using Shouldly;
 
 namespace ScssNet.Test.Parsing;
 
-public static class Values
-{
-	public static readonly string[] Units = ["1cm", "2mm", "2Q", "3in", "4pc", "5pt", "6px", "7em", "8rem", "9%"];
-
-	public static readonly string[] IdentifierValues = ["red", "flex-start"];
-
-	public static readonly string[] StringValues = [@"""Times New Roman""", @"""Courier New"""];
-
-	public static readonly string[] HexColorValues = ["#123", "#abc", "#DEF", "#1a2", "#a1b", "#123456", "#abcdef", "#FEDCBA", "#1a2b3c", "#a1b2c3"];
-
-	public static readonly string[] AllValues = [.. Units, .. IdentifierValues, .. StringValues, .. HexColorValues];
-}
-
 [TestClass]
 public class ValueParserTests : ParserTestBase
 {
-	internal static IEnumerable<object[]> UnitValueParams => Values.Units.ToParams();
+	internal static IEnumerable<object[]> UnitValueParams => TestValues.Units.ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(UnitValueParams))]
@@ -40,7 +27,7 @@ public class ValueParserTests : ParserTestBase
 		tokenReader.End.ShouldBeTrue();
 	}
 
-	internal static IEnumerable<object[]> IdentifierValueParams => Values.IdentifierValues.ToParams();
+	internal static IEnumerable<object[]> IdentifierValueParams => TestValues.IdentifierValues.ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(IdentifierValueParams))]
@@ -58,7 +45,7 @@ public class ValueParserTests : ParserTestBase
 		tokenReader.End.ShouldBeTrue();
 	}
 
-	internal static IEnumerable<object[]> StringValueParams => Values.StringValues.ToParams();
+	internal static IEnumerable<object[]> StringValueParams => TestValues.StringValues.ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(StringValueParams))]
@@ -67,7 +54,7 @@ public class ValueParserTests : ParserTestBase
 		ShouldParseValue<StringToken>(valueString);
 	}
 
-	internal static IEnumerable<object[]> HexValueParams => Values.HexColorValues.ToParams();
+	internal static IEnumerable<object[]> HexValueParams => TestValues.HexColorValues.ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(HexValueParams))]
