@@ -54,6 +54,7 @@ internal class SymbolParser
 			'>' => Symbol.GreaterThan,
 			'+' => Symbol.Plus,
 			'~' => Symbol.Tilde,
+			'!' => Symbol.Exclamation,
 			_ => null
 		};
 	}
