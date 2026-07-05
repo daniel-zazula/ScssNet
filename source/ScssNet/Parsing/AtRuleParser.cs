@@ -23,10 +23,10 @@ internal class AtRuleParser
 		if(!IdentifierMatch(identifier, "charset"))
 			return null;
 
-		var strToken = tokenReader.RequireString();
+		var charsetName = tokenReader.RequireString();
 		var semiColon = tokenReader.Match(Symbol.SemiColon);
 
-		return new AtCharset(atSign, identifier, strToken, semiColon);
+		return new AtCharset(atSign, identifier, charsetName, semiColon);
 	}
 
 	private bool IdentifierMatch(IdentifierToken identifier, string text)

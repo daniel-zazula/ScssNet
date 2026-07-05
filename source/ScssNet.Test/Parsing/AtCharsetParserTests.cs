@@ -10,19 +10,22 @@ namespace ScssNet.Test.Parsing;
 public class AtCharsetParserTests : ParserTestBase
 {
 	[TestMethod]
-	public void ShouldParseCharset()
+	public void ShouldParseAtCharset()
 	{
-		var source = "@charset \"UTF-8\";";
+		const string charsetString = "\"UTF-8\"";
+		var source = $"@charset {charsetString};";
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<ITokenReader>();
-		var stylesheetParser = provider.GetRequiredService<StatementParser>();
+		var atRuleParser = provider.GetRequiredService<AtRuleParser>();
 
-		var element = stylesheetParser.Parse(tokenReader);
-		element.ShouldNotBeNull();
-		element.ShouldBeOfType<AtCharset>();
+		var atRule = atRuleParser.Parse(tokenReader);
+		atRule.ShouldNotBeNull();
 
-		element.Issues.ShouldBeEmpty();
+		var atCharset = atRule.ShouldBeOfType<AtCharset>();
+		atCharset.CharsetName.Text.ShouldBe(charsetString);
+		atCharset.Issues.ShouldBeEmpty();
+
 		tokenReader.End.ShouldBeTrue();
 	}
 }

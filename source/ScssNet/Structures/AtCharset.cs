@@ -4,17 +4,17 @@ using ScssNet.Tokens;
 
 public class AtCharset
 (
-	SymbolToken atSign, IdentifierToken charset, StringToken value, SymbolToken? semiColon
+	SymbolToken atSign, IdentifierToken charset, StringToken charsetName, SymbolToken? semiColon
 ) : SourceElement, IStatement, IAtRule
 {
 	public SymbolToken AtSign => atSign;
 	public IdentifierToken Charset => charset;
-	public StringToken Value => value;
+	public StringToken CharsetName => charsetName;
 	public SymbolToken? SemiColon => semiColon;
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(atSign, value, semiColon);
+	public IEnumerable<Issue> Issues => ConcatIssuesFrom(atSign, charsetName, semiColon);
 
-	public SourceCoordinates Start => Value.Start;
+	public SourceCoordinates Start => CharsetName.Start;
 
-	public SourceCoordinates End => LastEnd(value, semiColon);
+	public SourceCoordinates End => LastEnd(charsetName, semiColon);
 }

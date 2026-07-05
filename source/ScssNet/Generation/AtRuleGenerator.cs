@@ -15,13 +15,15 @@ internal class AtRuleGenerator
 		}
 	}
 
-	private void Generate(AtCharset charset, CssWriter writer)
+	private void Generate(AtCharset atCharset, CssWriter writer)
 	{
-		writer.Write(charset.AtSign);
-		writer.Write(charset.Value);
-		if(charset.SemiColon is not null)
+		writer.Write(atCharset.AtSign);
+		writer.Write(atCharset.Charset);
+		writer.Write(" ");
+		writer.Write(atCharset.CharsetName);
+		if(atCharset.SemiColon is not null)
 		{
-			writer.Write(charset.SemiColon);
+			writer.Write(atCharset.SemiColon);
 		}
 	}
 }
