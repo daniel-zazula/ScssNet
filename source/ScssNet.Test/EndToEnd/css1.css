@@ -1,0 +1,142 @@
+﻿/* =========================================================
+   COMPREHENSIVE CSS SYNTAX TEST FILE
+   ========================================================= */
+
+/* ╔══════════════════════════════════════════════════════╗
+   ║  CSS LEVEL 1  —  1996                                ║
+   ╚══════════════════════════════════════════════════════╝ */
+
+/* ---------- CSS1: Type / universal / class / ID selectors ---------- */
+html {
+    font-size: 100%;
+}
+
+body {
+    padding: 0;
+}
+
+div, span {
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.class-name {
+    color: red;
+}
+
+#unique-id {
+    color: blue;
+}
+
+/* ---------- CSS1: Grouping selectors ---------- */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.2;
+}
+
+/* ---------- CSS1: !important ---------- */
+.important-test {
+    color: red !important;
+    background: blue !important;
+    margin: 0 !IMPORTANT; /* case-insensitive per spec */
+}
+
+/* ---------- CSS1: Core typography properties ---------- */
+p {
+    font-family: Georgia, serif;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: bold;
+    font-variant: small-caps;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: underline;
+    text-transform: capitalize;
+    letter-spacing: 0.05em;
+    word-spacing: 0.1em;
+}
+
+/* ---------- CSS1: Colors (named + hex) ---------- */
+.css1-colors {
+    color: red;
+    background-color: #fff;
+    border-color: #ff0000;
+    color: ActiveText; /* CSS system color */
+}
+
+/* ---------- CSS1: Box model basics ---------- */
+.box-model {
+    margin: 10px 20px 30px 40px;
+    padding: 5px;
+    border: 1px solid black;
+    width: 100px;
+    height: 50%;
+}
+
+/* ---------- CSS1: Lengths / units ---------- */
+.css1-units {
+    font-size: 12pt;
+    border-width: 1pc;
+    top: 5mm;
+    left: 5cm;
+    right: 2in;
+    margin: 1em;
+    padding: 10px;
+    height: 50%;
+}
+
+/* ---------- CSS1: Pseudo-classes ---------- */
+a:link {
+    color: blue;
+}
+
+a:visited {
+    color: purple;
+}
+
+a:hover {
+    color: darkred;
+}
+
+a:active {
+    color: crimson;
+}
+
+/* ---------- CSS1: Pseudo-elements (original single-colon form) ---------- */
+p:first-line {
+    font-variant: small-caps;
+}
+
+p:first-letter {
+    font-size: 200%;
+    float: left;
+}
+
+/* ---------- CSS1: Comments ---------- */
+.comment-test {
+    /* single-line comment */
+    color: red; /* inline comment */
+    /*
+   * multi-line
+   * comment block
+   */
+    background: blue;
+}
+
+/* ---------- CSS1: String & escape edge cases ---------- */
+.string-test::before {
+    content: "Quote: \"escaped\"";
+}
+
+.string-test2::before {
+    content: 'Apostrophe: \'escaped\'';
+}
+
+/* ---------- CSS1: Empty rule & whitespace quirks ---------- */
+.empty-rule {
+}
+
+.whitespace-test { color : red ; }

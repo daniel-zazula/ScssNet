@@ -1,0 +1,531 @@
+﻿/* =========================================================
+   COMPREHENSIVE CSS SYNTAX TEST FILE
+   ========================================================= */
+
+/* ╔══════════════════════════════════════════════════════╗
+   ║  CSS3 — BY W3C RECOMMENDATION MODULE                 ║
+   ╚══════════════════════════════════════════════════════╝ */
+
+/* ── Selectors Level 3  (REC 2011) ─────────────────────── */
+
+/* Substring attribute selectors */
+[href^="https://"] {
+    font-weight: bold;
+}
+
+[href$=".pdf"] {
+    background: url("pdf-icon.svg");
+}
+
+[title*="important"] {
+    text-decoration: underline;
+}
+
+/* Structural pseudo-classes */
+li:nth-child(2n+1) {
+    background: #f9f9f9;
+}
+
+li:nth-child(odd) {
+    background: #eee;
+}
+
+li:nth-child(3n) {
+    color: blue;
+}
+
+li:nth-last-child(2) {
+    font-weight: bold;
+}
+
+p:first-of-type {
+    margin-top: 0;
+}
+
+p:last-of-type {
+    margin-bottom: 0;
+}
+
+p:nth-of-type(2) {
+    color: teal;
+}
+
+p:nth-last-of-type(1) {
+    color: navy;
+}
+
+p:only-of-type {
+    font-style: italic;
+}
+
+:empty {
+    display: none;
+}
+
+:target {
+    background: yellow;
+}
+
+:root {
+    scroll-behavior: smooth;
+}
+
+:not(.excluded) {
+    opacity: 1;
+}
+
+/* Pseudo-elements */
+input::placeholder {
+    color: #999;
+}
+
+::selection {
+    background: #3498db;
+}
+
+::marker {
+    color: red;
+}
+
+/* Namespace combinator */
+svg|rect {
+    fill: none;
+}
+
+*|* {
+    margin: 0;
+}
+
+/* Deep specificity chain */
+html body div#main.container > ul.list li:nth-child(odd) a[href]:hover::after {
+    color: hotpink;
+}
+
+
+/* ── Colors Level 3  (REC 2011) ─────────────────────────── */
+.css3-colors {
+    color: rgb(255, 0, 0);
+    color: rgba(255, 0, 0, 0.5);
+    color: hsl(120, 100%, 50%);
+    color: hsla(120, 100%, 50%, 0.3);
+    opacity: 0.75;
+    color: transparent;
+}
+
+
+/* ── Backgrounds & Borders Level 3  (REC 2011) ──────────── */
+.css3-backgrounds {
+    border-radius: 4px 8px 4px 8px / 2px 4px 2px 4px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 #fff;
+    background: linear-gradient(to right, red, blue) no-repeat center / cover;
+    background-image: url("image.png"), url('image2.webp');
+    background-origin: border-box;
+    background-clip: text;
+    background-size: cover;
+}
+
+
+/* ── Media Queries Level 3  (REC 2012) ─────────────────── */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    body {
+        font-size: 16px;
+    }
+}
+
+@media (orientation: landscape), (min-aspect-ratio: 16/9) {
+    .landscape-only {
+        display: block;
+    }
+}
+
+@media not all and (monochrome) {
+    .color-only {
+        color: red;
+    }
+}
+
+
+/* ── Values & Units Level 3  (REC 2015) ────────────────── */
+.css3-values {
+    font-size: 1.25rem; /* rem */
+    margin: 3vh 4vw; /* viewport units */
+    width: 50vmin;
+    height: 50vmax;
+    padding: 1ch 1ex; /* ch / ex */
+    width: calc(100% - 50px); /* calc() */
+    rotate: 45deg; /* angle units */
+    transform: rotate(0.25turn);
+    transition-duration: 200ms; /* time units */
+    animation-duration: 1.5s;
+}
+
+
+/* ── Flexible Box Layout  (REC 2018) ────────────────────── */
+.flex-container {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: stretch;
+    gap: 1rem;
+}
+
+.flex-item {
+    flex: 1 1 auto;
+    flex-grow: 2;
+    flex-shrink: 0;
+    flex-basis: 200px;
+    order: 3;
+    align-self: flex-end;
+}
+
+
+/* ── Transforms Level 1  (REC 2019) ─────────────────────── */
+.transforms {
+    transform: translate(10px, 20px) scale(1.2) rotate(15deg) skew(5deg, 0deg);
+    transform: translate3d(0, 0, 10px) matrix(1, 0, 0, 1, 0, 0);
+    transform-origin: center top;
+    perspective: 500px;
+    backface-visibility: hidden;
+}
+
+
+/* ── Transitions Level 1  (REC 2018) ────────────────────── */
+.transitions {
+    transition: color 0.3s ease-in-out, background-color 0.5s linear 0.1s;
+    transition-property: all;
+    transition-timing-function: ease-in-out;
+}
+
+
+/* ── Animations Level 1  (REC 2023) ─────────────────────── */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-30px);
+    }
+
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+.advanced-anim {
+    animation: spin 2s linear infinite, fade 1s ease-out;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-timing-function: steps(4, jump-end);
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+    animation-fill-mode: both;
+    animation-play-state: paused;
+    will-change: transform, opacity;
+}
+
+
+/* ── Multi-column Layout  (REC 2019) ────────────────────── */
+.columns {
+    column-count: 3;
+    column-width: 200px;
+    column-gap: 2em;
+    column-rule: 1px solid #ccc;
+    column-span: all;
+    break-inside: avoid;
+    break-before: page;
+}
+
+
+/* ── Fonts Level 3  (REC 2018) ──────────────────────────── */
+@font-face {
+    font-family: "CustomFont";
+    src: url("font.woff2") format("woff2"), url("font.woff") format("woff"), url("font.ttf") format("truetype");
+    font-weight: 400 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153;
+}
+
+
+/* ── Text Level 3  (REC 2023) ───────────────────────────── */
+.text-level3 {
+    text-shadow: 1px 1px 2px black, 0 0 1em blue;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    tab-size: 4;
+    hyphens: auto;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ── Writing Modes Level 3  (REC 2019) ─────────────────── */
+.writing-modes {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    text-combine-upright: all;
+}
+
+
+/* ── Text Decoration Level 3  (REC 2022) ────────────────── */
+.text-decoration {
+    text-decoration: underline wavy red;
+    text-decoration-line: underline overline;
+    text-decoration-style: dotted;
+}
+
+
+/* ── Shapes Level 1  (REC 2014) ─────────────────────────── */
+.shapes {
+    shape-outside: circle(50% at center);
+    shape-margin: 1em;
+}
+
+
+/* ── Masking Level 1  (REC 2023) ────────────────────────── */
+.masking {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    clip-path: inset(10px 20px round 5px);
+    mask-image: linear-gradient(black, transparent);
+}
+
+
+/* ── Filter Effects Level 1  (REC 2018) ─────────────────── */
+.filters {
+    filter: blur(5px) brightness(1.2) contrast(0.9) drop-shadow(2px 2px 4px gray);
+}
+
+
+/* ── Compositing Level 1  (REC 2015) ────────────────────── */
+.compositing {
+    mix-blend-mode: multiply;
+    isolation: isolate;
+}
+
+
+/* ── Custom Properties (Variables) Level 1  (REC 2015) ──── */
+:root {
+    --main-color: #3498db;
+    --accent-color: rgb(255, 87, 34);
+    --spacing-unit: 8px;
+    --font-stack: "Helvetica Neue", Arial, sans-serif;
+    --calc-size: calc(var(--spacing-unit) * 2);
+    --nested-calc: calc((100% - var(--spacing-unit)) / 3);
+}
+
+.var-usage {
+    background: var(--main-color, #ccc);
+}
+
+.var-fallback {
+    color: var(--undefined-color, var(--main-color, red));
+}
+
+/* unset / revert — CSS Cascading 3 (REC 2021) */
+.reset-all {
+    all: unset;
+}
+
+.revert-test {
+    all: revert;
+}
+
+
+/* ── CSS Grid Layout Level 1  (REC 2020) ────────────────── */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
+    grid-template-rows: repeat(auto-fill, 50px);
+    grid-template-areas:
+        "header  header  header"
+        "sidebar content content"
+        "footer  footer  footer";
+    grid-auto-flow: dense;
+    grid-gap: 10px 20px;
+}
+
+.grid-item {
+    grid-column: 1 / span 2;
+    grid-row: 2 / 4;
+    grid-area: header;
+    justify-self: center;
+}
+
+.shorthand-grid {
+    grid-template: "header header" auto "sidebar content" 1fr / 200px 1fr;
+    place-items: center stretch;
+    gap: 10px 20px;
+    inset: 0 10px 0 auto;
+}
+
+
+/* ── CSS Grid Layout Level 2 — Subgrid  (REC 2020) ──────── */
+.subgrid-test {
+    display: grid;
+    grid-template-columns: subgrid;
+}
+
+
+/* ── Logical Properties Level 1  (REC 2024) ─────────────── */
+.logical {
+    margin-inline: 1rem;
+    margin-block: 2rem;
+    padding-inline-start: 10px;
+    padding-inline-end: 20px;
+    border-block-start: 1px solid black;
+    inset-inline: 0;
+    inset-block-start: 10px;
+    text-align: start;
+    block-size: 100px;
+    inline-size: 200px;
+    max-inline-size: 100%;
+}
+
+
+/* ── Scroll Snap Level 1  (REC 2021) ────────────────────── */
+.scroll-snap {
+    scroll-snap-type: x mandatory;
+    scroll-snap-align: start;
+    scroll-margin: 10px;
+    scroll-padding: 20px;
+    overscroll-behavior: contain;
+}
+
+
+/* ── Counter Styles Level 3  (REC 2015) ─────────────────── */
+@counter-style thumbs {
+    system: cyclic;
+    symbols: "👍";
+    suffix: " ";
+}
+
+
+/* ── Feature Queries — @supports  (REC 2013) ────────────── */
+@supports (display: grid) {
+    .grid-fallback {
+        display: grid;
+    }
+}
+
+@supports not (display: grid) {
+    .grid-fallback {
+        display: block;
+    }
+}
+
+@supports (display: flex) and (gap: 1rem) {
+    .modern-flex {
+        display: flex;
+        gap: 1rem;
+    }
+}
+
+@supports selector(:has(a)) {
+    .has-support {
+        color: green;
+    }
+}
+
+
+/* ── CSS Cascade Level 5 — @layer  (REC 2022) ───────────── */
+@layer reset, base, components, utilities;
+
+@layer reset {
+    * {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+@layer base {
+    body {
+        font-family: sans-serif;
+    }
+}
+
+@layer components.buttons {
+    .btn {
+        padding: 8px 16px;
+    }
+}
+
+@layer utilities {
+    .text-center {
+        text-align: center !important;
+    }
+}
+
+.revert-layer-test {
+    color: revert-layer;
+}
+
+
+/* ── CSS Nesting  (REC 2024) ─────────────────────────────── */
+.card {
+    background: #fff;
+    border-radius: 4px;
+
+    & .title {
+        font-size: 1.5rem;
+    }
+
+    &:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    & > .footer {
+        border-top: 1px solid #eee;
+    }
+
+    @media (min-width: 768px) {
+        padding: 2rem;
+    }
+}
+
+
+/* ── Unicode Escape Sequences ────────────────────────────── */
+.unicode-escape::before {
+    content: "\2192 \1F600";
+}
+
+
+/* ── Vendor Prefixes  (various eras) ─────────────────────── */
+.vendor-prefixed {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    -webkit-user-select: none;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+/* End of file */

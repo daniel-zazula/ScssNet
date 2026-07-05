@@ -1,0 +1,242 @@
+﻿/* =========================================================
+   COMPREHENSIVE CSS SYNTAX TEST FILE
+   ========================================================= */
+
+/* ╔══════════════════════════════════════════════════════╗
+   ║  CSS LEVEL 2  —  1998                                ║
+   ╚══════════════════════════════════════════════════════╝ */
+
+/* ---------- CSS2: @charset / @import / @namespace ---------- */
+@charset "UTF-8";
+
+@import url("base.css");
+@import "theme.css" screen;
+@import url(print.css) print and (min-width: 600px);
+
+@namespace url(http://www.w3.org/1999/xhtml);
+@namespace svg url(http://www.w3.org/2000/svg);
+
+/* ---------- CSS2: Attribute selectors ---------- */
+[data-state] {
+    outline: none;
+}
+
+[data-state="active"] {
+    color: green;
+}
+
+[data-state~="warning"] {
+    color: orange;
+}
+
+[data-lang|="en"] {
+    font-style: italic;
+}
+
+[xml|lang="en"] {
+    color: navy;
+}
+
+/* ---------- CSS2: Child / adjacent / descendant combinators ---------- */
+div > p {
+    margin-top: 0;
+}
+
+h1 + p {
+    font-weight: bold;
+}
+
+.parent .child {
+    padding: 4px;
+}
+
+.a.b.c {
+    border: 1px solid;
+}
+
+/* ---------- CSS2: Pseudo-classes ---------- */
+a:focus {
+    outline: 2px solid blue;
+}
+
+:first-child {
+    margin-top: 0;
+}
+
+:last-child {
+    margin-bottom: 0;
+}
+
+:lang(en) {
+    quotes: '"' '"';
+}
+
+/* ---------- CSS2: Pseudo-elements (double-colon form standardised in CSS3) ---------- */
+p::before {
+    content: "→ ";
+}
+
+p::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+::first-line {
+    font-variant: small-caps;
+}
+
+::first-letter {
+    font-size: 200%;
+    float: left;
+}
+
+/* ---------- CSS2: @page ---------- */
+@page {
+    margin: 2cm;
+}
+
+@page :first {
+    margin-top: 5cm;
+}
+
+@page landscape {
+    size: landscape;
+}
+
+/* ---------- CSS2: Positioning / z-index ---------- */
+.positioned {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+}
+
+/* ---------- CSS2: Display / visibility ---------- */
+.display-values {
+    display: block;
+    display: inline;
+    display: inline-block;
+    display: none;
+    visibility: hidden;
+    overflow: auto;
+    clip: rect(0, 100px, 100px, 0); /* deprecated in CSS3, was CSS2 */
+}
+
+/* ---------- CSS2: table-related display values ---------- */
+.table-display {
+    display: table;
+    display: table-row;
+    display: table-cell;
+    display: table-caption;
+}
+
+/* ---------- CSS2: Media types ---------- */
+@media screen and (min-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+}
+
+@media print {
+    .no-print {
+        display: none;
+    }
+}
+
+/* ---------- CSS2: System fonts ---------- */
+.system-fonts {
+    font: caption;
+    font: icon;
+    font: menu;
+    font: message-box;
+    font: small-caption;
+    font: status-bar;
+}
+
+/* ---------- CSS2: Counters / content ---------- */
+.counters {
+    content: counter(section) ". " attr(data-label);
+    content: counters(item, ".", decimal);
+    counter-increment: section;
+    counter-reset: item;
+}
+
+/* ---------- CSS2: Cursor values ---------- */
+.cursors {
+    cursor: pointer;
+    cursor: crosshair;
+    cursor: text;
+    cursor: wait;
+    cursor: default;
+    cursor: url(cursor.cur), pointer;
+}
+
+/* ---------- CSS2: Outline ---------- */
+.outline {
+    outline: 2px dashed blue;
+    outline-offset: 4px;
+}
+
+
+/* ╔══════════════════════════════════════════════════════╗
+   ║  CSS LEVEL 2.1  —  2011                              ║
+   ╚══════════════════════════════════════════════════════╝ */
+
+/* ---------- CSS2.1: General sibling combinator ---------- */
+h1 ~ p {
+    color: gray;
+}
+
+/* ---------- CSS2.1: :only-child ---------- */
+li:only-child {
+    list-style: none;
+}
+
+/* ---------- CSS2.1: overflow values ---------- */
+.overflow-values {
+    overflow: visible;
+    overflow: hidden;
+    overflow: scroll;
+    overflow: auto;
+}
+
+/* ---------- CSS2.1: min-width / max-width ---------- */
+.minmax-legacy {
+    min-width: 100px;
+    max-width: 800px;
+    min-height: 50px;
+    max-height: 400px;
+}
+
+/* ---------- CSS2.1: Shorthand font / background ---------- */
+.shorthand-21 {
+    font: italic bold 14px/1.4 "Georgia", serif;
+    background: #fff url("bg.png") no-repeat center top;
+    border: 1px solid black;
+}
+
+/* ---------- CSS2.1: list-style ---------- */
+.list-styles {
+    list-style: disc inside url("bullet.svg");
+    list-style-type: decimal;
+    list-style-position: outside;
+    list-style-image: url("bullet.svg");
+}
+
+/* ---------- CSS2.1: Table properties ---------- */
+.table-props {
+    border-collapse: collapse;
+    border-spacing: 4px;
+    caption-side: top;
+    empty-cells: hide;
+    table-layout: fixed;
+}
+
+/* ---------- CSS2.1: Cascade keywords ---------- */
+.keyword-values {
+    color: inherit;
+    border: initial;
+}
