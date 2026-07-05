@@ -40,6 +40,7 @@ internal static class ServiceCollectionExtensions
 		services.AddLazySingleton<BlockParser>();
 		services.AddLazySingleton<RuleSetParser>();
 		services.AddLazySingleton<StatementParser>();
+		services.AddLazySingleton<AtRuleParser>();
 	}
 
 	internal static void AddGenerators(this IServiceCollection services)
@@ -54,6 +55,7 @@ internal static class ServiceCollectionExtensions
 		services.AddLazySingleton<TagSelectorGenerator>();
 		services.AddLazySingleton<AttributeSelectorGenerator>();
 		services.AddLazySingleton<StatementGenerator>();
+		services.AddLazySingleton<AtRuleGenerator>();
 	}
 
 	private static void AddLazySingleton<TService>(this IServiceCollection services) where TService : class

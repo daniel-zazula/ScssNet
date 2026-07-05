@@ -4,7 +4,7 @@ public enum Symbol
 {
 	// One character symbols
 	Comma, Dot, Colon, SemiColon, Asterisk, OpenBrace, CloseBrace, OpenBracket, CloseBracket, Equals,
-	Plus, Tilde, Exclamation,
+	Plus, Tilde, Exclamation, At,
 
 	// Two character symbols
 	ContainsWord, StartsWithWord, StartsWith, EndsWith, Contains, GreaterThan, DoubleColon
@@ -69,6 +69,7 @@ public record SymbolToken: IToken, ISeparatedToken
 			Symbol.Plus => "+",
 			Symbol.Tilde => "~",
 			Symbol.Exclamation => "!",
+			Symbol.At => "@",
 			_ => throw new NotImplementedException("Missing symbol characters"),
 		};
 	}

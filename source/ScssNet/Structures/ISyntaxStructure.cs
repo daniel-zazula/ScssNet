@@ -11,3 +11,7 @@ public interface IStatement : ISyntaxStructure
 public interface INestableStatement : IStatement
 {
 }
+
+public interface IAtRule: IStatement
+{
+}

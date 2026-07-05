@@ -55,6 +55,7 @@ internal class SymbolParser
 			'+' => Symbol.Plus,
 			'~' => Symbol.Tilde,
 			'!' => Symbol.Exclamation,
+			'@' => Symbol.At,
 			_ => null
 		};
 	}
