@@ -14,7 +14,8 @@ internal class AtRuleParser
 
 		var identifier = tokenReader.RequireIdentifier();
 		
-		return ParseAtCharset(atSign, identifier, tokenReader)
+		return (IAtRule?)ParseAtCharset(atSign, identifier, tokenReader)
+			?? ParseAtImport(atSign, identifier, tokenReader)
 			?? throw new NotImplementedException($"At-rule not implemented {identifier.Text}");
 	}
 
@@ -27,6 +28,17 @@ internal class AtRuleParser
 		var semiColon = tokenReader.Match(Symbol.SemiColon);
 
 		return new AtCharset(atSign, identifier, charsetName, semiColon);
+	}
+
+	internal AtImport? ParseAtImport(SymbolToken atSign, IdentifierToken identifier, ITokenReader tokenReader)
+	{
+		if(!IdentifierMatch(identifier, "import"))
+			return null;
+
+		var importPath = tokenReader.RequireString();
+		var semiColon = tokenReader.Match(Symbol.SemiColon);
+
+		return new AtImport(atSign, identifier, importPath, semiColon);
 	}
 
 	private bool IdentifierMatch(IdentifierToken identifier, string text)
