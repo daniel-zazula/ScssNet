@@ -26,15 +26,15 @@ public class ScssCompiler
 
 		var provider = services.BuildServiceProvider();
 		var tokenReader = provider.GetRequiredService<ITokenReader>();
-		var ruleSetParser = provider.GetRequiredService<RuleSetParser>();
-		var ruleSetGenerator = provider.GetRequiredService<RuleSetGenerator>();
+		var statementParser = provider.GetRequiredService<StatementParser>();
+		var statementGenerator = provider.GetRequiredService<StatementGenerator>();
 		var cssWriter = new CssWriter(textWriter);
 
-		var ruleSet = ruleSetParser.Parse(tokenReader);
-		while(ruleSet != null)
+		var element = statementParser.Parse(tokenReader);
+		while(element != null)
 		{
-			ruleSetGenerator.Generate(ruleSet, cssWriter);
-			ruleSet = ruleSetParser.Parse(tokenReader);
+			statementGenerator.Generate(element, cssWriter);
+			element = statementParser.Parse(tokenReader);
 		}
 	}
 }
