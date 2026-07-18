@@ -11,38 +11,33 @@ internal class AtRuleParser
 		var atSign = tokenReader.Match(Symbol.At);
 		if(atSign is null)
 			return null;
-
-		var identifier = tokenReader.RequireIdentifier();
 		
-		return (IAtRule?)ParseAtCharset(atSign, identifier, tokenReader)
-			?? ParseAtImport(atSign, identifier, tokenReader)
-			?? throw new NotImplementedException($"At-rule not implemented {identifier.Text}");
+		return (IAtRule?)ParseAtCharset(atSign, tokenReader)
+			?? ParseAtImport(atSign, tokenReader)
+			?? throw new NotImplementedException($"At-rule does not match any known keywords.");
 	}
 
-	internal AtCharset? ParseAtCharset(SymbolToken atSign, IdentifierToken identifier, ITokenReader tokenReader)
+	internal AtCharset? ParseAtCharset(SymbolToken atSign, ITokenReader tokenReader)
 	{
-		if(!IdentifierMatch(identifier, "charset"))
+		var keyword = tokenReader.Match(Keyword.Charset);
+		if(keyword is null)
 			return null;
 
 		var charsetName = tokenReader.RequireString();
 		var semiColon = tokenReader.Match(Symbol.SemiColon);
 
-		return new AtCharset(atSign, identifier, charsetName, semiColon);
+		return new AtCharset(atSign, keyword, charsetName, semiColon);
 	}
 
-	internal AtImport? ParseAtImport(SymbolToken atSign, IdentifierToken identifier, ITokenReader tokenReader)
+	internal AtImport? ParseAtImport(SymbolToken atSign, ITokenReader tokenReader)
 	{
-		if(!IdentifierMatch(identifier, "import"))
+		var keyword = tokenReader.Match(Keyword.Import);
+		if(keyword is null)
 			return null;
 
 		var importPath = tokenReader.RequireString();
 		var semiColon = tokenReader.Match(Symbol.SemiColon);
 
-		return new AtImport(atSign, identifier, importPath, semiColon);
-	}
-
-	private bool IdentifierMatch(IdentifierToken identifier, string text)
-	{
-		return string.Equals(identifier.Text, text, StringComparison.OrdinalIgnoreCase);
+		return new AtImport(atSign, keyword, importPath, semiColon);
 	}
 }

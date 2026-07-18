@@ -37,6 +37,8 @@ internal class TokenReader
 		var typeOfT = typeof(T);
 		if(typeOfT == typeof(SymbolToken))
 			throw new InvalidOperationException("Use Match(Symbol symbol) for matching symbols.");
+		else if (typeOfT == typeof(KeywordToken))
+			throw new InvalidOperationException("Use Match(Keyword keyword) for matching keywords.");
 
 		if(Peek() is T token)
 		{
@@ -45,6 +47,22 @@ internal class TokenReader
 		}
 
 		return default;
+	}
+
+	public KeywordToken? Match(Keyword keyword)
+	{
+		if(Peek() is IdentifierToken identifierToken && MatchKeyword(identifierToken, keyword))
+		{
+			ReadNextToken();
+			return new KeywordToken(keyword, identifierToken);
+		}
+
+		return null;
+
+		static bool MatchKeyword(IdentifierToken identifier, Keyword keyword)
+		{
+			return string.Equals(identifier.Text, keyword.ToString(), StringComparison.OrdinalIgnoreCase);
+		}
 	}
 
 	public SymbolToken Require(Symbol symbol)
