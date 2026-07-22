@@ -2,7 +2,7 @@
 
 namespace ScssNet.Generation;
 
-internal class AtRuleGenerator
+internal class AtRuleGenerator(Lazy<ValueGenerator> valueGenerator)
 {
 	public void Generate(IAtRule atRule, CssWriter writer)
 	{
@@ -35,7 +35,7 @@ internal class AtRuleGenerator
 		writer.Write(atImport.AtSign);
 		writer.Write(atImport.Import);
 		writer.Write(" ");
-		writer.Write(atImport.Path);
+		valueGenerator.Value.Generate(atImport.Path, writer);
 		if(atImport.SemiColon is not null)
 		{
 			writer.Write(atImport.SemiColon);

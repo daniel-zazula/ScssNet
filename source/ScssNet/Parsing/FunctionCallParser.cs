@@ -12,7 +12,7 @@ internal class FunctionCallParser(Lazy<ValueParser> valueParser)
 		if(openParenthesis == null)
 			return null;
 
-		var arguments = valueParser.Value.ParseList(tokenReader);
+		var arguments = valueParser.Value.ParseCommaList(tokenReader);
 
 		var closeParenthesis = tokenReader.Match(Symbol.CloseParenthesis);
 		if(closeParenthesis == null)

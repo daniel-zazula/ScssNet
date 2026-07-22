@@ -4,12 +4,12 @@ using ScssNet.Tokens;
 
 public class AtImport
 (
-	SymbolToken atSign, KeywordToken import, StringToken path, SymbolToken? semiColon
+	SymbolToken atSign, KeywordToken import, IValue path, SymbolToken? semiColon
 ) : SourceElement, IStatement, IAtRule
 {
 	public SymbolToken AtSign => atSign;
 	public KeywordToken Import => import;
-	public StringToken Path => path;
+	public IValue Path => path;
 	public SymbolToken? SemiColon => semiColon;
 
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(atSign, path, semiColon);

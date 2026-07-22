@@ -12,19 +12,19 @@ internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
 		if(value == null)
 			return null;
 
-		return ParseCommaSeparatedItems(tokenReader, value) ?? ParseSpacedItems(tokenReader, value) ?? value;
+		return ParseCommaList(tokenReader, value) ?? ParseSpacedList(tokenReader, value) ?? value;
 	}
 
-	internal ValueList? ParseList(ITokenReader tokenReader)
+	internal IValue? ParseCommaList(ITokenReader tokenReader)
 	{
 		var value = ParseSingle(tokenReader);
 		if(value == null)
 			return null;
 
-		return ParseCommaSeparatedItems(tokenReader, value) ?? new ValueList([new ValueListItem(value)]);
+		return ParseCommaList(tokenReader, value) ?? value;
 	}
 
-	private ValueList? ParseCommaSeparatedItems(ITokenReader tokenReader, IValue firstValue)
+	private ValueList? ParseCommaList(ITokenReader tokenReader, IValue firstValue)
 	{
 		var comma = tokenReader.Match(Symbol.Comma);
 		if (comma == null)
@@ -44,7 +44,7 @@ internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
 		return items.Count > 1 ? new ValueList(items) : null;
 	}
 
-	private ValueList? ParseSpacedItems(ITokenReader tokenReader, IValue firstValue)
+	private ValueList? ParseSpacedList(ITokenReader tokenReader, IValue firstValue)
 	{
 		var items = new List<ValueListItem> { new(firstValue) };
 		var lastValue = firstValue;

@@ -4,7 +4,7 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class AtRuleParser
+internal class AtRuleParser(Lazy<ValueParser> valueParser)
 {
 	internal IAtRule? Parse(ITokenReader tokenReader)
 	{
@@ -35,7 +35,7 @@ internal class AtRuleParser
 		if(keyword is null)
 			return null;
 
-		var importPath = tokenReader.RequireString();
+		var importPath = valueParser.Value.Parse(tokenReader) ?? tokenReader.RequireString();
 		var semiColon = tokenReader.Match(Symbol.SemiColon);
 
 		return new AtImport(atSign, keyword, importPath, semiColon);

@@ -34,4 +34,10 @@ internal class CssWriter(TextWriter textWriter)
 	{
 		textWriter.Write(keywordToken.Text);
 	}
+
+	internal void Write(UnitValueToken unitValueToken)
+	{
+		textWriter.Write(unitValueToken.Amount);
+		textWriter.Write(unitValueToken.Unit);
+	}
 }

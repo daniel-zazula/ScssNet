@@ -42,7 +42,9 @@ public class FunctionCallParserTests : ParserTestBase
 
 		var arguments = functionCall.Arguments;
 		arguments.ShouldNotBeNull();
-		arguments!.Items.Count.ShouldBe(2);
+		
+		var list = arguments.ShouldBeOfType<ValueList>();
+		list.Items.ShouldHaveCount(2);
 
 		functionCall.Issues.ShouldBeEmpty();
 		tokenReader.End.ShouldBeTrue();

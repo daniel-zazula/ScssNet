@@ -4,14 +4,14 @@ namespace ScssNet.Structures;
 
 public class FunctionCall
 (
-	IdentifierToken name, SymbolToken openParenthesis, ValueList? arguments, SymbolToken closeParenthesis
+	IdentifierToken name, SymbolToken openParenthesis, IValue? arguments, SymbolToken closeParenthesis
 ): SourceElement, IValue
 {
 	public IdentifierToken Name => name;
 
 	public SymbolToken OpenParenthesis => openParenthesis;
 
-	public ValueList? Arguments => arguments;
+	public IValue? Arguments => arguments;
 
 	public SymbolToken CloseParenthesis => closeParenthesis;
 
