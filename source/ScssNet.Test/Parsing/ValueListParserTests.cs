@@ -51,7 +51,7 @@ public class ValueListParserTests : ParserTestBase
 		value.ShouldNotBeNull();
 		var list = value.ShouldBeOfType<ValueList>();
 
-		list.Items.Count.ShouldBe(values.Length);
+		list.Items.ShouldHaveCount(values.Length);
 
 		for(var i = 0; i < values.Length; i++)
 		{

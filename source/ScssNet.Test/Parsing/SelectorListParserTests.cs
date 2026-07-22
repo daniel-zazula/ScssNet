@@ -22,7 +22,7 @@ public class SelectorListParserTests : ParserTestBase
 		var selectorList = selectorListParser.Parse(tokenReader);
 		selectorList.ShouldNotBeNull();
 		var selectors = selectorList.Items;
-		selectors.Count.ShouldBe(4);
+		selectors.ShouldHaveCount(4);
 
 		for(var i = 0; i < selectorsSource.Length; i++)
 		{

@@ -59,7 +59,7 @@ public class BlockParserTests: ParserTestBase
 
 		var block = blockParser.Parse(tokenReader);
 		block.ShouldNotBeNull();
-		block.Rules.Count. ShouldBe(2);
+		block.Rules.ShouldHaveCount(2);
 		block.Issues.ShouldBeEmpty();
 		tokenReader.End.ShouldBeTrue();
 	}
