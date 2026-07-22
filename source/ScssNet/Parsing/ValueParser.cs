@@ -4,7 +4,7 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class ValueParser
+internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
 {
 	internal IValue? Parse(ITokenReader tokenReader)
 	{
@@ -15,7 +15,16 @@ internal class ValueParser
 		return ParseCommaSeparatedItems(tokenReader, value) ?? ParseSpacedItems(tokenReader, value) ?? value;
 	}
 
-	private IValue? ParseCommaSeparatedItems(ITokenReader tokenReader, IValue firstValue)
+	internal ValueList? ParseList(ITokenReader tokenReader)
+	{
+		var value = ParseSingle(tokenReader);
+		if(value == null)
+			return null;
+
+		return ParseCommaSeparatedItems(tokenReader, value) ?? new ValueList([new ValueListItem(value)]);
+	}
+
+	private ValueList? ParseCommaSeparatedItems(ITokenReader tokenReader, IValue firstValue)
 	{
 		var comma = tokenReader.Match(Symbol.Comma);
 		if (comma == null)
@@ -35,7 +44,7 @@ internal class ValueParser
 		return items.Count > 1 ? new ValueList(items) : null;
 	}
 
-	private IValue? ParseSpacedItems(ITokenReader tokenReader, IValue firstValue)
+	private ValueList? ParseSpacedItems(ITokenReader tokenReader, IValue firstValue)
 	{
 		var items = new List<ValueListItem> { new(firstValue) };
 		var lastValue = firstValue;
@@ -56,6 +65,7 @@ internal class ValueParser
 			{
 				ISeparatedToken separatedToken => separatedToken.HasTrailingSeparator(),
 				ValueList => false,
+				FunctionCall functionCall => functionCall.CloseParenthesis.HasTrailingSeparator(),
 				_ => throw new NotImplementedException("Unknow value type")
 			};
 		}
@@ -63,7 +73,12 @@ internal class ValueParser
 
 	private IValue? ParseSingle(ITokenReader tokenReader)
 	{
-		return tokenReader.Match<IValueToken>();
-		// TBA more comples values like function calls
+		var valueToken = tokenReader.Match<IValueToken>();
+		if (valueToken is IdentifierToken identifierToken)
+		{
+			return (IValue?)functionCallParser.Value.Parse(tokenReader, identifierToken) ?? valueToken;
+		}
+
+		return valueToken;
 	}
 }

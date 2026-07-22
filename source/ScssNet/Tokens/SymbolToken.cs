@@ -3,8 +3,9 @@
 public enum Symbol
 {
 	// One character symbols
-	Comma, Dot, Colon, SemiColon, Asterisk, OpenBrace, CloseBrace, OpenBracket, CloseBracket, Equals,
-	Plus, Tilde, Exclamation, At,
+	Comma, Dot, Colon, SemiColon, Asterisk,
+	OpenBrace, CloseBrace, OpenBracket, CloseBracket, OpenParenthesis, CloseParenthesis,
+	Equals, Plus, Tilde, Exclamation, At,
 
 	// Two character symbols
 	ContainsWord, StartsWithWord, StartsWith, EndsWith, Contains, GreaterThan, DoubleColon
@@ -64,6 +65,8 @@ public record SymbolToken: IToken, ISeparatedToken
 			Symbol.CloseBrace => "}",
 			Symbol.OpenBracket => "[",
 			Symbol.CloseBracket => "]",
+			Symbol.OpenParenthesis => "(",
+			Symbol.CloseParenthesis => ")",
 			Symbol.Equals => "=",
 			Symbol.GreaterThan => ">",
 			Symbol.Plus => "+",

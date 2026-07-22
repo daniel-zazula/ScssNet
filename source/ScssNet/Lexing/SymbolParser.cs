@@ -50,6 +50,8 @@ internal class SymbolParser
 			'}' => Symbol.CloseBrace,
 			'[' => Symbol.OpenBracket,
 			']' => Symbol.CloseBracket,
+			'(' => Symbol.OpenParenthesis,
+			')' => Symbol.CloseParenthesis,
 			'=' => Symbol.Equals,
 			'>' => Symbol.GreaterThan,
 			'+' => Symbol.Plus,

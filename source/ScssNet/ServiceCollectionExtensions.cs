@@ -41,6 +41,7 @@ internal static class ServiceCollectionExtensions
 		services.AddLazySingleton<RuleSetParser>();
 		services.AddLazySingleton<StatementParser>();
 		services.AddLazySingleton<AtRuleParser>();
+		services.AddLazySingleton<FunctionCallParser>();
 	}
 
 	internal static void AddGenerators(this IServiceCollection services)
