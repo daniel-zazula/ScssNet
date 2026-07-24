@@ -12,7 +12,7 @@ internal class CssWriter(TextWriter textWriter)
 
 	public void Write(SymbolToken symbolToken)
 	{
-		textWriter.Write(symbolToken.ToChars());
+		textWriter.Write(symbolToken.Symbol.ToChars());
 	}
 
 	public void Write(IdentifierToken identifierToken)
