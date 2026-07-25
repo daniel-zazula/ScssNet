@@ -75,6 +75,18 @@ public abstract class GeneratorTestBase
 		return new KeywordToken(keyword, value, start, end, Separator.Empty, Separator.Empty);
 	}
 
+	protected static UnitValueToken CreateUnitValueToken
+	(
+		decimal amount, string unit, int lineNumber = 1, int columnNumber = 1
+	)
+	{
+		var valueString = $"{amount}{unit}";
+		var length = valueString.Length;
+		var (start, end) = CreateTokenCoordinates(lineNumber, columnNumber, length);
+
+		return new UnitValueToken(amount, unit, start, end, Separator.Empty, Separator.Empty);
+	}
+
 	private static (SourceCoordinates start, SourceCoordinates end) CreateTokenCoordinates
 	(
 		int lineNumber = 1, int columnNumber = 1, int length = 1

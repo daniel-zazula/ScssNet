@@ -83,4 +83,17 @@ public class CssWriterTests: GeneratorTestBase
 		var stringWriter = provider.GetRequiredService<StringWriter>();
 		stringWriter.ToString().ShouldBe(keyword);
 	}
+
+	[TestMethod]
+	public void ShouldWriteUnitValue()
+	{
+		var numberToken = CreateUnitValueToken(1.5m, "em");
+
+		var provider = BuildServiceProvider();
+		var cssWriter = provider.GetRequiredService<CssWriter>();
+		cssWriter.Write(numberToken);
+
+		var stringWriter = provider.GetRequiredService<StringWriter>();
+		stringWriter.ToString().ShouldBe("1.5em");
+	}
 }

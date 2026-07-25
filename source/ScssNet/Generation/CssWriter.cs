@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 using ScssNet.Tokens;
 
 namespace ScssNet.Generation;
@@ -37,7 +38,7 @@ internal class CssWriter(TextWriter textWriter)
 
 	internal void Write(UnitValueToken unitValueToken)
 	{
-		textWriter.Write(unitValueToken.Amount);
+		textWriter.Write(unitValueToken.Amount.ToString(CultureInfo.InvariantCulture));
 		textWriter.Write(unitValueToken.Unit);
 	}
 }

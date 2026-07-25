@@ -57,6 +57,8 @@ internal static class ServiceCollectionExtensions
 		services.AddLazySingleton<AttributeSelectorGenerator>();
 		services.AddLazySingleton<StatementGenerator>();
 		services.AddLazySingleton<AtRuleGenerator>();
+		services.AddLazySingleton<ValueGenerator>();
+		services.AddLazySingleton<FunctionCallGenerator>();
 	}
 
 	private static void AddLazySingleton<TService>(this IServiceCollection services) where TService : class
