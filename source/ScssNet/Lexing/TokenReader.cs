@@ -14,8 +14,6 @@ internal class TokenReader
 	private readonly ISourceReader SourceReader = sourceReader;
 	private ISeparatedToken? NextToken;
 
-	public SourceCoordinates GetCoordinates() => SourceReader.GetCoordinates();
-
 	public SymbolToken? Match(Symbol symbol)
 	{
 		return Match([symbol]);
@@ -67,17 +65,22 @@ internal class TokenReader
 
 	public SymbolToken Require(Symbol symbol)
 	{
-		return Match(symbol) ?? SymbolToken.CreateMissing(symbol, GetCoordinates());
+		return Match(symbol) ?? SymbolToken.CreateMissing(symbol, SourceReader.GetCoordinates());
 	}
 
 	public IdentifierToken RequireIdentifier()
 	{
-		return Match<IdentifierToken>() ?? IdentifierToken.CreateMissing(GetCoordinates());
+		return Match<IdentifierToken>() ?? IdentifierToken.CreateMissing(SourceReader.GetCoordinates());
 	}
 
 	public StringToken RequireString()
 	{
-		return Match<StringToken>() ?? StringToken.CreateMissing(GetCoordinates());
+		return Match<StringToken>() ?? StringToken.CreateMissing(SourceReader.GetCoordinates());
+	}
+
+	public KeywordToken RequireKeyword(Keyword keyword)
+	{
+		return Match(keyword) ?? KeywordToken.CreateMissing(keyword, SourceReader.GetCoordinates());
 	}
 
 	private IToken? Peek()

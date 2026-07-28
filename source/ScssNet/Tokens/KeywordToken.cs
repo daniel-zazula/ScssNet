@@ -2,7 +2,7 @@
 
 public enum Keyword
 {
-	Charset, Import
+	Charset, Import, Important
 }
 
 public record KeywordToken : IToken, ISeparatedToken
@@ -41,5 +41,11 @@ public record KeywordToken : IToken, ISeparatedToken
 		LeadingSeparator = identifiertoken.LeadingSeparator;
 		TrailingSeparator = identifiertoken.TrailingSeparator;
 		Issues = identifiertoken.Issues;
+	}
+
+	internal static KeywordToken CreateMissing(Keyword keyword, SourceCoordinates coordinates)
+	{
+		var issue = new Issue(IssueType.Error, "Expected identifier");
+		return new KeywordToken(keyword, "", coordinates, coordinates, Separator.Empty, Separator.Empty, [issue]);
 	}
 }

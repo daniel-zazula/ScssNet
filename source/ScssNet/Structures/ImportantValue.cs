@@ -5,7 +5,7 @@ namespace ScssNet.Structures;
 public class ImportantValue: SourceElement, ISourceElement
 {
 	public SymbolToken Exclamation { get; }
-	public IdentifierToken Important { get; }
+	public KeywordToken Important { get; }
 
 	public SourceCoordinates Start => Exclamation.Start;
 	public SourceCoordinates End => Important.End;
@@ -13,7 +13,7 @@ public class ImportantValue: SourceElement, ISourceElement
 	public Separator TrailingSeparator => Important.TrailingSeparator;
 	public IEnumerable<Issue> Issues => Exclamation.Issues.Concat(Important.Issues);
 
-	internal ImportantValue(SymbolToken exclamation, IdentifierToken important)
+	internal ImportantValue(SymbolToken exclamation, KeywordToken important)
 	{
 		Exclamation = exclamation;
 		Important = important;

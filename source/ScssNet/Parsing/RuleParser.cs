@@ -26,17 +26,7 @@ internal class RuleParser(Lazy<ValueParser> valueParser)
 		if (exclamation is null)
 			return null;
 
-		var important = tokenReader.RequireIdentifier();
-		if (!string.Equals(important.Text, "important", StringComparison.OrdinalIgnoreCase))
-		{
-			var issue = new Issue(IssueType.Error, $"Expected 'important' after '!', but found '{important.Text}'.");
-			important = new IdentifierToken
-			(
-				important.Text, important.Start, important.End, important.LeadingSeparator, important.TrailingSeparator,
-				[issue]
-			);
-		}
-
+		var important = tokenReader.RequireKeyword(Keyword.Important);
 		return new ImportantValue(exclamation, important);
 	}
 }

@@ -6,7 +6,6 @@ internal interface ITokenReader
 {
 	bool End { get; }
 
-	SourceCoordinates GetCoordinates();
 	SymbolToken? Match(ICollection<Symbol> symbols);
 	SymbolToken? Match(Symbol symbol);
 	KeywordToken? Match(Keyword keyword);
@@ -14,4 +13,5 @@ internal interface ITokenReader
 	SymbolToken Require(Symbol symbol);
 	IdentifierToken RequireIdentifier();
 	StringToken RequireString();
+	KeywordToken RequireKeyword(Keyword keyword);
 }
