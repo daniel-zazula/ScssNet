@@ -9,18 +9,43 @@ namespace ScssNet.Test.Generation;
 [TestClass]
 public class IdSelectorGeneratorTests: GeneratorTestBase
 {
+	internal const string ExpectedIdSelector = "#myid";
+
 	[TestMethod]
-	public void ShouldWriteIdSelector()
+	public void ShouldGenerateFromIdSelectorGenerator()
 	{
-		var hash = CreateHashValueToken("#myid");
-		var idSelector = new IdSelector(hash, null);
+		var idSelector = CreateIdSelector();
+
+		var provider = BuildServiceProvider();
+		var generator = provider.GetRequiredService<IdSelectorGenerator>();
+		var cssWriter = provider.GetRequiredService<CssWriter>();
+		generator.Generate(idSelector, cssWriter);
+
+		AssertIdSelector(provider);
+	}
+
+	[TestMethod]
+	public void ShouldGenerateFromSelectorGenerator()
+	{
+		var idSelector = CreateIdSelector();
 
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<SelectorGenerator>();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		generator.Generate(idSelector, cssWriter);
 
+		AssertIdSelector(provider);
+	}
+
+	internal static IdSelector CreateIdSelector()
+	{
+		var hash = CreateHashValueToken("#myid");
+		return new IdSelector(hash, null);
+	}
+
+	private static void AssertIdSelector(ServiceProvider provider)
+	{
 		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe("#myid");
+		stringWriter.ToString().ShouldBe(ExpectedIdSelector);
 	}
 }
