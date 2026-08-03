@@ -38,9 +38,9 @@ public class AttributeSelectorGeneratorTests: GeneratorTestBase
 		AssertAttributeSelector(provider);
 	}
 
-	internal static AttributeSelector CreateAttributeSelector()
+	internal static AttributeSelector CreateAttributeSelector(int previousColumnNumber = 0)
 	{
-		var openBracket = CreateSymbolToken(Symbol.OpenBracket);
+		var openBracket = CreateSymbolToken(Symbol.OpenBracket, columnNumber: previousColumnNumber + 1);
 		var attributeIdentifier = CreateIdentifierToken("attr", columnNumber: openBracket.End.ColumnNumber + 1);
 		var equalSign = CreateSymbolToken(Symbol.Equals, columnNumber: attributeIdentifier.End.ColumnNumber + 1);
 		var value = CreateStringToken(@"""some-value""", columnNumber: equalSign.End.ColumnNumber + 1);

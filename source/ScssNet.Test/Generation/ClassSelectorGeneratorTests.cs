@@ -38,9 +38,9 @@ public class ClassSelectorGeneratorTests: GeneratorTestBase
 		AssertClassSelector(provider);
 	}
 
-	internal static ClassSelector CreateClassSelector()
+	internal static ClassSelector CreateClassSelector(int previousColumnNumber = 0)
 	{
-		var dot = CreateSymbolToken(Symbol.Dot);
+		var dot = CreateSymbolToken(Symbol.Dot, columnNumber: previousColumnNumber + 1);
 		var identifier = CreateIdentifierToken("my-class", columnNumber: dot.End.ColumnNumber + 1);
 
 		return new ClassSelector(dot, identifier, null);
