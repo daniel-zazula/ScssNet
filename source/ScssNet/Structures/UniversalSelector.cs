@@ -6,7 +6,7 @@ namespace ScssNet.Structures;
 public class UniversalSelector
 (
 	SymbolToken asterisk, ISelectorQualifier? qualifier
-) : SourceElement, ISelectorQualifier
+) : SourceElement, ISyntaxStructure, ISelectorQualifier
 {
 	public SymbolToken Asterisk => asterisk;
 	public ISelectorQualifier? Qualifier => qualifier;

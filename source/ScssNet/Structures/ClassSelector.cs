@@ -5,7 +5,7 @@ namespace ScssNet.Structures;
 public class ClassSelector
 (
 	SymbolToken dot, IdentifierToken identifier, ISelectorQualifier? qualifier
-) : SourceElement, ISelectorQualifier
+) : SourceElement, ISyntaxStructure, ISelectorQualifier
 {
 	public SymbolToken Dot => dot;
 	public IdentifierToken Identifier => identifier;

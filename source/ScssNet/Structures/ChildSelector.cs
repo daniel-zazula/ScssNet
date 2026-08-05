@@ -5,7 +5,7 @@ namespace ScssNet.Structures;
 public class ChildSelector
 (
 	ISelector parentSelector, SymbolToken childOperatorSymbolToken, ISelector selector
-) : SourceElement, IComplexSelector
+) : SourceElement, ISyntaxStructure, IComplexSelector
 {
 	public ISelector Selector => selector;
 

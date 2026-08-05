@@ -5,7 +5,7 @@ namespace ScssNet.Structures;
 public class IdSelector
 (
 	HashValueToken identifier, ISelectorQualifier? qualifier
-) : SourceElement, ISelectorQualifier
+) : SourceElement, ISyntaxStructure, ISelectorQualifier
 {
 	public HashValueToken Identifier => identifier;
 	public ISelectorQualifier? Qualifier => qualifier;

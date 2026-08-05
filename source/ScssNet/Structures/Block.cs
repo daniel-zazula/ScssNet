@@ -2,7 +2,8 @@
 
 namespace ScssNet.Structures;
 
-public class Block(SymbolToken openBrace, ICollection<Rule> rules, SymbolToken closeBrace) : SourceElement, ISyntaxStructure
+public class Block(SymbolToken openBrace, ICollection<Rule> rules, SymbolToken closeBrace)
+	: SourceElement, ISyntaxStructure
 {
 	public SymbolToken OpenBrace => openBrace;
 	public ICollection<Rule> Rules => rules;

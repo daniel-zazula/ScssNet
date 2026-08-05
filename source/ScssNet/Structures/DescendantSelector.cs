@@ -3,7 +3,7 @@
 public class DescendantSelector
 (
 	ISelector ascendantSelector, ISelector selector
-) : SourceElement, IComplexSelector
+) : SourceElement, ISyntaxStructure, IComplexSelector
 {
 	public ISelector Selector => selector;
 

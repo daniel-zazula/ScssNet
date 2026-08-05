@@ -1,6 +1,6 @@
 ﻿namespace ScssNet.Structures;
 
-public class RuleSet(SelectorList selectorlist, Block ruleBlock) : SourceElement, INestableStatement
+public class RuleSet(SelectorList selectorlist, Block ruleBlock) : SourceElement, ISyntaxStructure, INestableStatement
 {
 	public SelectorList SelectorList => selectorlist;
 	public Block RuleBlock => ruleBlock;

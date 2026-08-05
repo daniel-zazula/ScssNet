@@ -6,7 +6,7 @@ public class AttributeSelector
 (
 	SymbolToken openBracket, IdentifierToken attribute, SymbolToken? @operator, StringToken? value,
 	IdentifierToken? modifier, SymbolToken closeBracket, ISelectorQualifier? qualifier
-) : SourceElement, ISelectorQualifier
+) : SourceElement, ISyntaxStructure, ISelectorQualifier
 {
 	public SymbolToken OpenBracket => openBracket;
 	public IdentifierToken Attribute => attribute;

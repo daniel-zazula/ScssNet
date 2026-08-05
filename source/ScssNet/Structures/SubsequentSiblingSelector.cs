@@ -5,7 +5,7 @@ namespace ScssNet.Structures;
 public class SubsequentSiblingSelector
 (
 	ISelector precedingSiblingSelector, SymbolToken subsequentSiblingSymbolToken, ISelector selector
-) : SourceElement, IComplexSelector
+) : SourceElement, ISyntaxStructure, IComplexSelector
 {
 	public ISelector Selector => selector;
 

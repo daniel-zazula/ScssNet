@@ -5,7 +5,7 @@ namespace ScssNet.Structures;
 public class FunctionCall
 (
 	IdentifierToken name, SymbolToken openParenthesis, IValue? arguments, SymbolToken closeParenthesis
-): SourceElement, IValue
+): SourceElement, ISyntaxStructure, IValue
 {
 	public IdentifierToken Name => name;
 

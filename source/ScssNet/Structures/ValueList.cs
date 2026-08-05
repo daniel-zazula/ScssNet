@@ -3,7 +3,7 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Structures;
 
-public class ValueList : SourceElement, IValue
+public class ValueList : SourceElement, ISyntaxStructure, IValue
 {
 	public IReadOnlyList<ValueListItem> Items { get; }
 
@@ -18,7 +18,7 @@ public class ValueList : SourceElement, IValue
 	}
 }
 
-public class ValueListItem(IValue value, SymbolToken? comma = null) : SourceElement, ISourceElement
+public class ValueListItem(IValue value, SymbolToken? comma = null) : SourceElement, ISyntaxStructure, ISourceElement
 {
 	public IValue Value => value;
 

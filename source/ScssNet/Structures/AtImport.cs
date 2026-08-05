@@ -5,7 +5,7 @@ using ScssNet.Tokens;
 public class AtImport
 (
 	SymbolToken atSign, KeywordToken import, IValue path, SymbolToken? semiColon
-) : SourceElement, IStatement, IAtRule
+) : SourceElement, ISyntaxStructure, IStatement, IAtRule
 {
 	public SymbolToken AtSign => atSign;
 	public KeywordToken Import => import;

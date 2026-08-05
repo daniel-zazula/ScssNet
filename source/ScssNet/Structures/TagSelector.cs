@@ -2,7 +2,8 @@
 
 namespace ScssNet.Structures;
 
-public class TagSelector(IdentifierToken identifier, ISelectorQualifier? qualifier) : SourceElement, ICompositeSelector
+public class TagSelector(IdentifierToken identifier, ISelectorQualifier? qualifier)
+	: SourceElement, ISyntaxStructure, ICompositeSelector
 {
 	public IdentifierToken Identifier => identifier;
 	public ISelectorQualifier? Qualifier => qualifier;

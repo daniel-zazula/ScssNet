@@ -5,7 +5,7 @@ namespace ScssNet.Structures;
 public class PseudoClassSelector
 (
 	SymbolToken colon, IdentifierToken identifier, ISelectorQualifier? qualifier
-) : SourceElement, ISelectorQualifier
+) : SourceElement, ISyntaxStructure, ISelectorQualifier
 {
 	public SymbolToken Colon => colon;
 	public IdentifierToken Identifier => identifier;

@@ -5,7 +5,7 @@ using ScssNet.Tokens;
 public class AtCharset
 (
 	SymbolToken atSign, KeywordToken charset, StringToken charsetName, SymbolToken? semiColon
-) : SourceElement, IStatement, IAtRule
+) : SourceElement, ISyntaxStructure, IStatement, IAtRule
 {
 	public SymbolToken AtSign => atSign;
 	public KeywordToken Charset => charset;
