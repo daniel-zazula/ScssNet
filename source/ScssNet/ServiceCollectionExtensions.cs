@@ -1,68 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using ScssNet.Generation;
-using ScssNet.Lexing;
-using ScssNet.Parsing;
 
 namespace ScssNet;
 
 internal static class ServiceCollectionExtensions
 {
-	internal static void AddTokenParsers(this IServiceCollection services)
-	{
-		services.AddSingleton<CommentParser>();
-		services.AddSingleton<HashValueParser>();
-		services.AddSingleton<IdentifierParser>();
-		services.AddSingleton<StringParser>();
-		services.AddSingleton<SymbolParser>();
-		services.AddSingleton<UnitValueParser>();
-		services.AddSingleton<WhiteSpaceParser>();
-	}
-
-	internal static void AddReaders(this IServiceCollection services)
-	{
-		services.AddSingleton<ISourceReader, SourceReader>();
-		services.AddSingleton<ITokenReader, TokenReader>();
-	}
-
-	internal static void AddParsers(this IServiceCollection services)
-	{
-		services.AddLazySingleton<TagSelectorParser>();
-		services.AddLazySingleton<ClassSelectorParser>();
-		services.AddLazySingleton<IdSelectorParser>();
-		services.AddLazySingleton<AttributeSelectorParser>();
-		services.AddLazySingleton<UniversalSelectorParser>();
-		services.AddLazySingleton<PseudoClassSelectorParser>();
-		services.AddLazySingleton<PseudoElementSelectorParser>();
-		services.AddLazySingleton<SelectorListParser>();
-		services.AddLazySingleton<SelectorParser>();
-		services.AddLazySingleton<ValueParser>();
-		services.AddLazySingleton<RuleParser>();
-		services.AddLazySingleton<BlockParser>();
-		services.AddLazySingleton<RuleSetParser>();
-		services.AddLazySingleton<StatementParser>();
-		services.AddLazySingleton<AtRuleParser>();
-		services.AddLazySingleton<FunctionCallParser>();
-	}
-
-	internal static void AddGenerators(this IServiceCollection services)
-	{
-		services.AddLazySingleton<RuleSetGenerator>();
-		services.AddLazySingleton<RuleGenerator>();
-		services.AddLazySingleton<SelectorListGenerator>();
-		services.AddLazySingleton<BlockGenerator>();
-		services.AddLazySingleton<SelectorGenerator>();
-		services.AddLazySingleton<ClassSelectorGenerator>();
-		services.AddLazySingleton<UniversalSelectorGenerator>();
-		services.AddLazySingleton<IdSelectorGenerator>();
-		services.AddLazySingleton<TagSelectorGenerator>();
-		services.AddLazySingleton<AttributeSelectorGenerator>();
-		services.AddLazySingleton<StatementGenerator>();
-		services.AddLazySingleton<AtRuleGenerator>();
-		services.AddLazySingleton<ValueGenerator>();
-		services.AddLazySingleton<FunctionCallGenerator>();
-	}
-
-	private static void AddLazySingleton<TService>(this IServiceCollection services) where TService : class
+	internal static void AddLazySingleton<TService>(this IServiceCollection services) where TService : class
 	{
 		services.AddSingleton<TService>();
 		services.AddSingleton(sp => new Lazy<TService>(() => sp.GetRequiredService<TService>()));
