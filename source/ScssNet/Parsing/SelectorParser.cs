@@ -13,7 +13,7 @@ internal class SelectorParser
 
 )
 {
-	internal ISelector? Parse(ITokenReader tokenReader)
+	internal ISelector? Parse(TokenReader tokenReader)
 	{
 		var selector = ParseTagSelector() ?? ParseUniversalSelector()
 			?? ParseQualifier(tokenReader);
@@ -34,7 +34,7 @@ internal class SelectorParser
 		ISelector? ParseUniversalSelector() => universalSelectorParser.Value.Parse(tokenReader);
 	}
 
-	internal ISelectorQualifier? ParseQualifier(ITokenReader tokenReader)
+	internal ISelectorQualifier? ParseQualifier(TokenReader tokenReader)
 	{
 		return ParseIdSelector() ?? ParseClassSelector() ?? ParseAttributeSelector()
 			?? ParsePseudoClassSelector() ?? ParsePseudoElementSelector();
@@ -46,7 +46,7 @@ internal class SelectorParser
 		ISelectorQualifier? ParsePseudoElementSelector() => pseudoElementSelectorParser.Value.Parse(tokenReader);
 	}
 
-	private IComplexSelector? ParseComplex(ITokenReader tokenReader, ISelector previousSelector)
+	private IComplexSelector? ParseComplex(TokenReader tokenReader, ISelector previousSelector)
 	{
 		var combinator = tokenReader.Match([Symbol.GreaterThan, Symbol.Tilde, Symbol.Plus]);
 		if(combinator is null)
@@ -71,7 +71,7 @@ internal class SelectorParser
 		}
 	}
 
-	private IComplexSelector? ParseDescendant(ITokenReader tokenReader, ISelector previousSelector)
+	private IComplexSelector? ParseDescendant(TokenReader tokenReader, ISelector previousSelector)
 	{
 		var childSelector = Parse(tokenReader);
 		if(childSelector is null)

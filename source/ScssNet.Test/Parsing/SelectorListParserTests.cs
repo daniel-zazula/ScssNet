@@ -16,7 +16,7 @@ public class SelectorListParserTests : ParserTestBase
 		var source = string.Join(", ", selectorsSource);
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var selectorListParser = provider.GetRequiredService<SelectorListParser>();
 
 		var selectorList = selectorListParser.Parse(tokenReader);

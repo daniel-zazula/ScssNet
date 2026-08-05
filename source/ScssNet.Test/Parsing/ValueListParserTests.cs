@@ -44,7 +44,7 @@ public class ValueListParserTests : ParserTestBase
 		var source = string.Join(separator, values);
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var valueParser = provider.GetRequiredService<ValueParser>();
 
 		var value = valueParser.Parse(tokenReader);

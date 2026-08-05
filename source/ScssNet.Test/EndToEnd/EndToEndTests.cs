@@ -24,7 +24,7 @@ public class EndToEndTests : ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var sourceReader = provider.GetRequiredService<ISourceReader>();
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var stylesheetParser = provider.GetRequiredService<StatementParser>();
 
 		var issues = new List<Issue>();

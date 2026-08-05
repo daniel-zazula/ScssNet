@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class FunctionCallParser(Lazy<ValueParser> valueParser)
 {
-	internal FunctionCall? Parse(ITokenReader tokenReader, IdentifierToken name)
+	internal FunctionCall? Parse(TokenReader tokenReader, IdentifierToken name)
 	{
 		var openParenthesis = tokenReader.Match(Symbol.OpenParenthesis);
 		if(openParenthesis == null)

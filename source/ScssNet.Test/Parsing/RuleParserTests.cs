@@ -18,7 +18,7 @@ public class RuleParserTests : ParserTestBase
 		var source = $"-moz-color: red{semiColon}";
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var ruleParser = provider.GetRequiredService<RuleParser>();
 
 		var rule = ruleParser.Parse(tokenReader);
@@ -47,7 +47,7 @@ public class RuleParserTests : ParserTestBase
 	{
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var ruleParser = provider.GetRequiredService<RuleParser>();
 
 		var rule = ruleParser.Parse(tokenReader);

@@ -25,7 +25,7 @@ public class ScssCompiler
 		services.AddParsers();
 
 		var provider = services.BuildServiceProvider();
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var statementParser = provider.GetRequiredService<StatementParser>();
 		var statementGenerator = provider.GetRequiredService<StatementGenerator>();
 		var cssWriter = new CssWriter(textWriter);

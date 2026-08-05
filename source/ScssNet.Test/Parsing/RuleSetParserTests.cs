@@ -14,7 +14,7 @@ public class RuleSetParserTests : ParserTestBase
 		var source = "div { color: blue; }";
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var ruleSetParser = provider.GetRequiredService<RuleSetParser>();
 
 		var ruleSet = ruleSetParser.Parse(tokenReader);

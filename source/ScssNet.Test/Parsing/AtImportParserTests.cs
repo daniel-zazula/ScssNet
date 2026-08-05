@@ -42,7 +42,7 @@ public class AtImportParserTests : ParserTestBase
 		var source = $"@import {importPath};";
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var atRuleParser = provider.GetRequiredService<AtRuleParser>();
 
 		var atRule = atRuleParser.Parse(tokenReader);

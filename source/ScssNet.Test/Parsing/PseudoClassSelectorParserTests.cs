@@ -16,7 +16,7 @@ public class PseudoClassSelectorParserTests: ParserTestBase
 		var text = source[1..]; // Remove leading colon
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var parser = provider.GetRequiredService<PseudoClassSelectorParser>();
 
 		var selector = parser.Parse(tokenReader);

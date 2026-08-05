@@ -17,7 +17,7 @@ public class ValueParserTests : ParserTestBase
 	{
 		var provider = BuildServiceProvider(valueString);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var valueParser = provider.GetRequiredService<ValueParser>();
 
 		var value = valueParser.Parse(tokenReader);
@@ -35,7 +35,7 @@ public class ValueParserTests : ParserTestBase
 	{
 		var provider = BuildServiceProvider(valueString);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var valueParser = provider.GetRequiredService<ValueParser>();
 
 		var value = valueParser.Parse(tokenReader);
@@ -67,7 +67,7 @@ public class ValueParserTests : ParserTestBase
 	{
 		var provider = BuildServiceProvider(valueString);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var valueParser = provider.GetRequiredService<ValueParser>();
 
 		var value = valueParser.Parse(tokenReader);

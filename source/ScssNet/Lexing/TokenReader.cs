@@ -7,7 +7,7 @@ internal class TokenReader
 	ISourceReader sourceReader, IdentifierParser identifierParser, SymbolParser symbolParser,
 	UnitValueParser unitValueParser, HashValueParser hashValueParser, StringParser stringParser,
 	CommentParser commentParser, WhiteSpaceParser whiteSpaceParser
-) : ITokenReader
+)
 {
 	public bool End => NextToken == null && SourceReader.End;
 
@@ -94,7 +94,7 @@ internal class TokenReader
 		return NextToken;
 	}
 
-	private void ReadNextToken(bool acceptHexValue = false)
+	private void ReadNextToken()
 	{
 		if(SourceReader.End)
 		{

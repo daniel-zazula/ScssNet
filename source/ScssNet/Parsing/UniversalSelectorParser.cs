@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class UniversalSelectorParser(Lazy<SelectorParser> selectorParser)
 {
-	internal UniversalSelector? Parse(ITokenReader tokenReader)
+	internal UniversalSelector? Parse(TokenReader tokenReader)
 	{
 		var asterisk = tokenReader.Match(Symbol.Asterisk);
 		if(asterisk is null)

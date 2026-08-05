@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
 {
-	internal IValue? Parse(ITokenReader tokenReader)
+	internal IValue? Parse(TokenReader tokenReader)
 	{
 		var value = ParseSingle(tokenReader);
 		if(value == null)
@@ -15,7 +15,7 @@ internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
 		return ParseCommaList(tokenReader, value) ?? ParseSpacedList(tokenReader, value) ?? value;
 	}
 
-	internal IValue? ParseCommaList(ITokenReader tokenReader)
+	internal IValue? ParseCommaList(TokenReader tokenReader)
 	{
 		var value = ParseSingle(tokenReader);
 		if(value == null)
@@ -24,7 +24,7 @@ internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
 		return ParseCommaList(tokenReader, value) ?? value;
 	}
 
-	private ValueList? ParseCommaList(ITokenReader tokenReader, IValue firstValue)
+	private ValueList? ParseCommaList(TokenReader tokenReader, IValue firstValue)
 	{
 		var comma = tokenReader.Match(Symbol.Comma);
 		if (comma == null)
@@ -44,7 +44,7 @@ internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
 		return items.Count > 1 ? new ValueList(items) : null;
 	}
 
-	private ValueList? ParseSpacedList(ITokenReader tokenReader, IValue firstValue)
+	private ValueList? ParseSpacedList(TokenReader tokenReader, IValue firstValue)
 	{
 		var items = new List<ValueListItem> { new(firstValue) };
 		var lastValue = firstValue;
@@ -71,7 +71,7 @@ internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
 		}
 	}
 
-	private IValue? ParseSingle(ITokenReader tokenReader)
+	private IValue? ParseSingle(TokenReader tokenReader)
 	{
 		var valueToken = tokenReader.Match<IValueToken>();
 		if (valueToken is IdentifierToken identifierToken)

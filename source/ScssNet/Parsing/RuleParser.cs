@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class RuleParser(Lazy<ValueParser> valueParser)
 {
-	internal Rule? Parse(ITokenReader tokenReader)
+	internal Rule? Parse(TokenReader tokenReader)
 	{
 		var property = tokenReader.Match<IdentifierToken>();
 		if(property is null)
@@ -20,7 +20,7 @@ internal class RuleParser(Lazy<ValueParser> valueParser)
 		return new Rule(property, colon, value, important, semiColon);
 	}
 
-	private ImportantValue? ParseImportant(ITokenReader tokenReader)
+	private ImportantValue? ParseImportant(TokenReader tokenReader)
 	{
 		var exclamation = tokenReader.Match(Symbol.Exclamation);
 		if (exclamation is null)

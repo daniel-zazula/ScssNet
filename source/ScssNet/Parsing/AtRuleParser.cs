@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class AtRuleParser(Lazy<ValueParser> valueParser)
 {
-	internal IAtRule? Parse(ITokenReader tokenReader)
+	internal IAtRule? Parse(TokenReader tokenReader)
 	{
 		var atSign = tokenReader.Match(Symbol.At);
 		if(atSign is null)
@@ -17,7 +17,7 @@ internal class AtRuleParser(Lazy<ValueParser> valueParser)
 			?? throw new NotImplementedException($"At-rule does not match any known keywords.");
 	}
 
-	internal AtCharset? ParseAtCharset(SymbolToken atSign, ITokenReader tokenReader)
+	internal AtCharset? ParseAtCharset(SymbolToken atSign, TokenReader tokenReader)
 	{
 		var keyword = tokenReader.Match(Keyword.Charset);
 		if(keyword is null)
@@ -29,7 +29,7 @@ internal class AtRuleParser(Lazy<ValueParser> valueParser)
 		return new AtCharset(atSign, keyword, charsetName, semiColon);
 	}
 
-	internal AtImport? ParseAtImport(SymbolToken atSign, ITokenReader tokenReader)
+	internal AtImport? ParseAtImport(SymbolToken atSign, TokenReader tokenReader)
 	{
 		var keyword = tokenReader.Match(Keyword.Import);
 		if(keyword is null)

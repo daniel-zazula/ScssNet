@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using Microsoft.Extensions.DependencyInjection;
+using ScssNet.Lexing;
+using ScssNet.Parsing;
 
 namespace ScssNet.Test.Parsing;
 

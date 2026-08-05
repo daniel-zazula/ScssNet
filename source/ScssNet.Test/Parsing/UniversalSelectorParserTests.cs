@@ -14,7 +14,7 @@ public class UniversalSelectorParserTests : ParserTestBase
 		var source = TestSelectors.UniversalSelector;
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var universalSelectorParser = provider.GetRequiredService<UniversalSelectorParser>();
 
 		var universalSelector = universalSelectorParser.Parse(tokenReader);

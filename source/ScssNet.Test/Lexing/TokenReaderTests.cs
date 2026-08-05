@@ -17,7 +17,7 @@ public class TokenReaderTests
 	{
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 
 		var symbolToken = tokenReader.Match(Symbol.Dot).ShouldNotBeNull();
 		symbolToken!.Symbol.ShouldBe(Symbol.Dot);
@@ -61,7 +61,7 @@ public class TokenReaderTests
 	{
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 
 		var token = tokenReader.Match<T>().ShouldNotBeNull();
 

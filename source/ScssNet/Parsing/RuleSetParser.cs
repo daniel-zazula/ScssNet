@@ -5,7 +5,7 @@ namespace ScssNet.Parsing;
 
 internal class RuleSetParser(Lazy<SelectorListParser> selectorListParser, Lazy<BlockParser> blockParser)
 {
-	internal RuleSet? Parse(ITokenReader tokenReader)
+	internal RuleSet? Parse(TokenReader tokenReader)
 	{
 		var selectorList = selectorListParser.Value.Parse(tokenReader);
 		if(selectorList == null)

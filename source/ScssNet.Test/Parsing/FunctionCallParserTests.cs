@@ -14,7 +14,7 @@ public class FunctionCallParserTests : ParserTestBase
 	{
 		var provider = BuildServiceProvider("func()");
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var valueParser = provider.GetRequiredService<ValueParser>();
 
 		var value = valueParser.Parse(tokenReader);
@@ -32,7 +32,7 @@ public class FunctionCallParserTests : ParserTestBase
 	{
 		var provider = BuildServiceProvider("func(1cm, \"hello\")");
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var valueParser = provider.GetRequiredService<ValueParser>();
 
 		var value = valueParser.Parse(tokenReader);

@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class IdSelectorParser(Lazy<SelectorParser> selectorParser)
 {
-	internal IdSelector? Parse(ITokenReader tokenReader)
+	internal IdSelector? Parse(TokenReader tokenReader)
 	{
 		var hashValue = tokenReader.Match<HashValueToken>();
 		if(hashValue is null)

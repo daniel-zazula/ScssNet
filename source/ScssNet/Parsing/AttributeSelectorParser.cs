@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class AttributeSelectorParser(Lazy<SelectorParser> selectorParser)
 {
-	internal AttributeSelector? Parse(ITokenReader tokenReader)
+	internal AttributeSelector? Parse(TokenReader tokenReader)
 	{
 		var openBracket = tokenReader.Match(Symbol.OpenBracket);
 		if(openBracket is null)

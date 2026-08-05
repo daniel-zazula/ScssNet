@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class PseudoClassSelectorParser(Lazy<SelectorParser> selectorParser)
 {
-	internal PseudoClassSelector? Parse(ITokenReader tokenReader)
+	internal PseudoClassSelector? Parse(TokenReader tokenReader)
 	{
 		var colon = tokenReader.Match(Symbol.Colon);
 		if(colon is null)

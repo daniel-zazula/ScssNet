@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class ClassSelectorParser(Lazy<SelectorParser> selectorParser)
 {
-	internal ClassSelector? Parse(ITokenReader tokenReader)
+	internal ClassSelector? Parse(TokenReader tokenReader)
 	{
 		var dot = tokenReader.Match(Symbol.Dot);
 		if(dot is null)

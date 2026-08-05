@@ -16,7 +16,7 @@ public class ClassSelectorParserTests: ParserTestBase
 		var text = source[1..]; // Remove the leading dot for comparison
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var classSelectorParser = provider.GetRequiredService<ClassSelectorParser>();
 
 		var classSelector = classSelectorParser.Parse(tokenReader);

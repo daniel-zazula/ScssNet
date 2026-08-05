@@ -14,7 +14,7 @@ public class BlockParserTests: ParserTestBase
 		var source = "{}";
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var blockParser = provider.GetRequiredService<BlockParser>();
 
 		var block = blockParser.Parse(tokenReader);
@@ -32,7 +32,7 @@ public class BlockParserTests: ParserTestBase
 		var source = $"{{ color: red{semicolon} }}";
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var blockParser = provider.GetRequiredService<BlockParser>();
 
 		var block = blockParser.Parse(tokenReader);
@@ -54,7 +54,7 @@ public class BlockParserTests: ParserTestBase
 		}}";
 		var provider = BuildServiceProvider(source);
 
-		var tokenReader = provider.GetRequiredService<ITokenReader>();
+		var tokenReader = provider.GetRequiredService<TokenReader>();
 		var blockParser = provider.GetRequiredService<BlockParser>();
 
 		var block = blockParser.Parse(tokenReader);

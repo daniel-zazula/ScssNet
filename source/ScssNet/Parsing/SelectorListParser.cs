@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class SelectorListParser(Lazy<SelectorParser> selectorParser)
 {
-	internal SelectorList? Parse(ITokenReader tokenReader)
+	internal SelectorList? Parse(TokenReader tokenReader)
 	{
 		var selector = ParseSelector();
 		if(selector == null)

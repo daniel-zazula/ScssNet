@@ -18,6 +18,6 @@ internal static class LexingDependencies
 	internal static void AddReaders(this IServiceCollection services)
 	{
 		services.AddSingleton<ISourceReader, SourceReader>();
-		services.AddSingleton<ITokenReader, TokenReader>();
+		services.AddSingleton<TokenReader>();
 	}
 }
