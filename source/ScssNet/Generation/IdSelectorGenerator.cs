@@ -2,13 +2,13 @@
 
 namespace ScssNet.Generation;
 
-internal class IdSelectorGenerator(Lazy<CompoundSelectorGenerator> compoundSelectorGenerator)
+internal class IdSelectorGenerator(Lazy<SelectorGenerator> selectorGenerator)
 {
 	public void Generate(IdSelector idSelector, CssWriter writer)
 	{
 		writer.Write(idSelector.Identifier);
 
 		if(idSelector.Qualifier is not null)
-			compoundSelectorGenerator.Value.Generate(idSelector.Qualifier, writer);
+			selectorGenerator.Value.Generate(idSelector.Qualifier, writer);
 	}
 }

@@ -52,7 +52,7 @@ internal static class ServiceCollectionExtensions
 		services.AddLazySingleton<BlockGenerator>();
 		services.AddLazySingleton<SelectorGenerator>();
 		services.AddLazySingleton<ClassSelectorGenerator>();
-		services.AddLazySingleton<CompoundSelectorGenerator>();
+		services.AddLazySingleton<UniversalSelectorGenerator>();
 		services.AddLazySingleton<IdSelectorGenerator>();
 		services.AddLazySingleton<TagSelectorGenerator>();
 		services.AddLazySingleton<AttributeSelectorGenerator>();

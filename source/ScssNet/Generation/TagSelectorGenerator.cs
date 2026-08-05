@@ -2,13 +2,13 @@
 
 namespace ScssNet.Generation;
 
-internal class TagSelectorGenerator(Lazy<CompoundSelectorGenerator> compoundSelectorGenerator)
+internal class TagSelectorGenerator(Lazy<SelectorGenerator> selectorGenerator)
 {
 	public void Generate(TagSelector tagSelector, CssWriter writer)
 	{
 		writer.Write(tagSelector.Identifier);
 
 		if(tagSelector.Qualifier is not null)
-			compoundSelectorGenerator.Value.Generate(tagSelector.Qualifier, writer);
+			selectorGenerator.Value.Generate(tagSelector.Qualifier, writer);
 	}
 }

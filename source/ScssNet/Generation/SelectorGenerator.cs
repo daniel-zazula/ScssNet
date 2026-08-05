@@ -13,6 +13,9 @@ internal class SelectorGenerator
 	{
 		switch(selector)
 		{
+			case UniversalSelector universalSelector:
+				writer.Write(universalSelector.Asterisk);
+				break;
 			case TagSelector tagSelector:
 				tagSelectorGenerator.Value.Generate(tagSelector, writer);
 				break;

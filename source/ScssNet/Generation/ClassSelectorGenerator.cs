@@ -2,7 +2,7 @@
 
 namespace ScssNet.Generation;
 
-internal class ClassSelectorGenerator(Lazy<CompoundSelectorGenerator> compoundSelectorGenerator)
+internal class ClassSelectorGenerator(Lazy<SelectorGenerator> selectorGenerator)
 {
 	public void Generate(ClassSelector classSelector, CssWriter writer)
 	{
@@ -10,6 +10,6 @@ internal class ClassSelectorGenerator(Lazy<CompoundSelectorGenerator> compoundSe
 		writer.Write(classSelector.Identifier);
 
 		if (classSelector.Qualifier is not null)
-			compoundSelectorGenerator.Value.Generate(classSelector.Qualifier, writer);
+			selectorGenerator.Value.Generate(classSelector.Qualifier, writer);
 	}
 }
