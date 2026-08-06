@@ -48,7 +48,6 @@ public class AtCharsetGeneratorTests : GeneratorTestBase
 
 	internal static void AssertAtCharset(ServiceProvider provider)
 	{
-
 		var stringWriter = provider.GetRequiredService<StringWriter>();
 		stringWriter.ToString().ShouldBe("@charset \"utf-8\";", StringCompareShould.IgnoreCase);
 	}

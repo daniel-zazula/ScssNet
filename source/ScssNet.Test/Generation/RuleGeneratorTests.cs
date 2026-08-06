@@ -10,17 +10,14 @@ namespace ScssNet.Test.Generation;
 [TestClass]
 public class RuleGeneratorTests: GeneratorTestBase
 {
+	internal const string RegularRuleExpected = "prop:val;";
+
 	[TestMethod]
 	public void ShouldWriteRegularRule()
 	{
-		var prop = CreateIdentifierToken("prop");
-		var colon = CreateSymbolToken(Symbol.Colon, columnNumber: prop.End.ColumnNumber + 1);
-		var val = CreateIdentifierToken("val", columnNumber: colon.End.ColumnNumber + 1);
-		var semiColon = CreateSymbolToken(Symbol.SemiColon, columnNumber: val.End.ColumnNumber + 1);
+		var rule = CreateRegularRule();
 
-		var rule = new Rule(prop, colon, val, null, semiColon);
-
-		ShouldWriteRule(rule, "prop:val;");
+		ShouldWriteRule(rule, RegularRuleExpected);
 	}
 
 	[TestMethod]
@@ -36,6 +33,16 @@ public class RuleGeneratorTests: GeneratorTestBase
 		var rule = new Rule(prop, colon, val, new ImportantValue(exclamation, important), semiColon);
 
 		ShouldWriteRule(rule, "prop:val!important;");
+	}
+
+	internal static Rule CreateRegularRule(int columnNumber = 1)
+	{
+		var prop = CreateIdentifierToken("prop", columnNumber: columnNumber);
+		var colon = CreateSymbolToken(Symbol.Colon, columnNumber: prop.End.ColumnNumber + 1);
+		var val = CreateIdentifierToken("val", columnNumber: colon.End.ColumnNumber + 1);
+		var semiColon = CreateSymbolToken(Symbol.SemiColon, columnNumber: val.End.ColumnNumber + 1);
+
+		return new Rule(prop, colon, val, null, semiColon);
 	}
 
 	private static void ShouldWriteRule(Rule rule, string expected)
