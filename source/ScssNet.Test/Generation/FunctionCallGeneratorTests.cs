@@ -11,7 +11,7 @@ namespace ScssNet.Test.Generation;
 public class FunctionCallGeneratorTests: GeneratorTestBase
 {
 	[TestMethod]
-	public void ShouldWriteFunctionCall()
+	public void ShouldGenerateFromFunctionCallGenerator()
 	{
 		var functionCallValue = CreateFunctionCall();
 
@@ -24,7 +24,7 @@ public class FunctionCallGeneratorTests: GeneratorTestBase
 	}
 
 	[TestMethod]
-	public void ShouldWriteFunctionCallValue()
+	public void ShouldGenerateFromValueGenerator()
 	{
 		var functionCallValue = CreateFunctionCall();
 

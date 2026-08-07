@@ -13,7 +13,7 @@ public class RuleGeneratorTests: GeneratorTestBase
 	internal const string RegularRuleExpected = "prop:val;";
 
 	[TestMethod]
-	public void ShouldWriteRegularRule()
+	public void ShouldGenerateRegularRule()
 	{
 		var rule = CreateRegularRule();
 
@@ -21,7 +21,7 @@ public class RuleGeneratorTests: GeneratorTestBase
 	}
 
 	[TestMethod]
-	public void ShouldWriteImportantRule()
+	public void ShouldGenerateImportantRule()
 	{
 		var prop = CreateIdentifierToken("prop");
 		var colon = CreateSymbolToken(Symbol.Colon, columnNumber: prop.End.ColumnNumber + 1);
