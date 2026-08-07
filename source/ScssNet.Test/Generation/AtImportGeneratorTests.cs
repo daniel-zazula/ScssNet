@@ -43,7 +43,7 @@ public class AtImportGeneratorTests: GeneratorTestBase
 		AssertAtImport(provider, pathType);
 	}
 
-	internal static AtImport CreateAtImport(PathType pathType)
+	internal static AtImport CreateAtImport(PathType pathType = PathType.String)
 	{
 		var at = CreateSymbolToken(Symbol.At);
 		var keyword = CreateKeywordToken(Keyword.Import, columnNumber: at.End.ColumnNumber + 1);
@@ -61,7 +61,7 @@ public class AtImportGeneratorTests: GeneratorTestBase
 		return new AtImport(at, keyword, path, semiColon);
 	}
 
-	internal static void AssertAtImport(ServiceProvider provider, PathType pathType)
+	internal static void AssertAtImport(ServiceProvider provider, PathType pathType = PathType.String)
 	{
 		var expected = pathType switch
 		{

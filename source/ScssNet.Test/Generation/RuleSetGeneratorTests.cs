@@ -13,12 +13,12 @@ public class RuleSetGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateRuleSet()
 	{
-		var block = CreateRuleSet();
+		var ruleSet = CreateRuleSet();
 
 		var provider = BuildServiceProvider();
 		var ruleSetGenerator = provider.GetRequiredService<RuleSetGenerator>();
 		var writer = provider.GetRequiredService<CssWriter>();
-		ruleSetGenerator.Generate(block, writer);
+		ruleSetGenerator.Generate(ruleSet, writer);
 
 		AssertRuleSet(provider);
 	}
