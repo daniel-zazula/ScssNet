@@ -1,13 +1,27 @@
-﻿namespace ScssNet.Structures;
+﻿using ScssNet.Tokens;
 
-public class RuleSet(SelectorList selectorlist, Block ruleBlock) : SourceElement, ISyntaxStructure, INestableStatement
+namespace ScssNet.Structures;
+
+public class RuleSet(SelectorList selectorlist, SymbolToken openBrace, ICollection<Rule> rules, SymbolToken closeBrace)
+	: SourceElement, ISyntaxStructure, INestableStatement
 {
 	public SelectorList SelectorList => selectorlist;
-	public Block RuleBlock => ruleBlock;
+	public SymbolToken OpenBrace => openBrace;
+	public ICollection<Rule> Rules => rules;
+	public SymbolToken CloseBrace => closeBrace;
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(SelectorList, RuleBlock);
+	public IEnumerable<Issue> Issues => ConcatIssues();
 
 	public SourceCoordinates Start => SelectorList.Start;
 
-	public SourceCoordinates End => RuleBlock.End;
+	public SourceCoordinates End => CloseBrace.End;
+
+	private IEnumerable<Issue> ConcatIssues()
+	{
+		var elements = new ISourceElement[] { SelectorList, OpenBrace }
+			.Concat(Rules)
+			.Append(CloseBrace);
+
+		return ConcatIssuesFrom(elements);
+	}
 }

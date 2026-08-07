@@ -2,11 +2,18 @@
 
 namespace ScssNet.Generation;
 
-internal class RuleSetGenerator(Lazy<SelectorListGenerator> selectorListGenerator, Lazy<BlockGenerator> blockGenerator)
+internal class RuleSetGenerator(Lazy<SelectorListGenerator> selectorListGenerator, Lazy<RuleGenerator> ruleGenerator)
 {
 	public void Generate(RuleSet ruleSet, CssWriter writer)
 	{
 		selectorListGenerator.Value.Generate(ruleSet.SelectorList, writer);
-		blockGenerator.Value.Generate(ruleSet.RuleBlock, writer);
+		writer.Write(ruleSet.OpenBrace);
+
+		foreach(var rule in ruleSet.Rules)
+		{
+			ruleGenerator.Value.Generate(rule, writer);
+		}
+
+		writer.Write(ruleSet.CloseBrace);
 	}
 }

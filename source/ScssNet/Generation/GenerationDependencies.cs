@@ -9,7 +9,6 @@ internal static class GenerationDependencies
 		services.AddLazySingleton<RuleSetGenerator>();
 		services.AddLazySingleton<RuleGenerator>();
 		services.AddLazySingleton<SelectorListGenerator>();
-		services.AddLazySingleton<BlockGenerator>();
 		services.AddLazySingleton<SelectorGenerator>();
 		services.AddLazySingleton<ClassSelectorGenerator>();
 		services.AddLazySingleton<UniversalSelectorGenerator>();
