@@ -17,6 +17,7 @@ internal static class ParserDependencies
 		services.AddLazySingleton<SelectorParser>();
 		services.AddLazySingleton<ValueParser>();
 		services.AddLazySingleton<RuleParser>();
+		services.AddLazySingleton<BlockParser>();
 		services.AddLazySingleton<RuleSetParser>();
 		services.AddLazySingleton<StatementParser>();
 		services.AddLazySingleton<AtRuleParser>();

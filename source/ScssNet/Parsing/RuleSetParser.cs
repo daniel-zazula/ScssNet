@@ -1,10 +1,9 @@
 ﻿using ScssNet.Lexing;
 using ScssNet.Structures;
-using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class RuleSetParser(Lazy<SelectorListParser> selectorListParser, Lazy<RuleParser> ruleParser)
+internal class RuleSetParser(Lazy<SelectorListParser> selectorListParser, Lazy<BlockParser> blockParser)
 {
 	internal RuleSet? Parse(TokenReader tokenReader)
 	{
@@ -12,23 +11,7 @@ internal class RuleSetParser(Lazy<SelectorListParser> selectorListParser, Lazy<R
 		if(selectorList == null)
 			return null;
 
-		var openBrace = tokenReader.Require(Symbol.OpenBrace);
-		if(openBrace is null)
-			return null;
-
-		var rules = new List<Rule>();
-		var rule = ruleParser.Value.Parse(tokenReader);
-		while(rule != null)
-		{
-			rules.Add(rule);
-			if(rule.SemiColon is null)
-				break;
-
-			rule = ruleParser.Value.Parse(tokenReader);
-		}
-
-		var closeBrace = tokenReader.Require(Symbol.CloseBrace);
-
-		return new RuleSet(selectorList, openBrace, rules, closeBrace);
+		var ruleBlock = blockParser.Value.Require(tokenReader);
+		return new RuleSet(selectorList, ruleBlock);
 	}
 }

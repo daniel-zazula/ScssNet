@@ -2,7 +2,6 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
-using ScssNet.Tokens;
 using Shouldly;
 
 namespace ScssNet.Test.Generation;
@@ -27,15 +26,13 @@ public class RuleSetGeneratorTests: GeneratorTestBase
 	{
 		var selector = new TagSelector(CreateIdentifierToken("p"), null);
 		var selectors = new SelectorList([new SelectorListItem(selector, null)]);
-		var openBrace = CreateSymbolToken(Symbol.OpenBrace, columnNumber: selector.End.ColumnNumber + 1);
-		var rule = RuleGeneratorTests.CreateRegularRule(openBrace.End.ColumnNumber + 1);
-		var closeBrace = CreateSymbolToken(Symbol.CloseBrace, columnNumber: rule.End.ColumnNumber + 1);
-		return new RuleSet(selectors, openBrace, [rule], closeBrace);
+		var block = BlockGeneratorTests.CreateBlock(selector.End.ColumnNumber + 1);
+		return new RuleSet(selectors, block);
 	}
 
 	internal static void AssertRuleSet(ServiceProvider provider)
 	{
-		var expectedBlock = "p{" + RuleGeneratorTests.RegularRuleExpected + "}";
+		var expectedBlock = "p" + BlockGeneratorTests.ExpectedBlock;
 		var stringWriter = provider.GetRequiredService<StringWriter>();
 		stringWriter.ToString().ShouldBe(expectedBlock);
 	}
