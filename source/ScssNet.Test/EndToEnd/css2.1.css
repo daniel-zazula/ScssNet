@@ -134,12 +134,6 @@ p::after {
 }
 
 /* ---------- CSS2: Media types ---------- */
-@media screen and (min-width: 768px) {
-    body {
-        font-size: 16px;
-    }
-}
-
 @media print {
     .no-print {
         display: none;
