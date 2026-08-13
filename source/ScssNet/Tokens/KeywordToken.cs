@@ -2,7 +2,7 @@
 
 public enum Keyword
 {
-	Charset, Import, Important
+	Charset, Import, Important, Media
 }
 
 public record KeywordToken : IToken, ISeparatedToken

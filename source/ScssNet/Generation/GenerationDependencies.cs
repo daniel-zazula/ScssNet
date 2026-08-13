@@ -22,5 +22,6 @@ internal static class GenerationDependencies
 		services.AddLazySingleton<FunctionCallGenerator>();
 		services.AddLazySingleton<AtCharsetGenerator>();
 		services.AddLazySingleton<AtImportGenerator>();
+		services.AddLazySingleton<AtMediaGenerator>();
 	}
 }

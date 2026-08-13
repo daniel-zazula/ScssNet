@@ -4,17 +4,18 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class AtRuleParser(Lazy<ValueParser> valueParser)
+internal class AtRuleParser(Lazy<ValueParser> valueParser, Lazy<BlockParser> blockParser)
 {
 	internal IAtRule? Parse(TokenReader tokenReader)
 	{
 		var atSign = tokenReader.Match(Symbol.At);
 		if(atSign is null)
 			return null;
-		
+
 		return (IAtRule?)ParseAtCharset(atSign, tokenReader)
-			?? ParseAtImport(atSign, tokenReader)
-			?? throw new NotImplementedException($"At-rule does not match any known keywords.");
+			?? (IAtRule?)ParseAtImport(atSign, tokenReader)
+			?? (IAtRule?)ParseAtMedia(atSign, tokenReader)
+			?? throw new NotImplementedException($"Token after at-sign does not match any known at-rules.");
 	}
 
 	internal AtCharset? ParseAtCharset(SymbolToken atSign, TokenReader tokenReader)
@@ -39,5 +40,18 @@ internal class AtRuleParser(Lazy<ValueParser> valueParser)
 		var semiColon = tokenReader.Match(Symbol.SemiColon);
 
 		return new AtImport(atSign, keyword, importPath, semiColon);
+	}
+
+	internal AtMedia? ParseAtMedia(SymbolToken atSign, TokenReader tokenReader)
+	{
+		var keyword = tokenReader.Match(Keyword.Media);
+		if(keyword is null)
+			return null;
+
+		var mediaQuery = valueParser.Value.Parse(tokenReader) ?? tokenReader.RequireIdentifier();
+
+		var block = blockParser.Value.Require(tokenReader);
+
+		return new AtMedia(atSign, keyword, mediaQuery, block);
 	}
 }
