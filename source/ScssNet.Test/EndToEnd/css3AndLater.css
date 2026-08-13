@@ -6,6 +6,28 @@
    ║  CSS3 — BY W3C RECOMMENDATION MODULE                 ║
    ╚══════════════════════════════════════════════════════╝ */
 
+/* ── Media Queries Level 3  (REC 2012) ─────────────────── */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    body {
+        font-size: 16px;
+    }
+}
+
+@media (orientation: landscape), (min-aspect-ratio: 16/9) {
+    .landscape-only {
+        display: block;
+    }
+}
+
+@media not all and (monochrome) {
+    .color-only {
+        color: red;
+    }
+}
+
+/* Media Queries Level 3 on @import */
+@import "print-import.css" print and (min-width: 600px);
+
 /* ── Selectors Level 3  (REC 2011) ─────────────────────── */
 
 /* Substring attribute selectors */
@@ -122,26 +144,6 @@ html body div#main.container > ul.list li:nth-child(odd) a[href]:hover::after {
     background-origin: border-box;
     background-clip: text;
     background-size: cover;
-}
-
-
-/* ── Media Queries Level 3  (REC 2012) ─────────────────── */
-@media screen and (min-width: 768px) and (max-width: 1024px) {
-    body {
-        font-size: 16px;
-    }
-}
-
-@media (orientation: landscape), (min-aspect-ratio: 16/9) {
-    .landscape-only {
-        display: block;
-    }
-}
-
-@media not all and (monochrome) {
-    .color-only {
-        color: red;
-    }
 }
 
 
