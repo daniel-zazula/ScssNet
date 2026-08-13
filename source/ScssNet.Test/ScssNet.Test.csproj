@@ -36,6 +36,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="EndToEnd\print-import.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EndToEnd\url-import.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="EndToEnd\string-import.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="EndToEnd\css1.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

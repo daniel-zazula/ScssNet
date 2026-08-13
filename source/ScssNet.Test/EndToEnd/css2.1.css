@@ -9,9 +9,8 @@
 /* ---------- CSS2: @charset / @import / @namespace ---------- */
 @charset "UTF-8";
 
-@import url("base.css");
-@import "theme.css" screen;
-@import url(print.css) print and (min-width: 600px);
+@import url("url-import.css");
+@import "string-import.css" screen;
 
 @namespace url(http://www.w3.org/1999/xhtml);
 @namespace svg url(http://www.w3.org/2000/svg);
