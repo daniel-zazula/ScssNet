@@ -2,24 +2,34 @@
 
 namespace ScssNet.Structures;
 
-public class SelectorList(ICollection<SelectorListItem> items) : SourceElement, ISyntaxStructure
+public class SelectorList : SourceElement, ISyntaxStructure
 {
-	public ICollection<SelectorListItem> Items => items;
+	public ICollection<SelectorListItem> Items { get; }
 
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Items.Cast<ISourceElement>());
 
 	public SourceCoordinates Start => Items.First().Start;
 
 	public SourceCoordinates End => Items.Last().End;
+
+	public SelectorList(ICollection<SelectorListItem> items)
+	{
+		if(items.Count == 0)
+			throw new ArgumentException("Items cannot be empty", nameof(items));
+
+		Items = Array.AsReadOnly(items.ToArray());
+	}
 }
 
-public class SelectorListItem(ISelector selector, SymbolToken? comma) : SourceElement, ISyntaxStructure
+public class SelectorListItem : ListItem, ISyntaxStructure, ISourceElement
 {
-	public ISelector Selector => selector;
+	public ISelector Selector { get; }
 
-	public SymbolToken? Comma => comma;
+	protected override ISourceElement Item => Selector;
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Selector, Comma);
-	public SourceCoordinates Start => Selector.Start;
-	public SourceCoordinates End => LastEnd(selector, comma);
+	public SelectorListItem(ISelector selector, SymbolToken? comma = null)
+	{
+		Selector = selector;
+		Comma = comma;
+	}
 }
