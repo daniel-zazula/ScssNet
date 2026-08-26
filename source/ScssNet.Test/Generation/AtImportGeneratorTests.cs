@@ -46,7 +46,7 @@ public class AtImportGeneratorTests: GeneratorTestBase
 	internal static AtImport CreateAtImport(PathType pathType = PathType.String)
 	{
 		var at = CreateSymbolToken(Symbol.At);
-		var keyword = CreateKeywordToken(Keyword.Import, columnNumber: at.End.ColumnNumber + 1);
+		var keyword = CreateAtKeywordToken(AtKeyword.Import, columnNumber: at.End.ColumnNumber + 1);
 
 		var pathColumnNumber = keyword.End.ColumnNumber + 1;
 		IValue path = pathType switch

@@ -39,7 +39,7 @@ public class AtMediaGeneratorTests: GeneratorTestBase
 	internal static AtMedia CreateAtMedia()
 	{
 		var at = CreateSymbolToken(Symbol.At);
-		var keyword = CreateKeywordToken(Keyword.Media, columnNumber: at.End.ColumnNumber + 1);
+		var keyword = CreateAtKeywordToken(AtKeyword.Media, columnNumber: at.End.ColumnNumber + 1);
 
 		var mediaQuery = CreateIdentifierToken("screen", columnNumber: keyword.End.ColumnNumber + 1);
 

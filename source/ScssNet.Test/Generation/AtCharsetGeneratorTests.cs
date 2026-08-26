@@ -39,7 +39,7 @@ public class AtCharsetGeneratorTests : GeneratorTestBase
 	internal static AtCharset CreateAtCharset()
 	{
 		var at = CreateSymbolToken(Symbol.At);
-		var keyword = CreateKeywordToken(Keyword.Charset, columnNumber: at.End.ColumnNumber + 1);
+		var keyword = CreateAtKeywordToken(AtKeyword.Charset, columnNumber: at.End.ColumnNumber + 1);
 		var name = CreateStringToken("\"utf-8\"", columnNumber: keyword.End.ColumnNumber + 1);
 		var semiColon = CreateSymbolToken(Symbol.SemiColon, columnNumber: name.End.ColumnNumber + 1);
 

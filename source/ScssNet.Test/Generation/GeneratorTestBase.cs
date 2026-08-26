@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Tokens;
@@ -59,22 +60,6 @@ public abstract class GeneratorTestBase
 		return new HashValueToken(value, start, end, Separator.Empty, Separator.Empty);
 	}
 
-	protected static KeywordToken CreateKeywordToken
-	(
-		Keyword keyword, string? value = null, int lineNumber = 1, int columnNumber = 1
-	)
-	{
-		if (value is not null)
-			value.ShouldBe(keyword.ToString(), StringCompareShould.IgnoreCase);
-		else
-			value = keyword.ToString();
-
-		var length = value.Length;
-		var (start, end) = CreateTokenCoordinates(lineNumber, columnNumber, length);
-
-		return new KeywordToken(keyword, value, start, end, Separator.Empty, Separator.Empty);
-	}
-
 	protected static UnitValueToken CreateUnitValueToken
 	(
 		decimal amount, string unit, int lineNumber = 1, int columnNumber = 1
@@ -87,6 +72,30 @@ public abstract class GeneratorTestBase
 		return new UnitValueToken(amount, unit, start, end, Separator.Empty, Separator.Empty);
 	}
 
+	protected static AtKeywordToken CreateAtKeywordToken
+	(
+		AtKeyword atKeyword, string? value = null, int lineNumber = 1, int columnNumber = 1
+	)
+	{
+		value = PrepareKeywordValue(atKeyword, value);
+		var length = value.Length;
+		var (start, end) = CreateTokenCoordinates(lineNumber, columnNumber, length);
+
+		return new AtKeywordToken(atKeyword, value, start, end, Separator.Empty, Separator.Empty);
+	}
+
+	protected static ValueKeywordToken CreateValueKeywordToken
+	(
+		ValueKeyword valueKeyword, string? value = null, int lineNumber = 1, int columnNumber = 1
+	)
+	{
+		value = PrepareKeywordValue(valueKeyword, value);
+		var length = value.Length;
+		var (start, end) = CreateTokenCoordinates(lineNumber, columnNumber, length);
+
+		return new ValueKeywordToken(valueKeyword, value, start, end, Separator.Empty, Separator.Empty);
+	}
+
 	private static (SourceCoordinates start, SourceCoordinates end) CreateTokenCoordinates
 	(
 		int lineNumber = 1, int columnNumber = 1, int length = 1
@@ -95,5 +104,14 @@ public abstract class GeneratorTestBase
 		var start = new SourceCoordinates(lineNumber, columnNumber);
 		var end = new SourceCoordinates(lineNumber, columnNumber + length - 1);
 		return (start, end);
+	}
+
+	private static string PrepareKeywordValue<T>(T keyword, string? value = null) where T : Enum
+	{
+		if(value is null)
+			return keyword.ToString();
+
+		value.ShouldBe(keyword.ToString(), StringCompareShould.IgnoreCase);
+		return value;
 	}
 }

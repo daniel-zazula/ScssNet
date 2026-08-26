@@ -12,46 +12,38 @@ internal class AtRuleParser(Lazy<ValueParser> valueParser, Lazy<BlockParser> blo
 		if(atSign is null)
 			return null;
 
-		return (IAtRule?)ParseAtCharset(atSign, tokenReader)
-			?? (IAtRule?)ParseAtImport(atSign, tokenReader)
-			?? (IAtRule?)ParseAtMedia(atSign, tokenReader)
-			?? throw new NotImplementedException($"Token after at-sign does not match any known at-rules.");
+		var atKeywordToken = tokenReader.RequireKeyword<AtKeywordToken>();
+
+		return atKeywordToken.Keyword switch
+		{
+			AtKeyword.Charset => ParseAtCharset(atSign, atKeywordToken, tokenReader),
+			AtKeyword.Import => ParseAtImport(atSign, atKeywordToken, tokenReader),
+			AtKeyword.Media => ParseAtMedia(atSign, atKeywordToken, tokenReader),
+			_ => throw new NotImplementedException($"At-rule '{atKeywordToken.Keyword}' is not implemented.")
+		};
 	}
 
-	internal AtCharset? ParseAtCharset(SymbolToken atSign, TokenReader tokenReader)
+	internal AtCharset ParseAtCharset(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
 	{
-		var keyword = tokenReader.Match(Keyword.Charset);
-		if(keyword is null)
-			return null;
-
 		var charsetName = tokenReader.RequireString();
 		var semiColon = tokenReader.Match(Symbol.SemiColon);
 
-		return new AtCharset(atSign, keyword, charsetName, semiColon);
+		return new AtCharset(atSign, atKeywordToken, charsetName, semiColon);
 	}
 
-	internal AtImport? ParseAtImport(SymbolToken atSign, TokenReader tokenReader)
+	internal AtImport ParseAtImport(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
 	{
-		var keyword = tokenReader.Match(Keyword.Import);
-		if(keyword is null)
-			return null;
-
 		var importPath = valueParser.Value.Parse(tokenReader) ?? tokenReader.RequireString();
 		var semiColon = tokenReader.Match(Symbol.SemiColon);
 
-		return new AtImport(atSign, keyword, importPath, semiColon);
+		return new AtImport(atSign, atKeywordToken, importPath, semiColon);
 	}
 
-	internal AtMedia? ParseAtMedia(SymbolToken atSign, TokenReader tokenReader)
+	internal AtMedia? ParseAtMedia(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
 	{
-		var keyword = tokenReader.Match(Keyword.Media);
-		if(keyword is null)
-			return null;
-
 		var mediaQuery = valueParser.Value.Parse(tokenReader) ?? tokenReader.RequireIdentifier();
-
 		var block = blockParser.Value.Require(tokenReader);
 
-		return new AtMedia(atSign, keyword, mediaQuery, block);
+		return new AtMedia(atSign, atKeywordToken, mediaQuery, block);
 	}
 }

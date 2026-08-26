@@ -1,4 +1,5 @@
 ﻿using ScssNet.Lexing;
+using ScssNet.Parsing;
 using ScssNet.Structures;
 using ScssNet.Tokens;
 
@@ -26,7 +27,7 @@ internal class RuleParser(Lazy<ValueParser> valueParser)
 		if (exclamation is null)
 			return null;
 
-		var important = tokenReader.RequireKeyword(Keyword.Important);
-		return new ImportantValue(exclamation, important);
+		var importantKeyword = tokenReader.RequireKeyword<ValueKeywordToken>();
+		return new ImportantValue(exclamation, importantKeyword);
 	}
 }

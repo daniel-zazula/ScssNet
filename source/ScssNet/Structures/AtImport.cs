@@ -4,11 +4,11 @@ using ScssNet.Tokens;
 
 public class AtImport
 (
-	SymbolToken atSign, KeywordToken import, IValue path, SymbolToken? semiColon
+	SymbolToken atSign, AtKeywordToken import, IValue path, SymbolToken? semiColon
 ) : SourceElement, ISyntaxStructure, IStatement, IAtRule
 {
 	public SymbolToken AtSign => atSign;
-	public KeywordToken Import => import;
+	public AtKeywordToken Import => import;
 	public IValue Path => path;
 	public SymbolToken? SemiColon => semiColon;
 

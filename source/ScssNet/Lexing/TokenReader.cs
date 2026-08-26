@@ -35,7 +35,7 @@ internal class TokenReader
 		var typeOfT = typeof(T);
 		if(typeOfT == typeof(SymbolToken))
 			throw new InvalidOperationException("Use Match(Symbol symbol) for matching symbols.");
-		else if (typeOfT == typeof(KeywordToken))
+		else if (typeOfT == typeof(KeywordToken<>))
 			throw new InvalidOperationException("Use Match(Keyword keyword) for matching keywords.");
 
 		if(Peek() is T token)
@@ -47,41 +47,44 @@ internal class TokenReader
 		return default;
 	}
 
-	public KeywordToken? Match(Keyword keyword)
+	public (T keyword, IdentifierToken identifierToken)? MatchKeyword<T>() where T : Enum
 	{
-		if(Peek() is IdentifierToken identifierToken && MatchKeyword(identifierToken, keyword))
+		if(Peek() is IdentifierToken identifierToken)
 		{
-			ReadNextToken();
-			return new KeywordToken(keyword, identifierToken);
+			var matchedKeyword = MatchesAnyKeywordOfT(identifierToken);
+			if(matchedKeyword is not null)
+			{
+				ReadNextToken();
+				return (matchedKeyword, identifierToken);
+			}
 		}
 
 		return null;
 
-		static bool MatchKeyword(IdentifierToken identifier, Keyword keyword)
+		static T MatchesAnyKeywordOfT(IdentifierToken identifier)
 		{
-			return string.Equals(identifier.Text, keyword.ToString(), StringComparison.OrdinalIgnoreCase);
+			var text = identifier.Text;
+			var keywords = (T[])Enum.GetValues(typeof(T));
+			return keywords.FirstOrDefault(k => string.Equals(text, k.ToString(), StringComparison.OrdinalIgnoreCase));
 		}
 	}
 
 	public SymbolToken Require(Symbol symbol)
 	{
-		return Match(symbol) ?? SymbolToken.CreateMissing(symbol, SourceReader.GetCoordinates());
+		return Match(symbol) ?? SymbolToken.CreateMissing(symbol, GetCoordinates());
 	}
 
 	public IdentifierToken RequireIdentifier()
 	{
-		return Match<IdentifierToken>() ?? IdentifierToken.CreateMissing(SourceReader.GetCoordinates());
+		return Match<IdentifierToken>() ?? IdentifierToken.CreateMissing(GetCoordinates());
 	}
 
 	public StringToken RequireString()
 	{
-		return Match<StringToken>() ?? StringToken.CreateMissing(SourceReader.GetCoordinates());
+		return Match<StringToken>() ?? StringToken.CreateMissing(GetCoordinates());
 	}
 
-	public KeywordToken RequireKeyword(Keyword keyword)
-	{
-		return Match(keyword) ?? KeywordToken.CreateMissing(keyword, SourceReader.GetCoordinates());
-	}
+	internal SourceCoordinates GetCoordinates() => Peek()?.Start ?? SourceReader.GetCoordinates();
 
 	private IToken? Peek()
 	{
@@ -112,7 +115,6 @@ internal class TokenReader
 		NextToken = separatedToken;
 
 		// Local functions
-
 		Separator GetTrailingSeparator() => ReadSeparator();
 
 		ISeparatedToken? ParseSymbol()

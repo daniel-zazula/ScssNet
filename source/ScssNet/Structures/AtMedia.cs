@@ -4,11 +4,11 @@ using ScssNet.Tokens;
 
 public class AtMedia
 (
-	SymbolToken atSign, KeywordToken media, IValue mediaQuery, Block block
+	SymbolToken atSign, AtKeywordToken media, IValue mediaQuery, Block block
 ) : SourceElement, ISyntaxStructure, IStatement, IAtRule
 {
 	public SymbolToken AtSign => atSign;
-	public KeywordToken Media => media;
+	public AtKeywordToken Media => media;
 	public IValue MediaQuery => mediaQuery;
 	public Block Block => block;
 

@@ -1,13 +1,9 @@
 ﻿namespace ScssNet.Tokens;
 
-public enum Keyword
+public abstract record KeywordToken<T>: IToken, ISeparatedToken
+	where T : Enum
 {
-	Charset, Import, Important, Media
-}
-
-public record KeywordToken : IToken, ISeparatedToken
-{
-	Keyword Keyword { get; }
+	public T? Keyword { get; }
 
 	public string Text { get; }
 
@@ -17,9 +13,9 @@ public record KeywordToken : IToken, ISeparatedToken
 	public Separator TrailingSeparator { get; }
 	public IEnumerable<Issue> Issues { get; }
 
-	internal KeywordToken
+	protected KeywordToken
 	(
-		Keyword keyword, string text, SourceCoordinates start, SourceCoordinates end, Separator before, Separator after,
+		T keyword, string text, SourceCoordinates start, SourceCoordinates end, Separator before, Separator after,
 		ICollection<Issue>? issues = null
 	)
 	{
@@ -32,7 +28,7 @@ public record KeywordToken : IToken, ISeparatedToken
 		Issues = issues ?? [];
 	}
 
-	internal KeywordToken(Keyword keyword, IdentifierToken identifiertoken)
+	protected KeywordToken(T keyword, IdentifierToken identifiertoken)
 	{
 		Keyword = keyword;
 		Text = identifiertoken.Text;
@@ -43,9 +39,20 @@ public record KeywordToken : IToken, ISeparatedToken
 		Issues = identifiertoken.Issues;
 	}
 
-	internal static KeywordToken CreateMissing(Keyword keyword, SourceCoordinates coordinates)
+	protected KeywordToken(SourceCoordinates coordinates, Issue issue)
 	{
-		var issue = new Issue(IssueType.Error, "Expected identifier");
-		return new KeywordToken(keyword, "", coordinates, coordinates, Separator.Empty, Separator.Empty, [issue]);
+		Keyword = default;
+		Text = "";
+		Start = coordinates;
+		End = coordinates;
+		LeadingSeparator = Separator.Empty;
+		TrailingSeparator = Separator.Empty;
+		Issues = [issue];
+	}
+
+	protected static Issue CreateExpectedKeywordIssue()
+	{
+		var keywords = (T[])Enum.GetValues(typeof(T));
+		return new Issue(IssueType.Error, "Expected one of the keywords: " + string.Join(", ", keywords));
 	}
 }

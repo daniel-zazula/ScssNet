@@ -27,7 +27,7 @@ public class RuleGeneratorTests: GeneratorTestBase
 		var colon = CreateSymbolToken(Symbol.Colon, columnNumber: prop.End.ColumnNumber + 1);
 		var val = CreateIdentifierToken("val", columnNumber: colon.End.ColumnNumber + 1);
 		var exclamation = CreateSymbolToken(Symbol.Exclamation, columnNumber: val.End.ColumnNumber + 1);
-		var important = CreateKeywordToken(Keyword.Important, columnNumber: exclamation.End.ColumnNumber + 1);
+		var important = CreateValueKeywordToken(ValueKeyword.Important, columnNumber: exclamation.End.ColumnNumber + 1);
 		var semiColon = CreateSymbolToken(Symbol.SemiColon, columnNumber: important.End.ColumnNumber + 1);
 
 		var rule = new Rule(prop, colon, val, new ImportantValue(exclamation, important), semiColon);

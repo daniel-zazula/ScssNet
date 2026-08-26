@@ -74,7 +74,7 @@ public class CssWriterTests: GeneratorTestBase
 	{
 		const string keyword = "import";
 
-		var keywordToken = CreateKeywordToken(Keyword.Import, keyword);
+		var keywordToken = CreateAtKeywordToken(AtKeyword.Import, keyword);
 
 		var provider = BuildServiceProvider();
 		var cssWriter = provider.GetRequiredService<CssWriter>();

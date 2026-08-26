@@ -4,11 +4,11 @@ using ScssNet.Tokens;
 
 public class AtCharset
 (
-	SymbolToken atSign, KeywordToken charset, StringToken charsetName, SymbolToken? semiColon
+	SymbolToken atSign, AtKeywordToken charset, StringToken charsetName, SymbolToken? semiColon
 ) : SourceElement, ISyntaxStructure, IStatement, IAtRule
 {
 	public SymbolToken AtSign => atSign;
-	public KeywordToken Charset => charset;
+	public AtKeywordToken Charset => charset;
 	public StringToken CharsetName => charsetName;
 	public SymbolToken? SemiColon => semiColon;
 
