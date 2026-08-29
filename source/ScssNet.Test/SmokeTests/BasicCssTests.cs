@@ -7,10 +7,10 @@ using ScssNet.Parsing;
 using ScssNet.Test.Parsing;
 using Shouldly;
 
-namespace ScssNet.Test.EndToEnd;
+namespace ScssNet.Test.SmokeTests;
 
 [TestClass]
-public class EndToEndTests : ParserTestBase
+public class BasicCssTests : ParserTestBase
 {
 	[TestMethod]
 	[DataRow("css1.css")]
@@ -18,7 +18,7 @@ public class EndToEndTests : ParserTestBase
 	[DataRow("css3AndLater.css")]
 	public void ShouldParseCssFile(string fileName)
 	{
-		var path = Path.Combine(AppContext.BaseDirectory, "EndToEnd", fileName);
+		var path = Path.Combine(AppContext.BaseDirectory, "SmokeTests", fileName);
 		var source = File.ReadAllText(path);
 
 		var provider = BuildServiceProvider(source);

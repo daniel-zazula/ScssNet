@@ -36,22 +36,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="EndToEnd\print-import.css">
+    <Content Include="SmokeTests\print-import.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="EndToEnd\url-import.css">
+    <Content Include="SmokeTests\url-import.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="EndToEnd\string-import.css">
+    <Content Include="SmokeTests\string-import.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="EndToEnd\css1.css">
+    <Content Include="SmokeTests\css1.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="EndToEnd\css2.1.css">
+    <Content Include="SmokeTests\css2.1.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="EndToEnd\css3AndLater.css">
+    <Content Include="SmokeTests\css3AndLater.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
