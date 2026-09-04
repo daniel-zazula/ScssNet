@@ -11,9 +11,7 @@ public class SubsequentSiblingSelector
 
 	public ISelector PrecedingSiblingSelector => precedingSiblingSelector;
 
+	public SourceSpan Span => SourceSpan.From(precedingSiblingSelector, selector);
+
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(precedingSiblingSelector, subsequentSiblingSymbolToken, selector);
-
-	public SourceCoordinates Start => precedingSiblingSelector.Start;
-
-	public SourceCoordinates End => selector.End;
 }

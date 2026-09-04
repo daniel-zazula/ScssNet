@@ -6,8 +6,7 @@ public class ValueList : SourceElement, ISyntaxStructure, IValue
 {
 	public IReadOnlyList<ValueListItem> Items { get; }
 
-	public SourceCoordinates Start => Items.First().Start;
-	public SourceCoordinates End => Items.Last().End;
+	public SourceSpan Span => SourceSpan.From(Items.Cast<ISourceElement?>());
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Items);
 
 	public ValueList(ICollection<ValueListItem> items)

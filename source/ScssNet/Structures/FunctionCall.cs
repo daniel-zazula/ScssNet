@@ -15,9 +15,7 @@ public class FunctionCall
 
 	public SymbolToken CloseParenthesis => closeParenthesis;
 
+	public SourceSpan Span => SourceSpan.From(name, closeParenthesis);
+
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(name, openParenthesis, arguments, closeParenthesis);
-
-	public SourceCoordinates Start => name.Start;
-
-	public SourceCoordinates End => closeParenthesis.End;
 }

@@ -12,9 +12,7 @@ public class AtImport
 	public IValue Path => path;
 	public SymbolToken? SemiColon => semiColon;
 
+	public SourceSpan Span => SourceSpan.From(atSign, path, semiColon);
+
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(atSign, path, semiColon);
-
-	public SourceCoordinates Start => Path.Start;
-
-	public SourceCoordinates End => LastEnd(path, semiColon);
 }

@@ -13,9 +13,7 @@ public class Rule
 	public SymbolToken? SemiColon => semiColon;
 	public ImportantValue? Important => important;
 
+	public SourceSpan Span => SourceSpan.From(property, value, semiColon, important);
+
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Property, Colon, Value, Important, SemiColon);
-
-	public SourceCoordinates Start => Property.Start;
-
-	public SourceCoordinates End => LastEnd(Value, Important, SemiColon);
 }

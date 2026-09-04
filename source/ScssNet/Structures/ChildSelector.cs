@@ -11,9 +11,7 @@ public class ChildSelector
 
 	public ISelector ParentSelector => parentSelector;
 
+	public SourceSpan Span => SourceSpan.From(parentSelector, selector);
+
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(parentSelector, childOperatorSymbolToken, selector);
-
-	public SourceCoordinates Start => parentSelector.Start;
-
-	public SourceCoordinates End => selector.End;
 }

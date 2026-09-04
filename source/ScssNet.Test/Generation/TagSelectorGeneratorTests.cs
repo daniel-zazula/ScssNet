@@ -37,9 +37,9 @@ public class TagSelectorGeneratorTests: GeneratorTestBase
 		AssertTagSelector(provider);
 	}
 
-	internal static TagSelector CreateTagSelector(int previousColumnNumber = 0)
+	internal static TagSelector CreateTagSelector(ISourceElement? predecessor = null)
 	{
-		var identifier = CreateIdentifierToken("h2", columnNumber: previousColumnNumber + 1);
+		var identifier = CreateIdentifierToken("h2", predecessor: predecessor);
 		return new TagSelector(identifier, null);
 	}
 

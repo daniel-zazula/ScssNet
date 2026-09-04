@@ -39,11 +39,11 @@ public class FunctionCallGeneratorTests: GeneratorTestBase
 	private static FunctionCall CreateFunctionCall()
 	{
 		var identifierToken = CreateIdentifierToken("someFunc");
-		var openParenthesisToken = CreateSymbolToken(Symbol.OpenParenthesis, columnNumber: identifierToken.End.ColumnNumber + 1);
-		var stringArgument = CreateListItemWithComma(CreateStringToken("\"foo bar\"", columnNumber: openParenthesisToken.End.ColumnNumber + 1));
-		var hashValueArgument = CreateListItemWithComma(CreateHashValueToken("#ff0000", columnNumber: stringArgument.End.ColumnNumber + 1));
-		var unitValueArgument = new ValueListItem(CreateUnitValueToken(1.5m, "em", columnNumber: hashValueArgument.End.ColumnNumber + 1));
-		var closeParenthesisToken = CreateSymbolToken(Symbol.CloseParenthesis, columnNumber: unitValueArgument.End.ColumnNumber + 1);
+		var openParenthesisToken = CreateSymbolToken(Symbol.OpenParenthesis, predecessor: identifierToken);
+		var stringArgument = CreateListItemWithComma(CreateStringToken("\"foo bar\"", predecessor: openParenthesisToken));
+		var hashValueArgument = CreateListItemWithComma(CreateHashValueToken("#ff0000", predecessor: stringArgument));
+		var unitValueArgument = new ValueListItem(CreateUnitValueToken(1.5m, "em", predecessor: hashValueArgument));
+		var closeParenthesisToken = CreateSymbolToken(Symbol.CloseParenthesis, predecessor: unitValueArgument);
 
 		var valueList = new ValueList([stringArgument, hashValueArgument, unitValueArgument]);
 
@@ -51,7 +51,7 @@ public class FunctionCallGeneratorTests: GeneratorTestBase
 
 		static ValueListItem CreateListItemWithComma(IValue value)
 		{
-			var commaToken = CreateSymbolToken(Symbol.Comma, columnNumber: value.End.ColumnNumber + 1);
+			var commaToken = CreateSymbolToken(Symbol.Comma, predecessor: value);
 			return new ValueListItem(value, commaToken);
 		}
 	}

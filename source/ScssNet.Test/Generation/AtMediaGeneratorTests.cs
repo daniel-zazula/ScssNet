@@ -39,11 +39,11 @@ public class AtMediaGeneratorTests: GeneratorTestBase
 	internal static AtMedia CreateAtMedia()
 	{
 		var at = CreateSymbolToken(Symbol.At);
-		var keyword = CreateAtKeywordToken(AtKeyword.Media, columnNumber: at.End.ColumnNumber + 1);
+		var keyword = CreateAtKeywordToken(AtKeyword.Media, predecessor: at);
 
-		var mediaQuery = CreateIdentifierToken("screen", columnNumber: keyword.End.ColumnNumber + 1);
+		var mediaQuery = CreateIdentifierToken("screen", predecessor: keyword);
 
-		var block = BlockGeneratorTests.CreateBlock(mediaQuery.End.ColumnNumber + 1);
+		var block = BlockGeneratorTests.CreateBlock(predecessor: mediaQuery);
 
 		return new AtMedia(at, keyword, mediaQuery, block);
 	}

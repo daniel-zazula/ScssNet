@@ -22,25 +22,25 @@ public class SelectorListGeneratorTests: GeneratorTestBase
 	public void ShouldGenerateSelectorList(string[] expectedSelectors)
 	{
 		var items = new List<SelectorListItem>();
-		var previousColumn = 0;
+		ISourceElement? predecessor = null;
 		var lastSelector = expectedSelectors.Last();
 		foreach(var expectedSelector in expectedSelectors)
 		{
 			ISelector selector = expectedSelector switch
 			{
-				AttributeTests.ExpectedAttributeSelector => AttributeTests.CreateAttributeSelector(previousColumn),
-				ClassTests.ExpectedClassSelector => ClassTests.CreateClassSelector(previousColumn),
-				IdTests.ExpectedIdSelector => IdTests.CreateIdSelector(previousColumn),
-				TagTests.ExpectedTagSelector => TagTests.CreateTagSelector(previousColumn),
+				AttributeTests.ExpectedAttributeSelector => AttributeTests.CreateAttributeSelector(predecessor),
+				ClassTests.ExpectedClassSelector => ClassTests.CreateClassSelector(predecessor),
+				IdTests.ExpectedIdSelector => IdTests.CreateIdSelector(predecessor),
+				TagTests.ExpectedTagSelector => TagTests.CreateTagSelector(predecessor),
 				_ => throw new InvalidOperationException($"Unexpected selector: {expectedSelector}")
 			};
 
 			var comma = expectedSelector != lastSelector
-				? CreateSymbolToken(Symbol.Comma, columnNumber: selector.End.ColumnNumber + 1)
+				? CreateSymbolToken(Symbol.Comma, predecessor: selector)
 				: null;
 			var item = new SelectorListItem(selector, comma);
 
-			previousColumn = item.End.ColumnNumber;
+			predecessor = item;
 
 			items.Add(item);
 		}

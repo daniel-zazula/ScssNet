@@ -37,9 +37,9 @@ public class IdSelectorGeneratorTests: GeneratorTestBase
 		AssertIdSelector(provider);
 	}
 
-	internal static IdSelector CreateIdSelector(int previousColumnNumber = 0)
+	internal static IdSelector CreateIdSelector(ISourceElement? predecessor = null)
 	{
-		var hash = CreateHashValueToken("#myid", columnNumber: previousColumnNumber + 1);
+		var hash = CreateHashValueToken("#myid", predecessor: predecessor);
 		return new IdSelector(hash, null);
 	}
 

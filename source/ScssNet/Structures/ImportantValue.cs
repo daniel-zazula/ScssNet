@@ -2,20 +2,12 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Structures;
 
-public class ImportantValue: SourceElement, ISourceElement
+public class ImportantValue(SymbolToken exclamation, ValueKeywordToken important) : SourceElement, ISyntaxStructure
 {
-	public SymbolToken Exclamation { get; }
-	public ValueKeywordToken Important { get; }
+	public SymbolToken Exclamation => exclamation;
+	public ValueKeywordToken Important => important;
 
-	public SourceCoordinates Start => Exclamation.Start;
-	public SourceCoordinates End => Important.End;
-	public Separator LeadingSeparator => Exclamation.LeadingSeparator;
-	public Separator TrailingSeparator => Important.TrailingSeparator;
+	public SourceSpan Span => SourceSpan.From(exclamation, important);
+
 	public IEnumerable<Issue> Issues => Exclamation.Issues.Concat(Important.Issues);
-
-	internal ImportantValue(SymbolToken exclamation, ValueKeywordToken important)
-	{
-		Exclamation = exclamation;
-		Important = important;
-	}
 }

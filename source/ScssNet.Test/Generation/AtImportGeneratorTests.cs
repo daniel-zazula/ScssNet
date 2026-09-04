@@ -46,17 +46,16 @@ public class AtImportGeneratorTests: GeneratorTestBase
 	internal static AtImport CreateAtImport(PathType pathType = PathType.String)
 	{
 		var at = CreateSymbolToken(Symbol.At);
-		var keyword = CreateAtKeywordToken(AtKeyword.Import, columnNumber: at.End.ColumnNumber + 1);
+		var keyword = CreateAtKeywordToken(AtKeyword.Import, predecessor: at);
 
-		var pathColumnNumber = keyword.End.ColumnNumber + 1;
 		IValue path = pathType switch
 		{
-			PathType.String => CreateStringToken("\"styles.css\"", columnNumber: pathColumnNumber),
-			PathType.UrlFunction => CreateUrlFunctionCall(pathColumnNumber),
+			PathType.String => CreateStringPath(predecessor: keyword),
+			PathType.UrlFunction => CreateUrlFunctionCall(predecessor: keyword),
 			_ => throw InvalidPathTypeException(pathType)
 		};
 
-		var semiColon = CreateSymbolToken(Symbol.SemiColon, columnNumber: path.End.ColumnNumber + 1);
+		var semiColon = CreateSymbolToken(Symbol.SemiColon, predecessor: path);
 
 		return new AtImport(at, keyword, path, semiColon);
 	}
@@ -74,17 +73,17 @@ public class AtImportGeneratorTests: GeneratorTestBase
 		stringWriter.ToString().ShouldBe(expected, StringCompareShould.IgnoreCase);
 	}
 
-	private static StringToken CreateStringPath(int columnNumber)
+	private static StringToken CreateStringPath(ISourceElement? predecessor)
 	{
-		return CreateStringToken("\"styles.css\"", columnNumber: columnNumber);
+		return CreateStringToken("\"styles.css\"", predecessor: predecessor);
 	}
 
-	private static FunctionCall CreateUrlFunctionCall(int columnNumber)
+	private static FunctionCall CreateUrlFunctionCall(ISourceElement? predecessor)
 	{
-		var name = CreateIdentifierToken("url", columnNumber);
-		var openParenthesis = CreateSymbolToken(Symbol.OpenParenthesis, columnNumber: name.End.ColumnNumber + 1);
-		var path = CreateStringPath(openParenthesis.End.ColumnNumber + 1);
-		var closeParenthesis = CreateSymbolToken(Symbol.CloseParenthesis, columnNumber: path.End.ColumnNumber + 1);
+		var name = CreateIdentifierToken("url", predecessor: predecessor);
+		var openParenthesis = CreateSymbolToken(Symbol.OpenParenthesis, predecessor: name);
+		var path = CreateStringPath(predecessor: openParenthesis);
+		var closeParenthesis = CreateSymbolToken(Symbol.CloseParenthesis, predecessor: path);
 
 		return new FunctionCall(name, openParenthesis, path, closeParenthesis);
 	}

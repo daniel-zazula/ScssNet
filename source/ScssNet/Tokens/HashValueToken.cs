@@ -4,20 +4,18 @@ public record HashValueToken: IToken, ISeparatedToken, IValueToken
 {
 	public string Value { get; }
 
-	public SourceCoordinates Start { get; }
-	public SourceCoordinates End { get; }
+	public SourceSpan Span { get; }
 	public Separator LeadingSeparator { get; }
 	public Separator TrailingSeparator { get; }
 	public IEnumerable<Issue> Issues => [];
 
 	public HashValueToken
 	(
-		string value, SourceCoordinates start, SourceCoordinates end, Separator before, Separator after
+		string value, SourceSpan span, Separator before, Separator after
 	)
 	{
 		Value = value;
-		Start = start;
-		End = end;
+		Span = span;
 		LeadingSeparator = before;
 		TrailingSeparator = after;
 	}

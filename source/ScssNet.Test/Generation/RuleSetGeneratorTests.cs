@@ -26,7 +26,7 @@ public class RuleSetGeneratorTests: GeneratorTestBase
 	{
 		var selector = new TagSelector(CreateIdentifierToken("p"), null);
 		var selectors = new SelectorList([new SelectorListItem(selector, null)]);
-		var block = BlockGeneratorTests.CreateBlock(selector.End.ColumnNumber + 1);
+		var block = BlockGeneratorTests.CreateBlock(predecessor: selectors.Items.Last());
 		return new RuleSet(selectors, block);
 	}
 

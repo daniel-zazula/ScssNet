@@ -27,10 +27,8 @@ internal class StringParser
 			sb.Append(previousChar);
 		};
 
-		return new StringToken
-		(
-			sb.ToString(), startCoordinates, reader.GetCoordinates(), leadingSeparator, getTrailingSeparator()
-		);
+		var span = new SourceSpan(startCoordinates, reader.GetCoordinates());
+		return new StringToken(sb.ToString(), span, leadingSeparator, getTrailingSeparator());
 	}
 
 	private bool IsStringDelimiter(char c) => c == '\'' || c == '"';

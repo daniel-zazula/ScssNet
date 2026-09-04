@@ -11,9 +11,7 @@ public class PseudoElementSelector
 	public IdentifierToken Identifier => identifier;
 	public ISelectorQualifier? Qualifier => qualifier;
 
+	public SourceSpan Span => SourceSpan.From(doubleColon, identifier, qualifier);
+
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(doubleColon, identifier, qualifier);
-
-	public SourceCoordinates Start => doubleColon.Start;
-
-	public SourceCoordinates End => LastEnd(identifier, qualifier);
 }

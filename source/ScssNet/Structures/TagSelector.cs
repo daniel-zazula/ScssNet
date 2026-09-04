@@ -8,9 +8,7 @@ public class TagSelector(IdentifierToken identifier, ISelectorQualifier? qualifi
 	public IdentifierToken Identifier => identifier;
 	public ISelectorQualifier? Qualifier => qualifier;
 
+	public SourceSpan Span => SourceSpan.From(identifier, qualifier);
+
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Identifier, Qualifier);
-
-	public SourceCoordinates Start => identifier.Start;
-
-	public SourceCoordinates End => LastEnd(Identifier, Qualifier);
 }

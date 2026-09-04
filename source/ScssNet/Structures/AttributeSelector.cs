@@ -16,9 +16,7 @@ public class AttributeSelector
 	public SymbolToken CloseBracket => closeBracket;
 	public ISelectorQualifier? Qualifier => qualifier;
 
+	public SourceSpan Span => SourceSpan.From(openBracket, closeBracket);
+
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(openBracket, attribute, @operator, value, modifier, closeBracket, qualifier);
-
-	public SourceCoordinates Start => openBracket.Start;
-
-	public SourceCoordinates End => LastEnd(closeBracket, qualifier);
 }

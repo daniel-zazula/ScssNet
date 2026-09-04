@@ -9,9 +9,9 @@ public record ValueKeywordToken : KeywordToken<ValueKeyword>
 {
 	public ValueKeywordToken
 	(
-		ValueKeyword keyword, string text, SourceCoordinates start, SourceCoordinates end, Separator before, Separator after,
+		ValueKeyword keyword, string text, SourceSpan span, Separator before, Separator after,
 		ICollection<Issue>? issues = null
-	) : base(keyword, text, start, end, before, after, issues)
+	) : base(keyword, text, span, before, after, issues)
 	{
 	}
 

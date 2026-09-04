@@ -38,10 +38,10 @@ public class ClassSelectorGeneratorTests: GeneratorTestBase
 		AssertClassSelector(provider);
 	}
 
-	internal static ClassSelector CreateClassSelector(int previousColumnNumber = 0)
+	internal static ClassSelector CreateClassSelector(ISourceElement? predecessor = null)
 	{
-		var dot = CreateSymbolToken(Symbol.Dot, columnNumber: previousColumnNumber + 1);
-		var identifier = CreateIdentifierToken("my-class", columnNumber: dot.End.ColumnNumber + 1);
+		var dot = CreateSymbolToken(Symbol.Dot, predecessor: predecessor);
+		var identifier = CreateIdentifierToken("my-class", predecessor: dot);
 
 		return new ClassSelector(dot, identifier, null);
 	}

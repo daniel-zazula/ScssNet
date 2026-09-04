@@ -7,22 +7,20 @@ public abstract record KeywordToken<T>: IToken, ISeparatedToken
 
 	public string Text { get; }
 
-	public SourceCoordinates Start { get; }
-	public SourceCoordinates End { get; }
+	public SourceSpan Span { get; }
 	public Separator LeadingSeparator { get; }
 	public Separator TrailingSeparator { get; }
 	public IEnumerable<Issue> Issues { get; }
 
 	protected KeywordToken
 	(
-		T keyword, string text, SourceCoordinates start, SourceCoordinates end, Separator before, Separator after,
+		T keyword, string text, SourceSpan span, Separator before, Separator after,
 		ICollection<Issue>? issues = null
 	)
 	{
 		Keyword = keyword;
 		Text = text;
-		Start = start;
-		End = end;
+		Span = span;
 		LeadingSeparator = before;
 		TrailingSeparator = after;
 		Issues = issues ?? [];
@@ -32,8 +30,7 @@ public abstract record KeywordToken<T>: IToken, ISeparatedToken
 	{
 		Keyword = keyword;
 		Text = identifiertoken.Text;
-		Start = identifiertoken.Start;
-		End = identifiertoken.End;
+		Span = identifiertoken.Span;
 		LeadingSeparator = identifiertoken.LeadingSeparator;
 		TrailingSeparator = identifiertoken.TrailingSeparator;
 		Issues = identifiertoken.Issues;
@@ -43,8 +40,7 @@ public abstract record KeywordToken<T>: IToken, ISeparatedToken
 	{
 		Keyword = default;
 		Text = "";
-		Start = coordinates;
-		End = coordinates;
+		Span = new SourceSpan(coordinates, coordinates);
 		LeadingSeparator = Separator.Empty;
 		TrailingSeparator = Separator.Empty;
 		Issues = [issue];

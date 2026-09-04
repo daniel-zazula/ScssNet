@@ -9,9 +9,7 @@ public class DescendantSelector
 
 	public ISelector AscendantSelector => ascendantSelector;
 
+	public SourceSpan Span => SourceSpan.From(ascendantSelector, selector);
+
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(AscendantSelector, Selector);
-
-	public SourceCoordinates Start => ascendantSelector.Start;
-
-	public SourceCoordinates End => selector.End;
 }

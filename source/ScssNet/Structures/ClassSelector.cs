@@ -11,9 +11,7 @@ public class ClassSelector
 	public IdentifierToken Identifier => identifier;
 	public ISelectorQualifier? Qualifier => qualifier;
 
+	public SourceSpan Span => SourceSpan.From(dot, identifier, qualifier);
+
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(dot, identifier, qualifier);
-
-	public SourceCoordinates Start => dot.Start;
-
-	public SourceCoordinates End => LastEnd(identifier, qualifier);
 }

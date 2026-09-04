@@ -32,7 +32,8 @@ internal class CommentParser
 			sb.Append(reader.Read());
 		}
 
-		return new CommentToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
+		var span = new SourceSpan(startCoordinates, reader.GetCoordinates());
+		return new CommentToken(sb.ToString(), span);
 
 		static bool IsLineBreak(char nextChar) => nextChar == '\r' || nextChar == '\n';
 	}

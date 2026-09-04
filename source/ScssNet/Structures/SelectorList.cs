@@ -6,11 +6,9 @@ public class SelectorList : SourceElement, ISyntaxStructure
 {
 	public ICollection<SelectorListItem> Items { get; }
 
+	public SourceSpan Span => SourceSpan.From(Items);
+
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Items.Cast<ISourceElement>());
-
-	public SourceCoordinates Start => Items.First().Start;
-
-	public SourceCoordinates End => Items.Last().End;
 
 	public SelectorList(ICollection<SelectorListItem> items)
 	{

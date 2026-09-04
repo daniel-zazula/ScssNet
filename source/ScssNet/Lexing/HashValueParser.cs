@@ -26,11 +26,8 @@ internal class HashValueParser
 				break;
 		}
 
-		return new HashValueToken
-		(
-			stringBuilder.ToString(), startCoordinates, reader.GetCoordinates(), leadingSeparator,
-			getTrailingSeparator()
-		);
+		var span = new SourceSpan(startCoordinates, reader.GetCoordinates());
+		return new HashValueToken(stringBuilder.ToString(), span, leadingSeparator, getTrailingSeparator());
 
 		static bool IsHexOrIdChar(char c)
 		{

@@ -4,14 +4,12 @@ public record WhiteSpaceToken: IToken, ISeparatorToken
 {
 	public string Text { get; }
 
-	public SourceCoordinates Start { get; }
-	public SourceCoordinates End { get; }
+	public SourceSpan Span { get; }
 	public IEnumerable<Issue> Issues => [];
 
-	internal WhiteSpaceToken(string text, SourceCoordinates start, SourceCoordinates end)
+	internal WhiteSpaceToken(string text, SourceSpan span)
 	{
 		Text = text;
-		Start = start;
-		End = end;
+		Span = span;
 	}
 }

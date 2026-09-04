@@ -20,10 +20,8 @@ internal class IdentifierParser
 		while(!reader.End && IsIdentifierChar(reader.Peek()))
 			sb.Append(reader.Read());
 
-		return new IdentifierToken
-		(
-			sb.ToString(), startCoordinates, reader.GetCoordinates(), leadingSeparator, getTrailingSeparator()
-		);
+		var span = new SourceSpan(startCoordinates, reader.GetCoordinates());
+		return new IdentifierToken(sb.ToString(), span, leadingSeparator, getTrailingSeparator());
 	}
 
 	private bool IsIdentifierStart(string peeked)

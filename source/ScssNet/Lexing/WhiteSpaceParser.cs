@@ -17,6 +17,7 @@ internal class WhiteSpaceParser
 		while(!reader.End && char.IsWhiteSpace(reader.Peek()))
 			sb.Append(reader.Read());
 
-		return new WhiteSpaceToken(sb.ToString(), startCoordinates, reader.GetCoordinates());
+		var span = new SourceSpan(startCoordinates, reader.GetCoordinates());
+		return new WhiteSpaceToken(sb.ToString(), span);
 	}
 }

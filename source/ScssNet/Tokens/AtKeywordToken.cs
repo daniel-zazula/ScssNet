@@ -9,9 +9,9 @@ public record AtKeywordToken: KeywordToken<AtKeyword>
 {
 	public AtKeywordToken
 	(
-		AtKeyword keyword, string text, SourceCoordinates start, SourceCoordinates end, Separator before, Separator after,
+		AtKeyword keyword, string text, SourceSpan span, Separator before, Separator after,
 		ICollection<Issue>? issues = null
-	): base(keyword, text, start, end, before, after, issues)
+	): base(keyword, text, span, before, after, issues)
 	{
 	}
 

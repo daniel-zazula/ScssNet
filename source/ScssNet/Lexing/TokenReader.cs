@@ -84,7 +84,7 @@ internal class TokenReader
 		return Match<StringToken>() ?? StringToken.CreateMissing(GetCoordinates());
 	}
 
-	internal SourceCoordinates GetCoordinates() => Peek()?.Start ?? SourceReader.GetCoordinates();
+	internal SourceCoordinates GetCoordinates() => Peek()?.Span.Start ?? SourceReader.GetCoordinates();
 
 	private IToken? Peek()
 	{

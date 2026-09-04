@@ -26,11 +26,11 @@ public class BlockGeneratorTests: GeneratorTestBase
 		stringWriter.ToString().ShouldBe(ExpectedBlock);
 	}
 
-	internal static Block CreateBlock(int columnNumber = 1)
+	internal static Block CreateBlock(ISourceElement? predecessor = null)
 	{
-		var openBrace = CreateSymbolToken(Symbol.OpenBrace, columnNumber: columnNumber);
-		var rule = RuleGeneratorTests.CreateRegularRule(openBrace.End.ColumnNumber + 1);
-		var closeBrace = CreateSymbolToken(Symbol.CloseBrace, columnNumber: rule.End.ColumnNumber + 1);
+		var openBrace = CreateSymbolToken(Symbol.OpenBrace, predecessor: predecessor);
+		var rule = RuleGeneratorTests.CreateRegularRule(predecessor: openBrace);
+		var closeBrace = CreateSymbolToken(Symbol.CloseBrace, predecessor: rule);
 		return new Block(openBrace, [rule], closeBrace);
 	}
 }

@@ -9,11 +9,9 @@ public class Block(SymbolToken openBrace, ICollection<Rule> rules, SymbolToken c
 	public ICollection<Rule> Rules => rules;
 	public SymbolToken CloseBrace => closeBrace;
 
+	public SourceSpan Span => SourceSpan.From(openBrace, closeBrace);
+
 	public IEnumerable<Issue> Issues => ListIssues();
-
-	public SourceCoordinates Start => openBrace.Start;
-
-	public SourceCoordinates End => closeBrace.End;
 
 	private IEnumerable<Issue> ListIssues()
 	{

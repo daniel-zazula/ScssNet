@@ -4,14 +4,12 @@ public record CommentToken: IToken, ISeparatorToken
 {
 	public string Text { get; }
 
-	public SourceCoordinates Start { get; }
-	public SourceCoordinates End { get; }
+	public SourceSpan Span { get; }
 	public IEnumerable<Issue> Issues => [];
 
-	internal CommentToken(string text, SourceCoordinates start, SourceCoordinates end)
+	internal CommentToken(string text, SourceSpan span)
 	{
 		Text = text;
-		Start = start;
-		End = end;
+		Span = span;
 	}
 }

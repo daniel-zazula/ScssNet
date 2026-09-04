@@ -38,13 +38,13 @@ public class AttributeSelectorGeneratorTests: GeneratorTestBase
 		AssertAttributeSelector(provider);
 	}
 
-	internal static AttributeSelector CreateAttributeSelector(int previousColumnNumber = 0)
+	internal static AttributeSelector CreateAttributeSelector(ISourceElement? predecessor = null)
 	{
-		var openBracket = CreateSymbolToken(Symbol.OpenBracket, columnNumber: previousColumnNumber + 1);
-		var attributeIdentifier = CreateIdentifierToken("attr", columnNumber: openBracket.End.ColumnNumber + 1);
-		var equalSign = CreateSymbolToken(Symbol.Equals, columnNumber: attributeIdentifier.End.ColumnNumber + 1);
-		var value = CreateStringToken(@"""some-value""", columnNumber: equalSign.End.ColumnNumber + 1);
-		var closeBracket = CreateSymbolToken(Symbol.CloseBracket, columnNumber: value.End.ColumnNumber + 1);
+		var openBracket = CreateSymbolToken(Symbol.OpenBracket, predecessor: predecessor);
+		var attributeIdentifier = CreateIdentifierToken("attr", predecessor: openBracket);
+		var equalSign = CreateSymbolToken(Symbol.Equals, predecessor: attributeIdentifier);
+		var value = CreateStringToken(@"""some-value""", predecessor: equalSign);
+		var closeBracket = CreateSymbolToken(Symbol.CloseBracket, predecessor: value);
 
 		return new AttributeSelector(openBracket, attributeIdentifier, equalSign, value, null, closeBracket, null);
 	}

@@ -37,11 +37,8 @@ internal class UnitValueParser
 				stringBuilder.Append(reader.Read());
 		}
 
-		return new UnitValueToken
-		(
-			amount, stringBuilder.ToString(), startCoordinates, reader.GetCoordinates(), leadingSeparator,
-			getTrailingSeparator()
-		);
+		var span = new SourceSpan(startCoordinates, reader.GetCoordinates());
+		return new UnitValueToken(amount, stringBuilder.ToString(), span, leadingSeparator, getTrailingSeparator());
 	}
 
 	private static bool IsUnitStart(ISourceReader reader)

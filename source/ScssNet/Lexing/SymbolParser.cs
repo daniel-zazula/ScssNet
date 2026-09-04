@@ -17,10 +17,8 @@ internal class SymbolParser
 		var startCoordinates = reader.GetCoordinates();
 		reader.Read(symbol >= Symbol.ContainsWord ? 2 : 1);
 
-		return new SymbolToken
-		(
-			symbol.Value, startCoordinates, reader.GetCoordinates(), leadingSeparator, getTrailingSeparator()
-		);
+		var span = new SourceSpan(startCoordinates, reader.GetCoordinates());
+		return new SymbolToken(symbol.Value, span, leadingSeparator, getTrailingSeparator());
 	}
 
 	private Symbol? ParseTwoCharacterSymbol(ISourceReader reader)

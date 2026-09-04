@@ -12,9 +12,7 @@ public class AtCharset
 	public StringToken CharsetName => charsetName;
 	public SymbolToken? SemiColon => semiColon;
 
+	public SourceSpan Span => SourceSpan.From(atSign, charsetName, semiColon);
+
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(atSign, charsetName, semiColon);
-
-	public SourceCoordinates Start => CharsetName.Start;
-
-	public SourceCoordinates End => LastEnd(charsetName, semiColon);
 }

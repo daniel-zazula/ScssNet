@@ -12,9 +12,7 @@ public class AtMedia
 	public IValue MediaQuery => mediaQuery;
 	public Block Block => block;
 
+	public SourceSpan Span => SourceSpan.From(atSign, block);
+
 	public IEnumerable<Issue> Issues => ConcatIssuesFrom(atSign, mediaQuery, block);
-
-	public SourceCoordinates Start => MediaQuery.Start;
-
-	public SourceCoordinates End => Block.End;
 }

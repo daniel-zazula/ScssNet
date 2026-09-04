@@ -1,6 +1,4 @@
-﻿using ScssNet.Structures;
-
-namespace ScssNet.Tokens;
+﻿namespace ScssNet.Tokens;
 
 public interface IToken : ISourceElement { }
 

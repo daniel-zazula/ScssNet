@@ -23,26 +23,26 @@ public class RuleGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateImportantRule()
 	{
-		var prop = CreateIdentifierToken("prop");
-		var colon = CreateSymbolToken(Symbol.Colon, columnNumber: prop.End.ColumnNumber + 1);
-		var val = CreateIdentifierToken("val", columnNumber: colon.End.ColumnNumber + 1);
-		var exclamation = CreateSymbolToken(Symbol.Exclamation, columnNumber: val.End.ColumnNumber + 1);
-		var important = CreateValueKeywordToken(ValueKeyword.Important, columnNumber: exclamation.End.ColumnNumber + 1);
-		var semiColon = CreateSymbolToken(Symbol.SemiColon, columnNumber: important.End.ColumnNumber + 1);
+		var property = CreateIdentifierToken("prop");
+		var colon = CreateSymbolToken(Symbol.Colon, predecessor: property);
+		var value = CreateIdentifierToken("val", predecessor: colon);
+		var exclamation = CreateSymbolToken(Symbol.Exclamation, predecessor: value);
+		var important = CreateValueKeywordToken(ValueKeyword.Important, predecessor: exclamation);
+		var semiColon = CreateSymbolToken(Symbol.SemiColon, predecessor: important);
 
-		var rule = new Rule(prop, colon, val, new ImportantValue(exclamation, important), semiColon);
+		var rule = new Rule(property, colon, value, new ImportantValue(exclamation, important), semiColon);
 
 		ShouldWriteRule(rule, "prop:val!important;");
 	}
 
-	internal static Rule CreateRegularRule(int columnNumber = 1)
+	internal static Rule CreateRegularRule(ISourceElement? predecessor = null)
 	{
-		var prop = CreateIdentifierToken("prop", columnNumber: columnNumber);
-		var colon = CreateSymbolToken(Symbol.Colon, columnNumber: prop.End.ColumnNumber + 1);
-		var val = CreateIdentifierToken("val", columnNumber: colon.End.ColumnNumber + 1);
-		var semiColon = CreateSymbolToken(Symbol.SemiColon, columnNumber: val.End.ColumnNumber + 1);
+		var property = CreateIdentifierToken("prop", predecessor: predecessor);
+		var colon = CreateSymbolToken(Symbol.Colon, predecessor: property);
+		var value = CreateIdentifierToken("val", predecessor: colon);
+		var semiColon = CreateSymbolToken(Symbol.SemiColon, predecessor: value);
 
-		return new Rule(prop, colon, val, null, semiColon);
+		return new Rule(property, colon, value, null, semiColon);
 	}
 
 	private static void ShouldWriteRule(Rule rule, string expected)
