@@ -1,7 +1,6 @@
-﻿using ScssNet.Lexing;
-using ScssNet.Tokens;
+﻿using ScssNet.Tokens;
 
-namespace ScssNet.Parsing;
+namespace ScssNet.Lexing;
 
 internal static class AtKeywordTokenMatchingExtensions
 {
