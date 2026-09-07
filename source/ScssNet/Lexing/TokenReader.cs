@@ -47,7 +47,7 @@ internal class TokenReader
 		return default;
 	}
 
-	public (T keyword, IdentifierToken identifierToken)? MatchKeyword<T>() where T : Enum
+	public (T keyword, IdentifierToken identifierToken)? MatchKeyword<T>() where T : struct, Enum
 	{
 		if(Peek() is IdentifierToken identifierToken)
 		{
@@ -55,17 +55,23 @@ internal class TokenReader
 			if(matchedKeyword is not null)
 			{
 				ReadNextToken();
-				return (matchedKeyword, identifierToken);
+				return (matchedKeyword.Value, identifierToken);
 			}
 		}
 
 		return null;
 
-		static T MatchesAnyKeywordOfT(IdentifierToken identifier)
+		static T? MatchesAnyKeywordOfT(IdentifierToken identifier)
 		{
 			var text = identifier.Text;
 			var keywords = (T[])Enum.GetValues(typeof(T));
-			return keywords.FirstOrDefault(k => string.Equals(text, k.ToString(), StringComparison.OrdinalIgnoreCase));
+			foreach(var keyword in keywords)
+			{
+				if(string.Equals(text, keyword.ToString(), StringComparison.OrdinalIgnoreCase))
+					return keyword;
+			}
+
+			return null;
 		}
 	}
 

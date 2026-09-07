@@ -4,7 +4,10 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class AtRuleParser(Lazy<ValueParser> valueParser, Lazy<BlockParser> blockParser)
+internal class AtRuleParser
+(
+	Lazy<ValueParser> valueParser, Lazy<BlockParser> blockParser, Lazy<MediaQueryParser> mediaQueryParser
+)
 {
 	internal IAtRule? Parse(TokenReader tokenReader)
 	{
@@ -41,7 +44,7 @@ internal class AtRuleParser(Lazy<ValueParser> valueParser, Lazy<BlockParser> blo
 
 	internal AtMedia? ParseAtMedia(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
 	{
-		var mediaQuery = valueParser.Value.Parse(tokenReader) ?? tokenReader.RequireIdentifier();
+		var mediaQuery = mediaQueryParser.Value.Require(tokenReader);
 		var block = blockParser.Value.Require(tokenReader);
 
 		return new AtMedia(atSign, atKeywordToken, mediaQuery, block);

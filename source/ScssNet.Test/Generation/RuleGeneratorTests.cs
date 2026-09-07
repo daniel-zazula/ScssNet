@@ -45,6 +45,18 @@ public class RuleGeneratorTests: GeneratorTestBase
 		return new Rule(property, colon, value, null, semiColon);
 	}
 
+	private static ValueKeywordToken CreateValueKeywordToken
+	(
+		ValueKeyword valueKeyword, string? value = null, ISourceElement? predecessor = null
+	)
+	{
+		value = PrepareKeywordValue(valueKeyword, value);
+		var length = value.Length;
+		var span = CreateSpan(predecessor, length);
+
+		return new ValueKeywordToken(valueKeyword, value, span, Separator.Empty, Separator.Empty);
+	}
+
 	private static void ShouldWriteRule(Rule rule, string expected)
 	{
 		var provider = BuildServiceProvider();

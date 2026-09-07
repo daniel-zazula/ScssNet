@@ -23,5 +23,6 @@ internal static class GenerationDependencies
 		services.AddLazySingleton<AtCharsetGenerator>();
 		services.AddLazySingleton<AtImportGenerator>();
 		services.AddLazySingleton<AtMediaGenerator>();
+		services.AddLazySingleton<MediaQueryGenerator>();
 	}
 }

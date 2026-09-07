@@ -84,19 +84,7 @@ public abstract class GeneratorTestBase
 		return new AtKeywordToken(atKeyword, value, span, Separator.Empty, Separator.Empty);
 	}
 
-	protected static ValueKeywordToken CreateValueKeywordToken
-	(
-		ValueKeyword valueKeyword, string? value = null, ISourceElement? predecessor = null
-	)
-	{
-		value = PrepareKeywordValue(valueKeyword, value);
-		var length = value.Length;
-		var span = CreateSpan(predecessor, length);
-
-		return new ValueKeywordToken(valueKeyword, value, span, Separator.Empty, Separator.Empty);
-	}
-
-	private static SourceSpan CreateSpan(ISourceElement? predecessor = null, int length = 1)
+	protected static SourceSpan CreateSpan(ISourceElement? predecessor = null, int length = 1)
 	{
 		var predecessorEnd = predecessor?.Span.Start;
 		var startingLine = predecessorEnd?.LineNumber ?? 1;
@@ -106,7 +94,7 @@ public abstract class GeneratorTestBase
 		return new SourceSpan(start, end);
 	}
 
-	private static string PrepareKeywordValue<T>(T keyword, string? value = null) where T : Enum
+	protected static string PrepareKeywordValue<T>(T keyword, string? value = null) where T : Enum
 	{
 		if(value is null)
 			return keyword.ToString();
