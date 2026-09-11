@@ -2,6 +2,7 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
+using ScssNet.Test.ElementCreation;
 using ScssNet.Tokens;
 using Shouldly;
 
@@ -13,7 +14,7 @@ public class FunctionCallGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromFunctionCallGenerator()
 	{
-		var functionCallValue = CreateFunctionCall();
+		var functionCallValue = FunctionCall.Create(CreateArguments);
 
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<FunctionCallGenerator>();
@@ -26,7 +27,7 @@ public class FunctionCallGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromValueGenerator()
 	{
-		var functionCallValue = CreateFunctionCall();
+		var functionCallValue = FunctionCall.Create(CreateArguments);
 
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<ValueGenerator>();
@@ -36,24 +37,12 @@ public class FunctionCallGeneratorTests: GeneratorTestBase
 		AssertWrittenFunctionCall(provider);
 	}
 
-	private static FunctionCall CreateFunctionCall()
+	private static ICollection<ValueListItem> CreateArguments(ISourceElement predecessor)
 	{
-		var identifierToken = CreateIdentifierToken("someFunc");
-		var openParenthesisToken = CreateSymbolToken(Symbol.OpenParenthesis, predecessor: identifierToken);
-		var stringArgument = CreateListItemWithComma(CreateStringToken("\"foo bar\"", predecessor: openParenthesisToken));
-		var hashValueArgument = CreateListItemWithComma(CreateHashValueToken("#ff0000", predecessor: stringArgument));
-		var unitValueArgument = new ValueListItem(CreateUnitValueToken(1.5m, "em", predecessor: hashValueArgument));
-		var closeParenthesisToken = CreateSymbolToken(Symbol.CloseParenthesis, predecessor: unitValueArgument);
-
-		var valueList = new ValueList([stringArgument, hashValueArgument, unitValueArgument]);
-
-		return new FunctionCall(identifierToken, openParenthesisToken, valueList, closeParenthesisToken);
-
-		static ValueListItem CreateListItemWithComma(IValue value)
-		{
-			var commaToken = CreateSymbolToken(Symbol.Comma, predecessor: value);
-			return new ValueListItem(value, commaToken);
-		}
+		var stringArgument = ValueList.CreateItem(StringToken.Create("\"foo bar\"", predecessor: predecessor), withComma: true);
+		var hashValueArgument = ValueList.CreateItem(HashValueToken.Create("#ff0000", predecessor: stringArgument), withComma: true);
+		var unitValueArgument = ValueList.CreateItem(UnitValueToken.Create(1.5m, "em", predecessor: hashValueArgument), withComma: false);
+		return [stringArgument, hashValueArgument, unitValueArgument];
 	}
 
 	private static void AssertWrittenFunctionCall(ServiceProvider provider)

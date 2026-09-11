@@ -4,6 +4,7 @@ using Combinatorics.Collections;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
+using ScssNet.Test.ElementCreation;
 using ScssNet.Tokens;
 using Shouldly;
 
@@ -28,15 +29,15 @@ public class SelectorListGeneratorTests: GeneratorTestBase
 		{
 			ISelector selector = expectedSelector switch
 			{
-				AttributeTests.ExpectedAttributeSelector => AttributeTests.CreateAttributeSelector(predecessor),
-				ClassTests.ExpectedClassSelector => ClassTests.CreateClassSelector(predecessor),
-				IdTests.ExpectedIdSelector => IdTests.CreateIdSelector(predecessor),
-				TagTests.ExpectedTagSelector => TagTests.CreateTagSelector(predecessor),
+				AttributeTests.ExpectedAttributeSelector => AttributeSelector.Create(predecessor),
+				ClassTests.ExpectedClassSelector => ClassSelector.Create(predecessor),
+				IdTests.ExpectedIdSelector => IdSelector.Create(predecessor),
+				TagTests.ExpectedTagSelector => TagSelector.Create(predecessor),
 				_ => throw new InvalidOperationException($"Unexpected selector: {expectedSelector}")
 			};
 
 			var comma = expectedSelector != lastSelector
-				? CreateSymbolToken(Symbol.Comma, predecessor: selector)
+				? SymbolToken.Create(Symbol.Comma, predecessor: selector)
 				: null;
 			var item = new SelectorListItem(selector, comma);
 

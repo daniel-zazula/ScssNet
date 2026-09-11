@@ -1,10 +1,8 @@
-using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
-using ScssNet.Tokens;
-using Shouldly;
+using ScssNet.Test.ElementCreation;
 
 namespace ScssNet.Test.Generation;
 
@@ -14,7 +12,7 @@ public class StatementGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateRuleSetStatement()
 	{
-		var ruleSet = RuleSetGeneratorTests.CreateRuleSet();
+		var ruleSet = RuleSet.Create();
 
 		var provider = GenerateStatement(ruleSet);
 
@@ -24,7 +22,7 @@ public class StatementGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateAtCharsetStatement()
 	{
-		var atCharset = AtCharsetGeneratorTests.CreateAtCharset();
+		var atCharset = AtCharset.Create();
 
 		var provider = GenerateStatement(atCharset);
 

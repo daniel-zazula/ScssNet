@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
+using ScssNet.Test.ElementCreation;
 using ScssNet.Tokens;
 using Shouldly;
 
@@ -83,7 +84,7 @@ public class AtMediaGeneratorTests: GeneratorTestBase
 
 		IMediaQuery CreateMediaQuery(ISourceElement? predecessor)
 		{
-			return MediaQueryGeneratorTests.CreateMediaQueryType(mediaType, predecessor: predecessor);
+			return MediaQueryTypeKeywordToken.Create(mediaType, predecessor: predecessor);
 		}
 	}
 
@@ -93,21 +94,18 @@ public class AtMediaGeneratorTests: GeneratorTestBase
 
 		IMediaQuery CreateMediaQuery(ISourceElement? predecessor)
 		{
-			return MediaQueryGeneratorTests.CreateMediaQueryUnaryExpression
-			(
-				mediaOperator, mediaType, predecessor: predecessor
-			);
+			return MediaQueryUnaryExpression.Create(mediaOperator, mediaType, predecessor: predecessor);
 		}
 	}
 
 	internal static AtMedia CreateAtMedia(Func<ISourceElement?, IMediaQuery> createMediaQuery)
 	{
-		var at = CreateSymbolToken(Symbol.At);
-		var keyword = CreateAtKeywordToken(AtKeyword.Media, predecessor: at);
+		var at = SymbolToken.Create(Symbol.At);
+		var keyword = AtKeywordToken.Create(AtKeyword.Media, predecessor: at);
 
 		var mediaQuery = createMediaQuery(keyword);
 
-		var block = BlockGeneratorTests.CreateBlock(predecessor: mediaQuery);
+		var block = Block.Create(predecessor: mediaQuery);
 
 		return new AtMedia(at, keyword, mediaQuery, block);
 	}

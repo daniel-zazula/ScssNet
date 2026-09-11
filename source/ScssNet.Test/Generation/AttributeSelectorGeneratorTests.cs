@@ -2,7 +2,7 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
-using ScssNet.Tokens;
+using ScssNet.Test.ElementCreation;
 using Shouldly;
 
 namespace ScssNet.Test.Generation;
@@ -15,7 +15,7 @@ public class AttributeSelectorGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromAttributeSelectorGenerator()
 	{
-		var attributeSelector = CreateAttributeSelector();
+		var attributeSelector = AttributeSelector.Create();
 
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<AttributeSelectorGenerator>();
@@ -28,7 +28,7 @@ public class AttributeSelectorGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromSelectorGenerator()
 	{
-		var attributeSelector = CreateAttributeSelector();
+		var attributeSelector = AttributeSelector.Create();
 
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<SelectorGenerator>();
@@ -36,17 +36,6 @@ public class AttributeSelectorGeneratorTests: GeneratorTestBase
 		generator.Generate(attributeSelector, cssWriter);
 
 		AssertAttributeSelector(provider);
-	}
-
-	internal static AttributeSelector CreateAttributeSelector(ISourceElement? predecessor = null)
-	{
-		var openBracket = CreateSymbolToken(Symbol.OpenBracket, predecessor: predecessor);
-		var attributeIdentifier = CreateIdentifierToken("attr", predecessor: openBracket);
-		var equalSign = CreateSymbolToken(Symbol.Equals, predecessor: attributeIdentifier);
-		var value = CreateStringToken(@"""some-value""", predecessor: equalSign);
-		var closeBracket = CreateSymbolToken(Symbol.CloseBracket, predecessor: value);
-
-		return new AttributeSelector(openBracket, attributeIdentifier, equalSign, value, null, closeBracket, null);
 	}
 
 	private static void AssertAttributeSelector(ServiceProvider provider)

@@ -2,7 +2,7 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
-using ScssNet.Tokens;
+using ScssNet.Test.ElementCreation;
 using Shouldly;
 
 namespace ScssNet.Test.Generation;
@@ -15,7 +15,7 @@ public class BlockGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldWriteBraces()
 	{
-		var block = CreateBlock();
+		var block = Block.Create();
 
 		var provider = BuildServiceProvider();
 		var blockGenerator = provider.GetRequiredService<BlockGenerator>();
@@ -24,13 +24,5 @@ public class BlockGeneratorTests: GeneratorTestBase
 
 		var stringWriter = provider.GetRequiredService<StringWriter>();
 		stringWriter.ToString().ShouldBe(ExpectedBlock);
-	}
-
-	internal static Block CreateBlock(ISourceElement? predecessor = null)
-	{
-		var openBrace = CreateSymbolToken(Symbol.OpenBrace, predecessor: predecessor);
-		var rule = RuleGeneratorTests.CreateRegularRule(predecessor: openBrace);
-		var closeBrace = CreateSymbolToken(Symbol.CloseBrace, predecessor: rule);
-		return new Block(openBrace, [rule], closeBrace);
 	}
 }

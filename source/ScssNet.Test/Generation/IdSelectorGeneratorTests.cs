@@ -2,6 +2,7 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
+using ScssNet.Test.ElementCreation;
 using Shouldly;
 
 namespace ScssNet.Test.Generation;
@@ -14,7 +15,7 @@ public class IdSelectorGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromIdSelectorGenerator()
 	{
-		var idSelector = CreateIdSelector();
+		var idSelector = IdSelector.Create();
 
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<IdSelectorGenerator>();
@@ -27,7 +28,7 @@ public class IdSelectorGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromSelectorGenerator()
 	{
-		var idSelector = CreateIdSelector();
+		var idSelector = IdSelector.Create();
 
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<SelectorGenerator>();
@@ -35,12 +36,6 @@ public class IdSelectorGeneratorTests: GeneratorTestBase
 		generator.Generate(idSelector, cssWriter);
 
 		AssertIdSelector(provider);
-	}
-
-	internal static IdSelector CreateIdSelector(ISourceElement? predecessor = null)
-	{
-		var hash = CreateHashValueToken("#myid", predecessor: predecessor);
-		return new IdSelector(hash, null);
 	}
 
 	private static void AssertIdSelector(ServiceProvider provider)

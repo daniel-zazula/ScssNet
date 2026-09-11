@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
+using ScssNet.Test.ElementCreation;
 using ScssNet.Tokens;
 using Shouldly;
 
@@ -16,7 +17,7 @@ public class MediaQueryGeneratorTests : GeneratorTestBase
 	public void ShouldGenerateMediaQueryTypeKeyword(MediaQueryTypeKeyword mediaType)
 	{
 		var mediaTypeText = mediaType.ToString().ToLower();
-		var mediaQuery = CreateMediaQueryType(mediaType, mediaTypeText);
+		var mediaQuery = MediaQueryTypeKeywordToken.Create(mediaType, mediaTypeText);
 
 		var provider = BuildServiceProvider();
 		var mediaQueryGenerator = provider.GetRequiredService<MediaQueryGenerator>();
@@ -37,7 +38,7 @@ public class MediaQueryGeneratorTests : GeneratorTestBase
 	{
 		var operatorText = mediaOperator.ToString().ToLower();
 		var typeText = mediaType.ToString().ToLower();
-		var mediaQuery = CreateMediaQueryUnaryExpression(mediaOperator, mediaType, operatorText, typeText);
+		var mediaQuery = MediaQueryUnaryExpression.Create(mediaOperator, mediaType, operatorText, typeText);
 
 		var provider = BuildServiceProvider();
 		var mediaQueryGenerator = provider.GetRequiredService<MediaQueryGenerator>();
@@ -73,31 +74,6 @@ public class MediaQueryGeneratorTests : GeneratorTestBase
 		}
 	}
 
-	internal static MediaQueryTypeKeywordToken CreateMediaQueryType
-	(
-		MediaQueryTypeKeyword type, string? text = null, ISourceElement? predecessor = null
-	)
-	{
-		text = PrepareKeywordValue(type, text);
-		var length = text.Length;
-		var span = CreateSpan(predecessor, length);
-
-		return new MediaQueryTypeKeywordToken(type, text, span, Separator.Empty, Separator.Empty);
-	}
-
-	internal static MediaQueryUnaryExpression CreateMediaQueryUnaryExpression
-	(
-		MediaQueryOperatorKeyword operatorKeyword, MediaQueryTypeKeyword typeKeyword, 
-		string? operatorText = null, string? typeText = null,
-		ISourceElement? predecessor = null
-	)
-	{
-		var operatorToken = CreateMediaQueryOperator(operatorKeyword, operatorText, predecessor);
-		var typeToken = CreateMediaQueryType(typeKeyword, typeText, operatorToken);
-
-		return new MediaQueryUnaryExpression(operatorToken, typeToken);
-	}
-
 	internal static string GetExpected(MediaQueryTypeKeyword mediaType)
 	{
 		return mediaType.ToString().ToLower();
@@ -108,17 +84,5 @@ public class MediaQueryGeneratorTests : GeneratorTestBase
 		var expectedOperator = mediaOperator.ToString().ToLower();
 		var expectedMediaType = mediaType.ToString().ToLower();
 		return $"{expectedOperator} {expectedMediaType}";
-	}
-
-	private static MediaQueryOperatorKeywordToken CreateMediaQueryOperator
-	(
-		MediaQueryOperatorKeyword operatorKeyword, string? text = null, ISourceElement? predecessor = null
-	)
-	{
-		text = PrepareKeywordValue(operatorKeyword, text);
-		var length = text.Length;
-		var span = CreateSpan(predecessor, length);
-
-		return new MediaQueryOperatorKeywordToken(operatorKeyword, text, span, Separator.Empty, Separator.Empty);
 	}
 }

@@ -1,6 +1,7 @@
 using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
+using ScssNet.Test.ElementCreation;
 using ScssNet.Tokens;
 using Shouldly;
 
@@ -14,7 +15,7 @@ public class CssWriterTests: GeneratorTestBase
 	{
 		const Symbol symbol = Symbol.OpenBracket;
 
-		var symbolToken = CreateSymbolToken(symbol);
+		var symbolToken = SymbolToken.Create(symbol);
 
 		var provider = BuildServiceProvider();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
@@ -29,7 +30,7 @@ public class CssWriterTests: GeneratorTestBase
 	{
 		const string identifier = "foo";
 
-		var identifierToken = CreateIdentifierToken(identifier);
+		var identifierToken = IdentifierToken.Create(identifier);
 
 		var provider = BuildServiceProvider();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
@@ -44,7 +45,7 @@ public class CssWriterTests: GeneratorTestBase
 	{
 		const string str = @"""some string""";
 
-		var stringToken = CreateStringToken(str);
+		var stringToken = StringToken.Create(str);
 
 		var provider = BuildServiceProvider();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
@@ -59,7 +60,7 @@ public class CssWriterTests: GeneratorTestBase
 	{
 		const string hashValue = "#ff0000";
 
-		var hashToken = CreateHashValueToken(hashValue);
+		var hashToken = HashValueToken.Create(hashValue);
 
 		var provider = BuildServiceProvider();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
@@ -74,7 +75,7 @@ public class CssWriterTests: GeneratorTestBase
 	{
 		const string keyword = "import";
 
-		var keywordToken = CreateAtKeywordToken(AtKeyword.Import, keyword);
+		var keywordToken = AtKeywordToken.Create(AtKeyword.Import, keyword);
 
 		var provider = BuildServiceProvider();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
@@ -87,7 +88,7 @@ public class CssWriterTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldWriteUnitValue()
 	{
-		var numberToken = CreateUnitValueToken(1.5m, "em");
+		var numberToken = UnitValueToken.Create(1.5m, "em");
 
 		var provider = BuildServiceProvider();
 		var cssWriter = provider.GetRequiredService<CssWriter>();

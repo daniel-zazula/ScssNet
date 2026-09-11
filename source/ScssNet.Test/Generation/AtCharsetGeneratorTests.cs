@@ -2,7 +2,7 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
-using ScssNet.Tokens;
+using ScssNet.Test.ElementCreation;
 using Shouldly;
 
 namespace ScssNet.Test.Generation;
@@ -13,7 +13,7 @@ public class AtCharsetGeneratorTests : GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromAtRuleGenerator()
 	{
-		var atCharset = CreateAtCharset();
+		var atCharset = AtCharset.Create();
 
 		var provider = BuildServiceProvider();
 		var atRuleGenerator = provider.GetRequiredService<AtRuleGenerator>();
@@ -26,7 +26,7 @@ public class AtCharsetGeneratorTests : GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromAtCharsetGenerator()
 	{
-		var atCharset = CreateAtCharset();
+		var atCharset = AtCharset.Create();
 
 		var provider = BuildServiceProvider();
 		var atCharsetGenerator = provider.GetRequiredService<AtCharsetGenerator>();
@@ -34,16 +34,6 @@ public class AtCharsetGeneratorTests : GeneratorTestBase
 		atCharsetGenerator.Generate(atCharset, writer);
 
 		AssertAtCharset(provider);
-	}
-
-	internal static AtCharset CreateAtCharset()
-	{
-		var at = CreateSymbolToken(Symbol.At);
-		var keyword = CreateAtKeywordToken(AtKeyword.Charset, predecessor: at);
-		var name = CreateStringToken("\"utf-8\"", predecessor: keyword);
-		var semiColon = CreateSymbolToken(Symbol.SemiColon, predecessor: name);
-
-		return new AtCharset(at, keyword, name, semiColon);
 	}
 
 	internal static void AssertAtCharset(ServiceProvider provider)

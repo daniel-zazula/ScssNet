@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
+using ScssNet.Test.ElementCreation;
 using ScssNet.Tokens;
 using Shouldly;
 
@@ -45,8 +46,8 @@ public class AtImportGeneratorTests: GeneratorTestBase
 
 	internal static AtImport CreateAtImport(PathType pathType = PathType.String)
 	{
-		var at = CreateSymbolToken(Symbol.At);
-		var keyword = CreateAtKeywordToken(AtKeyword.Import, predecessor: at);
+		var at = SymbolToken.Create(Symbol.At);
+		var keyword = AtKeywordToken.Create(AtKeyword.Import, predecessor: at);
 
 		IValue path = pathType switch
 		{
@@ -55,7 +56,7 @@ public class AtImportGeneratorTests: GeneratorTestBase
 			_ => throw InvalidPathTypeException(pathType)
 		};
 
-		var semiColon = CreateSymbolToken(Symbol.SemiColon, predecessor: path);
+		var semiColon = SymbolToken.Create(Symbol.SemiColon, predecessor: path);
 
 		return new AtImport(at, keyword, path, semiColon);
 	}
@@ -75,15 +76,15 @@ public class AtImportGeneratorTests: GeneratorTestBase
 
 	private static StringToken CreateStringPath(ISourceElement? predecessor)
 	{
-		return CreateStringToken("\"styles.css\"", predecessor: predecessor);
+		return StringToken.Create("\"styles.css\"", predecessor: predecessor);
 	}
 
 	private static FunctionCall CreateUrlFunctionCall(ISourceElement? predecessor)
 	{
-		var name = CreateIdentifierToken("url", predecessor: predecessor);
-		var openParenthesis = CreateSymbolToken(Symbol.OpenParenthesis, predecessor: name);
+		var name = IdentifierToken.Create("url", predecessor: predecessor);
+		var openParenthesis = SymbolToken.Create(Symbol.OpenParenthesis, predecessor: name);
 		var path = CreateStringPath(predecessor: openParenthesis);
-		var closeParenthesis = CreateSymbolToken(Symbol.CloseParenthesis, predecessor: path);
+		var closeParenthesis = SymbolToken.Create(Symbol.CloseParenthesis, predecessor: path);
 
 		return new FunctionCall(name, openParenthesis, path, closeParenthesis);
 	}

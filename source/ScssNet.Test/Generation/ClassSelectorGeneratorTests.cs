@@ -2,7 +2,7 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
-using ScssNet.Tokens;
+using ScssNet.Test.ElementCreation;
 using Shouldly;
 
 namespace ScssNet.Test.Generation;
@@ -15,7 +15,7 @@ public class ClassSelectorGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromClassSelectorGenerator()
 	{
-		var classSelector = CreateClassSelector();
+		var classSelector = ClassSelector.Create();
 
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<ClassSelectorGenerator>();
@@ -28,7 +28,7 @@ public class ClassSelectorGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromSelectorGenerator()
 	{
-		var classSelector = CreateClassSelector();
+		var classSelector = ClassSelector.Create();
 
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<SelectorGenerator>();
@@ -36,14 +36,6 @@ public class ClassSelectorGeneratorTests: GeneratorTestBase
 		generator.Generate(classSelector, cssWriter);
 
 		AssertClassSelector(provider);
-	}
-
-	internal static ClassSelector CreateClassSelector(ISourceElement? predecessor = null)
-	{
-		var dot = CreateSymbolToken(Symbol.Dot, predecessor: predecessor);
-		var identifier = CreateIdentifierToken("my-class", predecessor: dot);
-
-		return new ClassSelector(dot, identifier, null);
 	}
 
 	private static void AssertClassSelector(ServiceProvider provider)

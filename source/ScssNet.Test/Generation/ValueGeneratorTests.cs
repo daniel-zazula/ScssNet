@@ -1,6 +1,8 @@
 using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
+using ScssNet.Test.ElementCreation;
+using ScssNet.Tokens;
 using Shouldly;
 
 namespace ScssNet.Test.Generation;
@@ -12,7 +14,7 @@ public class ValueGeneratorTests: GeneratorTestBase
 	public void ShouldGenerateIdentifierValue()
 	{
 		const string identifier = "bar";
-		var valueToken = CreateIdentifierToken(identifier);
+		var valueToken = IdentifierToken.Create(identifier);
 
 		var writtenValue = GenerateValue(valueToken);
 
@@ -23,7 +25,7 @@ public class ValueGeneratorTests: GeneratorTestBase
 	public void ShouldGenerateStringValue()
 	{
 		const string str = "\"foo bar\"";
-		var valueToken = CreateStringToken(str);
+		var valueToken = StringToken.Create(str);
 
 		var writtenValue = GenerateValue(valueToken);
 
@@ -34,7 +36,7 @@ public class ValueGeneratorTests: GeneratorTestBase
 	public void ShouldGenerateHashValue()
 	{
 		const string hashValue = "#ff0000";
-		var valueToken = CreateHashValueToken(hashValue);
+		var valueToken = HashValueToken.Create(hashValue);
 
 		var writtenValue = GenerateValue(valueToken);
 
@@ -44,7 +46,7 @@ public class ValueGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateUnitValue()
 	{
-		var valueToken = CreateUnitValueToken(1.5m, "em");
+		var valueToken = UnitValueToken.Create(1.5m, "em");
 
 		var writtenValue = GenerateValue(valueToken);
 

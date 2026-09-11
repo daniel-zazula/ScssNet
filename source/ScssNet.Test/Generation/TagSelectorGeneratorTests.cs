@@ -2,6 +2,7 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
+using ScssNet.Test.ElementCreation;
 using Shouldly;
 
 namespace ScssNet.Test.Generation;
@@ -14,7 +15,7 @@ public class TagSelectorGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromTagSelectorGenerator()
 	{
-		var tagSelector = CreateTagSelector();
+		var tagSelector = TagSelector.Create();
 
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<TagSelectorGenerator>();
@@ -27,7 +28,7 @@ public class TagSelectorGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromSelectorGenerator()
 	{
-		var tagSelector = CreateTagSelector();
+		var tagSelector = TagSelector.Create();
 
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<SelectorGenerator>();
@@ -35,12 +36,6 @@ public class TagSelectorGeneratorTests: GeneratorTestBase
 		generator.Generate(tagSelector, cssWriter);
 
 		AssertTagSelector(provider);
-	}
-
-	internal static TagSelector CreateTagSelector(ISourceElement? predecessor = null)
-	{
-		var identifier = CreateIdentifierToken("h2", predecessor: predecessor);
-		return new TagSelector(identifier, null);
 	}
 
 	private static void AssertTagSelector(ServiceProvider provider)

@@ -2,6 +2,8 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
+using ScssNet.Test.ElementCreation;
+using ScssNet.Tokens;
 using Shouldly;
 
 namespace ScssNet.Test.Generation;
@@ -12,7 +14,7 @@ public class RuleSetGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateRuleSet()
 	{
-		var ruleSet = CreateRuleSet();
+		var ruleSet = RuleSet.Create();
 
 		var provider = BuildServiceProvider();
 		var ruleSetGenerator = provider.GetRequiredService<RuleSetGenerator>();
@@ -20,14 +22,6 @@ public class RuleSetGeneratorTests: GeneratorTestBase
 		ruleSetGenerator.Generate(ruleSet, writer);
 
 		AssertRuleSet(provider);
-	}
-
-	internal static RuleSet CreateRuleSet()
-	{
-		var selector = new TagSelector(CreateIdentifierToken("p"), null);
-		var selectors = new SelectorList([new SelectorListItem(selector, null)]);
-		var block = BlockGeneratorTests.CreateBlock(predecessor: selectors.Items.Last());
-		return new RuleSet(selectors, block);
 	}
 
 	internal static void AssertRuleSet(ServiceProvider provider)
