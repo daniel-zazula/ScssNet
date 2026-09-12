@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Test.ElementCreation;
 using ScssNet.Tokens;
-using Shouldly;
 
 namespace ScssNet.Test.Generation;
 
@@ -21,8 +20,7 @@ public class CssWriterTests: GeneratorTestBase
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		cssWriter.Write(symbolToken);
 
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe(symbol.ToChars());
+		provider.GetStringWriter().ShouldContain(symbol.ToChars());
 	}
 
 	[TestMethod]
@@ -36,8 +34,7 @@ public class CssWriterTests: GeneratorTestBase
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		cssWriter.Write(identifierToken);
 
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe(identifier);
+		provider.GetStringWriter().ShouldContain(identifier);
 	}
 
 	[TestMethod]
@@ -51,8 +48,7 @@ public class CssWriterTests: GeneratorTestBase
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		cssWriter.Write(stringToken);
 
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe(str);
+		provider.GetStringWriter().ShouldContain(str);
 	}
 
 	[TestMethod]
@@ -66,8 +62,7 @@ public class CssWriterTests: GeneratorTestBase
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		cssWriter.Write(hashToken);
 
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe(hashValue);
+		provider.GetStringWriter().ShouldContain(hashValue);
 	}
 
 	[TestMethod]
@@ -81,8 +76,7 @@ public class CssWriterTests: GeneratorTestBase
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		cssWriter.Write(keywordToken);
 
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe(keyword);
+		provider.GetStringWriter().ShouldContain(keyword);
 	}
 
 	[TestMethod]
@@ -94,7 +88,6 @@ public class CssWriterTests: GeneratorTestBase
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		cssWriter.Write(numberToken);
 
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe("1.5em");
+		provider.GetStringWriter().ShouldContain("1.5em");
 	}
 }

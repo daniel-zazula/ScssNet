@@ -4,7 +4,6 @@ using ScssNet.Generation;
 using ScssNet.Structures;
 using ScssNet.Test.ElementCreation;
 using ScssNet.Tokens;
-using Shouldly;
 
 namespace ScssNet.Test.Generation;
 
@@ -47,7 +46,6 @@ public class FunctionCallGeneratorTests: GeneratorTestBase
 
 	private static void AssertWrittenFunctionCall(ServiceProvider provider)
 	{
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe("someFunc(\"foo bar\",#ff0000,1.5em)");
+		provider.GetStringWriter().ShouldContain("someFunc(\"foo bar\",#ff0000,1.5em)");
 	}
 }

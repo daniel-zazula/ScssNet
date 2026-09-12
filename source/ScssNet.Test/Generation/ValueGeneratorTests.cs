@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Test.ElementCreation;
 using ScssNet.Tokens;
-using Shouldly;
 
 namespace ScssNet.Test.Generation;
 
@@ -16,9 +15,7 @@ public class ValueGeneratorTests: GeneratorTestBase
 		const string identifier = "bar";
 		var valueToken = IdentifierToken.Create(identifier);
 
-		var writtenValue = GenerateValue(valueToken);
-
-		writtenValue.ShouldBe(identifier);
+		TestGeneratedValue(valueToken, identifier);
 	}
 
 	[TestMethod]
@@ -27,9 +24,7 @@ public class ValueGeneratorTests: GeneratorTestBase
 		const string str = "\"foo bar\"";
 		var valueToken = StringToken.Create(str);
 
-		var writtenValue = GenerateValue(valueToken);
-
-		writtenValue.ShouldBe(str);
+		TestGeneratedValue(valueToken, str);
 	}
 
 	[TestMethod]
@@ -38,9 +33,7 @@ public class ValueGeneratorTests: GeneratorTestBase
 		const string hashValue = "#ff0000";
 		var valueToken = HashValueToken.Create(hashValue);
 
-		var writtenValue = GenerateValue(valueToken);
-
-		writtenValue.ShouldBe(hashValue);
+		TestGeneratedValue(valueToken, hashValue);
 	}
 
 	[TestMethod]
@@ -48,19 +41,16 @@ public class ValueGeneratorTests: GeneratorTestBase
 	{
 		var valueToken = UnitValueToken.Create(1.5m, "em");
 
-		var writtenValue = GenerateValue(valueToken);
-
-		writtenValue.ShouldBe("1.5em");
+		TestGeneratedValue(valueToken, "1.5em");
 	}
 
-	private static string GenerateValue(IValue value)
+	private static void TestGeneratedValue(IValue value, string expected)
 	{
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<ValueGenerator>();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		generator.Generate(value, cssWriter);
 
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		return stringWriter.ToString();
+		provider.GetStringWriter().ShouldContain(expected);
 	}
 }

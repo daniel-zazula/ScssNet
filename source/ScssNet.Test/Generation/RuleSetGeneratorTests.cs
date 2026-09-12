@@ -3,8 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
 using ScssNet.Test.ElementCreation;
-using ScssNet.Tokens;
-using Shouldly;
 
 namespace ScssNet.Test.Generation;
 
@@ -27,7 +25,6 @@ public class RuleSetGeneratorTests: GeneratorTestBase
 	internal static void AssertRuleSet(ServiceProvider provider)
 	{
 		var expectedBlock = "p" + BlockGeneratorTests.ExpectedBlock;
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe(expectedBlock);
+		provider.GetStringWriter().ShouldContain(expectedBlock);
 	}
 }

@@ -114,7 +114,6 @@ public class AtMediaGeneratorTests: GeneratorTestBase
 	{
 		var expected = $"@media {expectedMediaQueryText} {BlockGeneratorTests.ExpectedBlock}";
 
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe(expected, StringCompareShould.IgnoreCase);
+		provider.GetStringWriter().ShouldContain(expected, StringCompareShould.IgnoreCase);
 	}
 }

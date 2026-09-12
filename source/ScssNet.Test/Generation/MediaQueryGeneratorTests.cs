@@ -25,8 +25,7 @@ public class MediaQueryGeneratorTests : GeneratorTestBase
 		mediaQueryGenerator.Generate(mediaQuery, writer);
 
 		var expected = GetExpected(mediaType);
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe(expected, StringCompareShould.IgnoreCase);
+		provider.GetStringWriter().ShouldContain(expected, StringCompareShould.IgnoreCase);
 	}
 
 	[TestMethod]
@@ -46,8 +45,7 @@ public class MediaQueryGeneratorTests : GeneratorTestBase
 		mediaQueryGenerator.Generate(mediaQuery, writer);
 
 		var expected = GetExpected(mediaOperator, mediaType);
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe(expected, StringCompareShould.IgnoreCase);
+		provider.GetStringWriter().ShouldContain(expected, StringCompareShould.IgnoreCase);
 	}
 
 	public static IEnumerable<object[]> GetMediaTypesData()

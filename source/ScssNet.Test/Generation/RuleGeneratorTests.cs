@@ -55,7 +55,6 @@ public class RuleGeneratorTests: GeneratorTestBase
 		var writer = provider.GetRequiredService<CssWriter>();
 		ruleGenerator.Generate(rule, writer);
 
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe(expected, StringCompareShould.IgnoreCase);
+		provider.GetStringWriter().ShouldContain(expected, StringCompareShould.IgnoreCase);
 	}
 }

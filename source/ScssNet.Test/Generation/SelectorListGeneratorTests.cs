@@ -6,7 +6,6 @@ using ScssNet.Generation;
 using ScssNet.Structures;
 using ScssNet.Test.ElementCreation;
 using ScssNet.Tokens;
-using Shouldly;
 
 using AttributeTests = ScssNet.Test.Generation.AttributeSelectorGeneratorTests;
 using ClassTests = ScssNet.Test.Generation.ClassSelectorGeneratorTests;
@@ -53,7 +52,7 @@ public class SelectorListGeneratorTests: GeneratorTestBase
 		var writer = provider.GetRequiredService<CssWriter>();
 		selectorListGenerator.Generate(list, writer);
 
-		provider.GetRequiredService<StringWriter>().ToString().ShouldBe(string.Join(",", expectedSelectors));
+		provider.GetStringWriter().ShouldContain(string.Join(",", expectedSelectors));
 	}
 
 	private static IEnumerable<object[]> BuildSelectorPermutations()

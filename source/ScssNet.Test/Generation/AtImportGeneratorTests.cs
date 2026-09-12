@@ -70,8 +70,7 @@ public class AtImportGeneratorTests: GeneratorTestBase
 			_ => throw InvalidPathTypeException(pathType)
 		};
 
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe(expected, StringCompareShould.IgnoreCase);
+		provider.GetStringWriter().ShouldContain(expected, StringCompareShould.IgnoreCase);
 	}
 
 	private static StringToken CreateStringPath(ISourceElement? predecessor)

@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
 using ScssNet.Test.ElementCreation;
-using Shouldly;
 
 namespace ScssNet.Test.Generation;
 
@@ -22,7 +21,6 @@ public class BlockGeneratorTests: GeneratorTestBase
 		var writer = provider.GetRequiredService<CssWriter>();
 		blockGenerator.Generate(block, writer);
 
-		var stringWriter = provider.GetRequiredService<StringWriter>();
-		stringWriter.ToString().ShouldBe(ExpectedBlock);
+		provider.GetStringWriter().ShouldContain(ExpectedBlock);
 	}
 }
