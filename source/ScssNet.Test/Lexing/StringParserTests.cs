@@ -7,8 +7,8 @@ namespace ScssNet.Test.Lexing;
 [TestClass]
 public class StringParserTests
 {
-	private static readonly string[] strings = [ "\"Some string\"", "'Other string'" ];
-	public static IEnumerable<object[]> StringParams => strings.ToParams();
+	internal static readonly string[] Strings = [ "\"Some string\"", "'Other string'" ];
+	public static IEnumerable<object[]> StringParams => Strings.ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(StringParams))]
@@ -26,11 +26,12 @@ public class StringParserTests
 		sourceReader.End.ShouldBeTrue();
 	}
 
-	public static IEnumerable<object[]> NonStrings => CommentParserTests.CommentParams
-		.Concat(HashValueParserTests.HashValueParams)
-		.Concat(IdentifierParserTests.IdentifierParams)
-		.Concat(SymbolParserTests.SymbolParams)
-		.Concat(UnitValueParserTests.UnitValueParams);
+	public static IEnumerable<object[]> NonStrings => CommentParserTests.Comments
+		.Concat(HashValueParserTests.HashValues)
+		.Concat(IdentifierParserTests.Identifiers)
+		.Concat(SymbolParserTests.SymbolStrings)
+		.Concat(UnitValueParserTests.UnitValues)
+		.ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(NonStrings))]

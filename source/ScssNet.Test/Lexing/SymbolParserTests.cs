@@ -1,4 +1,5 @@
-﻿using ScssNet.Lexing;
+﻿using System;
+using ScssNet.Lexing;
 using ScssNet.Tokens;
 using Shouldly;
 
@@ -7,25 +8,14 @@ namespace ScssNet.Test.Lexing;
 [TestClass]
 public class SymbolParserTests
 {
-	internal static IEnumerable<object[]> SymbolParams = new[]
-	{
-		".", ":", ";", "{", "}", "[", "]", "=", "~=", "|=", "^=", "$=", "*="
-	}.ToParams();
+	private static readonly Symbol[] Symbols = Enum.GetValues<Symbol>();
+
+	internal static IEnumerable<string> SymbolStrings => Symbols.Select(s => s.ToChars());
+
+	public static IEnumerable<object[]> SymbolParams => Symbols.Select(s => new object[] { s.ToChars(), s });
 
 	[TestMethod]
-	[DataRow(".", Symbol.Dot)]
-	[DataRow(":", Symbol.Colon)]
-	[DataRow(";", Symbol.SemiColon)]
-	[DataRow("{", Symbol.OpenBrace)]
-	[DataRow("}", Symbol.CloseBrace)]
-	[DataRow("[", Symbol.OpenBracket)]
-	[DataRow("]", Symbol.CloseBracket)]
-	[DataRow("=", Symbol.Equals)]
-	[DataRow("~=", Symbol.ContainsWord)]
-	[DataRow("|=", Symbol.StartsWithWord)]
-	[DataRow("^=", Symbol.StartsWith)]
-	[DataRow("$=", Symbol.EndsWith)]
-	[DataRow("*=", Symbol.Contains)]
+	[DynamicData(nameof(SymbolParams))]
 	public void ShouldParseString(string source, Symbol symbol)
 	{
 		var sourceReader = new SourceReaderMock(source);
@@ -40,10 +30,12 @@ public class SymbolParserTests
 		sourceReader.End.ShouldBeTrue();
 	}
 
-	public static IEnumerable<object[]> NonSymbols => CommentParserTests.CommentParams
-		.Concat(IdentifierParserTests.IdentifierParams)
-		.Concat(StringParserTests.StringParams)
-		.Concat(UnitValueParserTests.UnitValueParams);
+	public static IEnumerable<object[]> NonSymbols => CommentParserTests.Comments
+		.Concat(HashValueParserTests.HashValues)
+		.Concat(IdentifierParserTests.Identifiers)
+		.Concat(StringParserTests.Strings)
+		.Concat(UnitValueParserTests.UnitValues)
+		.ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(NonSymbols))]

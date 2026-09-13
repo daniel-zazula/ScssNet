@@ -7,10 +7,10 @@ namespace ScssNet.Test.Lexing;
 [TestClass]
 public class UnitValueParserTests
 {
-	internal static IEnumerable<object[]> UnitValueParams = new[]
-	{
+	internal static IEnumerable<string> UnitValues =
+	[
 		"3", "10px", "50%", "-10.2cm", "-200mm", "2Q", "-3.5in", "10pt", "5pc"
-	}.ToParams();
+	];
 
 	[TestMethod]
 	[DataRow("3", "")]
@@ -30,18 +30,19 @@ public class UnitValueParserTests
 		var unitToken = unitParser.Parse(sourceReader, Separator.Empty, () => Separator.Empty);
 
 		unitToken.ShouldNotBeNull();
-		unitToken!.Amount.ShouldBe(decimal.Parse(amount));
-		unitToken!.Unit.ShouldBe(unit);
+		unitToken.Amount.ShouldBe(decimal.Parse(amount));
+		unitToken.Unit.ShouldBe(unit);
 		unitToken.LeadingSeparator.ShouldBe(Separator.Empty);
 		unitToken.TrailingSeparator.ShouldBe(Separator.Empty);
 		sourceReader.End.ShouldBeTrue();
 	}
 
-	public static IEnumerable<object[]> NonUnitValues => CommentParserTests.CommentParams
-		.Concat(HashValueParserTests.HashValueParams)
-		.Concat(IdentifierParserTests.IdentifierParams)
-		.Concat(StringParserTests.StringParams)
-		.Concat(SymbolParserTests.SymbolParams);
+	public static IEnumerable<object[]> NonUnitValues => CommentParserTests.Comments
+		.Concat(HashValueParserTests.HashValues)
+		.Concat(IdentifierParserTests.Identifiers)
+		.Concat(StringParserTests.Strings)
+		.Concat(SymbolParserTests.SymbolStrings)
+		.ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(NonUnitValues))]

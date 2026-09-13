@@ -6,14 +6,15 @@ namespace ScssNet.Test.Lexing;
 [TestClass]
 public class CommentParserTests
 {
-	private static readonly string[] Comments = ["//line comment\r\n", "/*two line\r\ncomment*/"];
-	internal static IEnumerable<object[]> CommentParams => Comments.ToParams();
+	internal static readonly string[] Comments = ["//line comment\r\n", "/*two line\r\ncomment*/"];
+	public static IEnumerable<object[]> CommentParams => Comments.ToParams();
 
-	private static IEnumerable<object[]> NonComments => HashValueParserTests.HashValueParams
-		.Concat(IdentifierParserTests.IdentifierParams)
-		.Concat(StringParserTests.StringParams)
-		.Concat(SymbolParserTests.SymbolParams)
-		.Concat(UnitValueParserTests.UnitValueParams);
+	public static IEnumerable<object[]> NonCommentParams => HashValueParserTests.HashValues
+		.Concat(IdentifierParserTests.Identifiers)
+		.Concat(StringParserTests.Strings)
+		.Concat(SymbolParserTests.SymbolStrings)
+		.Concat(UnitValueParserTests.UnitValues)
+		.ToParams();
 
 	private static readonly string[] Spacers = [" ", "\r\n", "\r", "\n"];
 	private static IEnumerable<object[]> SpacerParams => Spacers.ToParams();
@@ -44,7 +45,7 @@ public class CommentParserTests
 	}
 
 	[TestMethod]
-	[DynamicData(nameof(NonComments))]
+	[DynamicData(nameof(NonCommentParams))]
 	public void ShouldNotParseNonComments(string source)
 	{
 		var sourceReader = new SourceReaderMock(source);

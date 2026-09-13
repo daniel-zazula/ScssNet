@@ -7,7 +7,7 @@ namespace ScssNet.Test.Lexing;
 [TestClass]
 public class IdentifierParserTests
 {
-	private static readonly string[] Identifiers = 
+	internal static readonly string[] Identifiers = 
 	[
 		"table", "CamelCase", "h4", "custom-class", "-experimental-property", "--custom-var"
 	];
@@ -29,11 +29,12 @@ public class IdentifierParserTests
 		sourceReader.End.ShouldBeTrue();
 	}
 
-	public static IEnumerable<object[]> NonIdentifiers => CommentParserTests.CommentParams
-		.Concat(HashValueParserTests.HashValueParams)
-		.Concat(StringParserTests.StringParams)
-		.Concat(SymbolParserTests.SymbolParams)
-		.Concat(UnitValueParserTests.UnitValueParams);
+	public static IEnumerable<object[]> NonIdentifiers => CommentParserTests.Comments
+		.Concat(HashValueParserTests.HashValues)
+		.Concat(StringParserTests.Strings)
+		.Concat(SymbolParserTests.SymbolStrings)
+		.Concat(UnitValueParserTests.UnitValues)
+		.ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(NonIdentifiers))]
