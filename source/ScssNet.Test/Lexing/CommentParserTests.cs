@@ -6,16 +6,6 @@ namespace ScssNet.Test.Lexing;
 [TestClass]
 public class CommentParserTests
 {
-	internal static readonly string[] Comments = ["//line comment\r\n", "/*two line\r\ncomment*/"];
-	public static IEnumerable<object[]> CommentParams => Comments.ToParams();
-
-	public static IEnumerable<object[]> NonCommentParams => HashValueParserTests.HashValues
-		.Concat(IdentifierParserTests.Identifiers)
-		.Concat(StringParserTests.Strings)
-		.Concat(SymbolParserTests.SymbolStrings)
-		.Concat(UnitValueParserTests.UnitValues)
-		.ToParams();
-
 	private static readonly string[] Spacers = [" ", "\r\n", "\r", "\n"];
 	private static IEnumerable<object[]> SpacerParams => Spacers.ToParams();
 
@@ -43,6 +33,9 @@ public class CommentParserTests
 		var source = $"/*part 1{spacer}part 2*/";
 		TestCommentParsing(source);
 	}
+
+	public static IEnumerable<object[]> NonCommentParams => TokensTestData.AllTokens
+		.Except(TokensTestData.Comments).ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(NonCommentParams))]

@@ -1,5 +1,4 @@
-﻿using System;
-using ScssNet.Lexing;
+﻿using ScssNet.Lexing;
 using ScssNet.Tokens;
 using Shouldly;
 
@@ -8,16 +7,14 @@ namespace ScssNet.Test.Lexing;
 [TestClass]
 public class SymbolParserTests
 {
-	private static readonly Symbol[] Symbols = Enum.GetValues<Symbol>();
-
-	internal static IEnumerable<string> SymbolStrings => Symbols.Select(s => s.ToChars());
-
-	public static IEnumerable<object[]> SymbolParams => Symbols.Select(s => new object[] { s.ToChars(), s });
+	public static IEnumerable<object[]> SymbolParams
+		=> TokensTestData.Symbols.Select(s => new object[] { s });
 
 	[TestMethod]
 	[DynamicData(nameof(SymbolParams))]
-	public void ShouldParseString(string source, Symbol symbol)
+	public void ShouldParseString(Symbol symbol)
 	{
+		var source = symbol.ToChars();
 		var sourceReader = new SourceReaderMock(source);
 		var symbolParser = new SymbolParser();
 
@@ -30,12 +27,8 @@ public class SymbolParserTests
 		sourceReader.End.ShouldBeTrue();
 	}
 
-	public static IEnumerable<object[]> NonSymbols => CommentParserTests.Comments
-		.Concat(HashValueParserTests.HashValues)
-		.Concat(IdentifierParserTests.Identifiers)
-		.Concat(StringParserTests.Strings)
-		.Concat(UnitValueParserTests.UnitValues)
-		.ToParams();
+	public static IEnumerable<object[]> NonSymbols => TokensTestData.AllTokens
+		.Except(TokensTestData.SymbolStrings).ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(NonSymbols))]

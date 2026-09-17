@@ -7,21 +7,11 @@ namespace ScssNet.Test.Lexing;
 [TestClass]
 public class UnitValueParserTests
 {
-	internal static IEnumerable<string> UnitValues =
-	[
-		"3", "10px", "50%", "-10.2cm", "-200mm", "2Q", "-3.5in", "10pt", "5pc"
-	];
+	public static IEnumerable<object[]> UnitValues
+		=> TokensTestData.UnitValues.Select(u => new object[] { u.value, u.unit });
 
 	[TestMethod]
-	[DataRow("3", "")]
-	[DataRow("10", "px")]
-	[DataRow("50", "%")]
-	[DataRow("-10.2", "cm")]
-	[DataRow("-200", "mm")]
-	[DataRow("2", "Q")]
-	[DataRow("-3.5", "in")]
-	[DataRow("10", "pt")]
-	[DataRow("5", "pc")]
+	[DynamicData(nameof(UnitValues))]
 	public void ShouldParseUnit(string amount, string unit)
 	{
 		var sourceReader = new SourceReaderMock($"{amount}{unit}");
@@ -37,12 +27,8 @@ public class UnitValueParserTests
 		sourceReader.End.ShouldBeTrue();
 	}
 
-	public static IEnumerable<object[]> NonUnitValues => CommentParserTests.Comments
-		.Concat(HashValueParserTests.HashValues)
-		.Concat(IdentifierParserTests.Identifiers)
-		.Concat(StringParserTests.Strings)
-		.Concat(SymbolParserTests.SymbolStrings)
-		.ToParams();
+	public static IEnumerable<object[]> NonUnitValues => TokensTestData.AllTokens
+		.Except(TokensTestData.UnitValueStrings).ToParams();
 
 	[TestMethod]
 	[DynamicData(nameof(NonUnitValues))]
