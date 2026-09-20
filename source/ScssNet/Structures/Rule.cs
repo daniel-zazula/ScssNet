@@ -5,7 +5,7 @@ namespace ScssNet.Structures;
 public class Rule
 (
 	IdentifierToken property, SymbolToken colon, IValue value, ImportantValue? important, SymbolToken? semiColon
-) : SourceElement, ISyntaxStructure
+) : ISyntaxStructure
 {
 	public IdentifierToken Property => property;
 	public SymbolToken Colon => colon;
@@ -15,5 +15,5 @@ public class Rule
 
 	public SourceSpan Span => SourceSpan.From(property, value, semiColon, important);
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Property, Colon, Value, Important, SemiColon);
+	public Issues Issues => Issues.ConcatFrom(Property, Colon, Value, Important, SemiColon);
 }

@@ -6,7 +6,7 @@ public class AttributeSelector
 (
 	SymbolToken openBracket, IdentifierToken attribute, SymbolToken? @operator, StringToken? value,
 	IdentifierToken? modifier, SymbolToken closeBracket, ISelectorQualifier? qualifier
-) : SourceElement, ISyntaxStructure, ISelectorQualifier
+) : ISyntaxStructure, ISelectorQualifier
 {
 	public SymbolToken OpenBracket => openBracket;
 	public IdentifierToken Attribute => attribute;
@@ -18,5 +18,5 @@ public class AttributeSelector
 
 	public SourceSpan Span => SourceSpan.From(openBracket, closeBracket);
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(openBracket, attribute, @operator, value, modifier, closeBracket, qualifier);
+	public Issues Issues => Issues.ConcatFrom(openBracket, attribute, @operator, value, modifier, closeBracket, qualifier);
 }

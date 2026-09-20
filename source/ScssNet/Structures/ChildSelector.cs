@@ -5,7 +5,7 @@ namespace ScssNet.Structures;
 public class ChildSelector
 (
 	ISelector parentSelector, SymbolToken childOperatorSymbolToken, ISelector selector
-) : SourceElement, ISyntaxStructure, IComplexSelector
+) : ISyntaxStructure, IComplexSelector
 {
 	public ISelector Selector => selector;
 
@@ -13,5 +13,5 @@ public class ChildSelector
 
 	public SourceSpan Span => SourceSpan.From(parentSelector, selector);
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(parentSelector, childOperatorSymbolToken, selector);
+	public Issues Issues => Issues.ConcatFrom(parentSelector, childOperatorSymbolToken, selector);
 }

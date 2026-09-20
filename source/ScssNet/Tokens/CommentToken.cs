@@ -5,7 +5,7 @@ public record CommentToken: IToken, ISeparatorToken
 	public string Text { get; }
 
 	public SourceSpan Span { get; }
-	public IEnumerable<Issue> Issues => [];
+	public Issues Issues => [];
 
 	internal CommentToken(string text, SourceSpan span)
 	{

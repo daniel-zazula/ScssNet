@@ -2,12 +2,12 @@
 
 namespace ScssNet.Structures;
 
-public class ValueList : SourceElement, ISyntaxStructure, IValue
+public class ValueList : ISyntaxStructure, IValue
 {
 	public IReadOnlyList<ValueListItem> Items { get; }
 
 	public SourceSpan Span => SourceSpan.From(Items.Cast<ISourceElement?>());
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Items);
+	public Issues Issues => Issues.ConcatFrom(Items);
 
 	public ValueList(ICollection<ValueListItem> items)
 	{

@@ -2,13 +2,13 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Structures;
 
-public class MediaQueryList : SourceElement, ISyntaxStructure, IMediaQuery
+public class MediaQueryList : ISyntaxStructure, IMediaQuery
 {
 	public ICollection<MediaQueryListItem> Items { get; }
 
 	public SourceSpan Span => SourceSpan.From(Items);
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Items.Cast<ISourceElement>());
+	public Issues Issues => Issues.ConcatFrom(Items.Cast<ISourceElement>());
 
 	public MediaQueryList(ICollection<MediaQueryListItem> items)
 	{

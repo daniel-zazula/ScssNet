@@ -3,7 +3,7 @@
 public class DescendantSelector
 (
 	ISelector ascendantSelector, ISelector selector
-) : SourceElement, ISyntaxStructure, IComplexSelector
+) : ISyntaxStructure, IComplexSelector
 {
 	public ISelector Selector => selector;
 
@@ -11,5 +11,5 @@ public class DescendantSelector
 
 	public SourceSpan Span => SourceSpan.From(ascendantSelector, selector);
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(AscendantSelector, Selector);
+	public Issues Issues => Issues.ConcatFrom(AscendantSelector, Selector);
 }

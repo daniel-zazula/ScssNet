@@ -3,7 +3,7 @@
 namespace ScssNet.Structures;
 
 public class Block(SymbolToken openBrace, ICollection<Rule> rules, SymbolToken closeBrace)
-	: SourceElement, ISyntaxStructure
+	: ISyntaxStructure
 {
 	public SymbolToken OpenBrace => openBrace;
 	public ICollection<Rule> Rules => rules;
@@ -11,14 +11,14 @@ public class Block(SymbolToken openBrace, ICollection<Rule> rules, SymbolToken c
 
 	public SourceSpan Span => SourceSpan.From(openBrace, closeBrace);
 
-	public IEnumerable<Issue> Issues => ListIssues();
+	public Issues Issues => ListIssues();
 
-	private IEnumerable<Issue> ListIssues()
+	private Issues ListIssues()
 	{
 		var elements = new ISourceElement[] { OpenBrace }
 			.Concat(Rules)
 			.Append(CloseBrace);
 
-		return ConcatIssuesFrom(elements);
+		return Issues.ConcatFrom(elements);
 	}
 }

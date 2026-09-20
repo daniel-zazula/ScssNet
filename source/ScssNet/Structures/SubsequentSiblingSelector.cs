@@ -5,7 +5,7 @@ namespace ScssNet.Structures;
 public class SubsequentSiblingSelector
 (
 	ISelector precedingSiblingSelector, SymbolToken subsequentSiblingSymbolToken, ISelector selector
-) : SourceElement, ISyntaxStructure, IComplexSelector
+) : ISyntaxStructure, IComplexSelector
 {
 	public ISelector Selector => selector;
 
@@ -13,5 +13,5 @@ public class SubsequentSiblingSelector
 
 	public SourceSpan Span => SourceSpan.From(precedingSiblingSelector, selector);
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(precedingSiblingSelector, subsequentSiblingSymbolToken, selector);
+	public Issues Issues => Issues.ConcatFrom(precedingSiblingSelector, subsequentSiblingSymbolToken, selector);
 }

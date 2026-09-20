@@ -5,7 +5,7 @@ namespace ScssNet.Structures;
 public class PseudoClassSelector
 (
 	SymbolToken colon, IdentifierToken identifier, ISelectorQualifier? qualifier
-) : SourceElement, ISyntaxStructure, ISelectorQualifier
+) : ISyntaxStructure, ISelectorQualifier
 {
 	public SymbolToken Colon => colon;
 	public IdentifierToken Identifier => identifier;
@@ -13,5 +13,5 @@ public class PseudoClassSelector
 
 	public SourceSpan Span => SourceSpan.From(colon, identifier, qualifier);
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(colon, identifier, qualifier);
+	public Issues Issues => Issues.ConcatFrom(colon, identifier, qualifier);
 }

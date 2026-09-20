@@ -5,7 +5,7 @@ using ScssNet.Tokens;
 public class AtMedia
 (
 	SymbolToken atSign, AtKeywordToken media, IMediaQuery mediaQuery, Block block
-) : SourceElement, ISyntaxStructure, IStatement, IAtRule
+) : ISyntaxStructure, IStatement, IAtRule
 {
 	public SymbolToken AtSign => atSign;
 	public AtKeywordToken Media => media;
@@ -14,5 +14,5 @@ public class AtMedia
 
 	public SourceSpan Span => SourceSpan.From(atSign, block);
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(atSign, mediaQuery, block);
+	public Issues Issues => Issues.ConcatFrom(atSign, mediaQuery, block);
 }

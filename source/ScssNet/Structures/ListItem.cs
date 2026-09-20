@@ -2,13 +2,13 @@
 
 namespace ScssNet.Structures;
 
-public abstract class ListItem : SourceElement, ISyntaxStructure
+public abstract class ListItem : ISyntaxStructure
 {
 	public SymbolToken? Comma { get; protected set; }
 
 	public SourceSpan Span => SourceSpan.From(Item, Comma);
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Item, Comma);
+	public Issues Issues => Issues.ConcatFrom(Item, Comma);
 
 	protected abstract ISourceElement Item { get; }
 }

@@ -5,7 +5,7 @@ namespace ScssNet.Structures;
 public class FunctionCall
 (
 	IdentifierToken name, SymbolToken openParenthesis, IValue? arguments, SymbolToken closeParenthesis
-): SourceElement, ISyntaxStructure, IValue
+): ISyntaxStructure, IValue
 {
 	public IdentifierToken Name => name;
 
@@ -17,5 +17,5 @@ public class FunctionCall
 
 	public SourceSpan Span => SourceSpan.From(name, closeParenthesis);
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(name, openParenthesis, arguments, closeParenthesis);
+	public Issues Issues => Issues.ConcatFrom(name, openParenthesis, arguments, closeParenthesis);
 }

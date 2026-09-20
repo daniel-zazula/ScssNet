@@ -5,7 +5,7 @@ public record WhiteSpaceToken: IToken, ISeparatorToken
 	public string Text { get; }
 
 	public SourceSpan Span { get; }
-	public IEnumerable<Issue> Issues => [];
+	public Issues Issues => [];
 
 	internal WhiteSpaceToken(string text, SourceSpan span)
 	{

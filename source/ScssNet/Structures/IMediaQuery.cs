@@ -17,7 +17,7 @@ public interface IMediaQueryValue : ISyntaxStructure, IMediaQuery, IMediaQueryEx
 public class MediaQueryUnaryExpression
 (
 	MediaQueryOperatorKeywordToken operatorKeyword, MediaQueryTypeKeywordToken value
-): SourceElement, ISyntaxStructure, IMediaQueryExpression
+): ISyntaxStructure, IMediaQueryExpression
 {
 	public MediaQueryOperatorKeywordToken OperatorKeyword => operatorKeyword;
 
@@ -25,5 +25,5 @@ public class MediaQueryUnaryExpression
 
 	public SourceSpan Span => SourceSpan.From(operatorKeyword, value);
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(operatorKeyword, value);
+	public Issues Issues => Issues.ConcatFrom(operatorKeyword, value);
 }

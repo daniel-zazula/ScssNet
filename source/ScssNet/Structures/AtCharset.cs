@@ -5,7 +5,7 @@ using ScssNet.Tokens;
 public class AtCharset
 (
 	SymbolToken atSign, AtKeywordToken charset, StringToken charsetName, SymbolToken? semiColon
-) : SourceElement, ISyntaxStructure, IStatement, IAtRule
+) : ISyntaxStructure, IStatement, IAtRule
 {
 	public SymbolToken AtSign => atSign;
 	public AtKeywordToken Charset => charset;
@@ -14,5 +14,5 @@ public class AtCharset
 
 	public SourceSpan Span => SourceSpan.From(atSign, charsetName, semiColon);
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(atSign, charsetName, semiColon);
+	public Issues Issues => Issues.ConcatFrom(atSign, charsetName, semiColon);
 }

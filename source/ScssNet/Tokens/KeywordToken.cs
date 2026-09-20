@@ -12,7 +12,7 @@ public abstract record KeywordToken<T>: IToken, ISeparatedToken
 	public SourceSpan Span { get; }
 	public Separator LeadingSeparator { get; }
 	public Separator TrailingSeparator { get; }
-	public IEnumerable<Issue> Issues { get; }
+	public Issues Issues { get; }
 
 	protected KeywordToken
 	(

@@ -7,7 +7,7 @@ public record HashValueToken: IToken, ISeparatedToken, IValueToken
 	public SourceSpan Span { get; }
 	public Separator LeadingSeparator { get; }
 	public Separator TrailingSeparator { get; }
-	public IEnumerable<Issue> Issues => [];
+	public Issues Issues => [];
 
 	public HashValueToken
 	(

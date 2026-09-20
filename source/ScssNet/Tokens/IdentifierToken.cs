@@ -7,7 +7,7 @@ public record IdentifierToken: IToken, ISeparatedToken, IValueToken
 	public SourceSpan Span { get; }
 	public Separator LeadingSeparator { get; }
 	public Separator TrailingSeparator { get; }
-	public IEnumerable<Issue> Issues { get; }
+	public Issues Issues { get; }
 
 	internal IdentifierToken
 	(

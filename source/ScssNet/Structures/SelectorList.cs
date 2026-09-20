@@ -2,13 +2,13 @@
 
 namespace ScssNet.Structures;
 
-public class SelectorList : SourceElement, ISyntaxStructure
+public class SelectorList : ISyntaxStructure
 {
 	public ICollection<SelectorListItem> Items { get; }
 
 	public SourceSpan Span => SourceSpan.From(Items);
 
-	public IEnumerable<Issue> Issues => ConcatIssuesFrom(Items.Cast<ISourceElement>());
+	public Issues Issues => Issues.ConcatFrom(Items.Cast<ISourceElement>());
 
 	public SelectorList(ICollection<SelectorListItem> items)
 	{
