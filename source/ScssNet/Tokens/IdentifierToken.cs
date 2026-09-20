@@ -22,10 +22,12 @@ public record IdentifierToken: IToken, ISeparatedToken, IValueToken
 		Issues = issues ?? [];
 	}
 
-	internal static IdentifierToken CreateMissing(SourceCoordinates coordinates)
+	internal IdentifierToken(SourceCoordinates coordinates, Issue issue)
 	{
-		var span = new SourceSpan(coordinates, coordinates);
-		var issue = new Issue(IssueType.Error, "Expected identifier");
-		return new IdentifierToken("", span, Separator.Empty, Separator.Empty, [issue]);
+		Text = "";
+		Span = new SourceSpan(coordinates, coordinates);
+		LeadingSeparator = Separator.Empty;
+		TrailingSeparator = Separator.Empty;
+		Issues = [issue];
 	}
 }

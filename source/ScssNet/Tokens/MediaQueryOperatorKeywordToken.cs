@@ -20,14 +20,8 @@ public record MediaQueryOperatorKeywordToken : KeywordToken<MediaQueryOperatorKe
 	{
 	}
 
-	private MediaQueryOperatorKeywordToken(SourceCoordinates coordinates, Issue issue)
+	internal MediaQueryOperatorKeywordToken(SourceCoordinates coordinates, Issue issue)
 		: base(coordinates, issue)
 	{
-	}
-
-	internal static MediaQueryOperatorKeywordToken CreateMissing(SourceCoordinates coordinates)
-	{
-		var issue = CreateExpectedKeywordIssue();
-		return new MediaQueryOperatorKeywordToken(coordinates, issue);
 	}
 }

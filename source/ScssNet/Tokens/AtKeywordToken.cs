@@ -20,14 +20,8 @@ public record AtKeywordToken: KeywordToken<AtKeyword>
 	{
 	}
 
-	private AtKeywordToken(SourceCoordinates coordinates, Issue issue)
+	internal AtKeywordToken(SourceCoordinates coordinates, Issue issue)
 		: base(coordinates, issue)
 	{
-	}
-
-	internal static AtKeywordToken CreateMissing(SourceCoordinates coordinates)
-	{
-		var issue = CreateExpectedKeywordIssue();
-		return new AtKeywordToken(coordinates, issue);
 	}
 }

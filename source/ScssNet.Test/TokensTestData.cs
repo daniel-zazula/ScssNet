@@ -41,4 +41,7 @@ internal static class TokensTestData
 
 	internal static IEnumerable<string> AllTokens = Comments.Concat(HashValues).Concat(Identifiers).Concat(Strings)
 		.Concat(SymbolStrings).Concat(UnitValueStrings);
+
+	internal static IEnumerable<string> OneOfEach => HashValues.Take(1).Concat(Identifiers.Take(1))
+		.Concat(Strings.Take(1)).Concat(SymbolStrings.Take(1)).Concat(UnitValueStrings.Take(1));
 }

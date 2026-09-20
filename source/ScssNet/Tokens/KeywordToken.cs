@@ -1,4 +1,6 @@
-﻿namespace ScssNet.Tokens;
+﻿using ScssNet.Lexing;
+
+namespace ScssNet.Tokens;
 
 public abstract record KeywordToken<T>: IToken, ISeparatedToken
 	where T : Enum
@@ -44,11 +46,5 @@ public abstract record KeywordToken<T>: IToken, ISeparatedToken
 		LeadingSeparator = Separator.Empty;
 		TrailingSeparator = Separator.Empty;
 		Issues = [issue];
-	}
-
-	protected static Issue CreateExpectedKeywordIssue()
-	{
-		var keywords = (T[])Enum.GetValues(typeof(T));
-		return new Issue(IssueType.Error, "Expected one of the keywords: " + string.Join(", ", keywords));
 	}
 }

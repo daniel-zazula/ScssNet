@@ -22,14 +22,8 @@ public record MediaQueryTypeKeywordToken : KeywordToken<MediaQueryTypeKeyword>, 
 	{
 	}
 
-	private MediaQueryTypeKeywordToken(SourceCoordinates coordinates, Issue issue)
+	internal MediaQueryTypeKeywordToken(SourceCoordinates coordinates, Issue issue)
 		: base(coordinates, issue)
 	{
-	}
-
-	internal static MediaQueryTypeKeywordToken CreateMissing(SourceCoordinates coordinates)
-	{
-		var issue = CreateExpectedKeywordIssue();
-		return new MediaQueryTypeKeywordToken(coordinates, issue);
 	}
 }

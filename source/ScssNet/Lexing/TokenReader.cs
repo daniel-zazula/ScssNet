@@ -14,11 +14,6 @@ internal class TokenReader
 	private readonly ISourceReader SourceReader = sourceReader;
 	private ISeparatedToken? NextToken;
 
-	public SymbolToken? Match(Symbol symbol)
-	{
-		return Match([symbol]);
-	}
-
 	public SymbolToken? Match(ICollection<Symbol> symbols)
 	{
 		if(Peek() is SymbolToken symbolToken && symbols.Contains(symbolToken.Symbol))
@@ -35,7 +30,7 @@ internal class TokenReader
 		var typeOfT = typeof(T);
 		if(typeOfT == typeof(SymbolToken))
 			throw new InvalidOperationException("Use Match(Symbol symbol) for matching symbols.");
-		else if (typeOfT == typeof(KeywordToken<>))
+		else if (typeOfT.IsSubclassOfGeneric(typeof(KeywordToken<>)))
 			throw new InvalidOperationException("Use Match(Keyword keyword) for matching keywords.");
 
 		if(Peek() is T token)
@@ -73,21 +68,6 @@ internal class TokenReader
 
 			return null;
 		}
-	}
-
-	public SymbolToken Require(Symbol symbol)
-	{
-		return Match(symbol) ?? SymbolToken.CreateMissing(symbol, GetCoordinates());
-	}
-
-	public IdentifierToken RequireIdentifier()
-	{
-		return Match<IdentifierToken>() ?? IdentifierToken.CreateMissing(GetCoordinates());
-	}
-
-	public StringToken RequireString()
-	{
-		return Match<StringToken>() ?? StringToken.CreateMissing(GetCoordinates());
 	}
 
 	internal SourceCoordinates GetCoordinates() => Peek()?.Span.Start ?? SourceReader.GetCoordinates();

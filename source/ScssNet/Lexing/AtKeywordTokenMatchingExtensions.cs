@@ -15,6 +15,7 @@ internal static class AtKeywordTokenMatchingExtensions
 
 	internal static AtKeywordToken RequireKeyword<T>(this TokenReader tokenReader) where T : AtKeywordToken
 	{
-		return tokenReader.MatchKeyword<T>() ?? AtKeywordToken.CreateMissing(tokenReader.GetCoordinates());
+		return tokenReader.MatchKeyword<T>()
+			?? new AtKeywordToken(tokenReader.GetCoordinates(), Issue.CreateExpected<AtKeyword>());
 	}
 }

@@ -20,14 +20,8 @@ public record ValueKeywordToken : KeywordToken<ValueKeyword>
 	{
 	}
 
-	private ValueKeywordToken(SourceCoordinates coordinates, Issue issue)
+	internal ValueKeywordToken(SourceCoordinates coordinates, Issue issue)
 		: base(coordinates, issue)
 	{
-	}
-
-	internal static ValueKeywordToken CreateMissing(SourceCoordinates coordinates)
-	{
-		var issue = CreateExpectedKeywordIssue();
-		return new ValueKeywordToken(coordinates, issue);
 	}
 }

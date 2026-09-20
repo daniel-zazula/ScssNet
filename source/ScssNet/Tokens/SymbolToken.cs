@@ -21,11 +21,12 @@ public record SymbolToken: IToken, ISeparatedToken
 		TrailingSeparator = after;
 		Issues = issues ?? [];
 	}
-
-	internal static SymbolToken CreateMissing(Symbol symbol, SourceCoordinates coordinates)
+	internal SymbolToken(Symbol symbol, SourceCoordinates coordinates, Issue issue)
 	{
-		var span = new SourceSpan(coordinates, coordinates);
-		var issue = new Issue(IssueType.Error, "Expected " + symbol.ToChars());
-		return new SymbolToken(symbol, span, Separator.Empty, Separator.Empty, [issue]);
+		Symbol = symbol;
+		Span = new SourceSpan(coordinates, coordinates);
+		LeadingSeparator = Separator.Empty;
+		TrailingSeparator = Separator.Empty;
+		Issues = [issue];
 	}
 }

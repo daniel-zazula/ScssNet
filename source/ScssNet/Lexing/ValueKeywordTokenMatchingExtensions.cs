@@ -15,6 +15,7 @@ internal static class ValueKeywordTokenMatchingExtensions
 
 	internal static ValueKeywordToken RequireKeyword<T>(this TokenReader tokenReader) where T : ValueKeywordToken
 	{
-		return tokenReader.MatchKeyword<T>() ?? ValueKeywordToken.CreateMissing(tokenReader.GetCoordinates());
+		return tokenReader.MatchKeyword<T>()
+			?? new ValueKeywordToken(tokenReader.GetCoordinates(), Issue.CreateExpected<ValueKeyword>());
 	}
 }

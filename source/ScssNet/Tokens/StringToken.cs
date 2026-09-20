@@ -22,10 +22,12 @@ public record StringToken: IToken, ISeparatedToken, IValueToken
 		Issues = issues ?? [];
 	}
 
-	internal static StringToken CreateMissing(SourceCoordinates coordinates)
+	internal StringToken(SourceCoordinates coordinates, Issue issue)
 	{
-		var span = new SourceSpan(coordinates, coordinates);
-		var issue = new Issue(IssueType.Error, "Expected string");
-		return new StringToken("", span, Separator.Empty, Separator.Empty, [issue]);
+		Text = string.Empty;
+		Span = new SourceSpan(coordinates, coordinates);
+		LeadingSeparator = Separator.Empty;
+		TrailingSeparator = Separator.Empty;
+		Issues = [issue];
 	}
 }
