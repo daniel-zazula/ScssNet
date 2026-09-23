@@ -31,7 +31,7 @@ internal class CssWriter(TextWriter textWriter)
 		textWriter.Write(hexValueToken.Value);
 	}
 
-	public void Write<T>(KeywordToken<T> keywordToken) where T : Enum
+	public void Write<T>(KeywordToken<T> keywordToken) where T : struct, Enum
 	{
 		textWriter.Write(keywordToken.Text);
 	}

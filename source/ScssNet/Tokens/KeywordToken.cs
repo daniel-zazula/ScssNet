@@ -1,9 +1,7 @@
-﻿using ScssNet.Lexing;
-
-namespace ScssNet.Tokens;
+﻿namespace ScssNet.Tokens;
 
 public abstract record KeywordToken<T>: IToken, ISeparatedToken
-	where T : Enum
+	where T : struct, Enum
 {
 	public T? Keyword { get; }
 

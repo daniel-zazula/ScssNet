@@ -6,7 +6,7 @@ namespace ScssNet.Test.ElementCreation;
 
 internal static class KeywordTokenExtensions
 {
-	extension<T>(KeywordToken<T>) where T : Enum
+	extension<T>(KeywordToken<T>) where T : struct, Enum
 	{
 		internal static string CheckOrGetValue(T keyword, string? value = null)
 		{
