@@ -37,9 +37,10 @@ internal class AtRuleParser
 	internal AtImport ParseAtImport(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
 	{
 		var importPath = valueParser.Value.Parse(tokenReader) ?? tokenReader.RequireString();
+		var mediaQuery = mediaQueryParser.Value.Parse(tokenReader);
 		var semiColon = tokenReader.Match(Symbol.SemiColon);
 
-		return new AtImport(atSign, atKeywordToken, importPath, semiColon);
+		return new AtImport(atSign, atKeywordToken, importPath, mediaQuery, semiColon);
 	}
 
 	internal AtMedia? ParseAtMedia(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)

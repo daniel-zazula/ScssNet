@@ -13,7 +13,7 @@ public class FunctionCallGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromFunctionCallGenerator()
 	{
-		var functionCallValue = FunctionCall.Create(CreateArguments);
+		var functionCallValue = FunctionCall.Create("someFunc", CreateArguments);
 
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<FunctionCallGenerator>();
@@ -26,7 +26,7 @@ public class FunctionCallGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateFromValueGenerator()
 	{
-		var functionCallValue = FunctionCall.Create(CreateArguments);
+		var functionCallValue = FunctionCall.Create("someFunc", CreateArguments);
 
 		var provider = BuildServiceProvider();
 		var generator = provider.GetRequiredService<ValueGenerator>();
@@ -36,12 +36,12 @@ public class FunctionCallGeneratorTests: GeneratorTestBase
 		AssertWrittenFunctionCall(provider);
 	}
 
-	private static ICollection<ValueListItem> CreateArguments(ISourceElement predecessor)
+	private static IValue CreateArguments(ISourceElement predecessor)
 	{
 		var stringArgument = ValueList.CreateItem(StringToken.Create("\"foo bar\"", predecessor: predecessor), withComma: true);
 		var hashValueArgument = ValueList.CreateItem(HashValueToken.Create("#ff0000", predecessor: stringArgument), withComma: true);
 		var unitValueArgument = ValueList.CreateItem(UnitValueToken.Create(1.5m, "em", predecessor: hashValueArgument), withComma: false);
-		return [stringArgument, hashValueArgument, unitValueArgument];
+		return ValueList.Create([stringArgument, hashValueArgument, unitValueArgument]);
 	}
 
 	private static void AssertWrittenFunctionCall(ServiceProvider provider)

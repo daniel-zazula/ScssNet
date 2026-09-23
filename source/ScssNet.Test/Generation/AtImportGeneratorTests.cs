@@ -52,21 +52,22 @@ public class AtImportGeneratorTests: GeneratorTestBase
 		IValue path = pathType switch
 		{
 			PathType.String => CreateStringPath(predecessor: keyword),
-			PathType.UrlFunction => CreateUrlFunctionCall(predecessor: keyword),
+			PathType.UrlFunction => FunctionCall.Create("url", CreateStringPath),
 			_ => throw InvalidPathTypeException(pathType)
 		};
 
-		var semiColon = SymbolToken.Create(Symbol.SemiColon, predecessor: path);
+		var mediaQuery = MediaQueryTypeKeywordToken.Create(MediaQueryTypeKeyword.Screen, predecessor: path);
+		var semiColon = SymbolToken.Create(Symbol.SemiColon, predecessor: mediaQuery);
 
-		return new AtImport(at, keyword, path, semiColon);
+		return new AtImport(at, keyword, path, mediaQuery, semiColon);
 	}
 
 	internal static void AssertAtImport(ServiceProvider provider, PathType pathType = PathType.String)
 	{
 		var expected = pathType switch
 		{
-			PathType.String => "@import \"styles.css\";",
-			PathType.UrlFunction => "@import url(\"styles.css\");",
+			PathType.String => "@import \"styles.css\" screen;",
+			PathType.UrlFunction => "@import url(\"styles.css\") screen;",
 			_ => throw InvalidPathTypeException(pathType)
 		};
 
@@ -76,16 +77,6 @@ public class AtImportGeneratorTests: GeneratorTestBase
 	private static StringToken CreateStringPath(ISourceElement? predecessor)
 	{
 		return StringToken.Create("\"styles.css\"", predecessor: predecessor);
-	}
-
-	private static FunctionCall CreateUrlFunctionCall(ISourceElement? predecessor)
-	{
-		var name = IdentifierToken.Create("url", predecessor: predecessor);
-		var openParenthesis = SymbolToken.Create(Symbol.OpenParenthesis, predecessor: name);
-		var path = CreateStringPath(predecessor: openParenthesis);
-		var closeParenthesis = SymbolToken.Create(Symbol.CloseParenthesis, predecessor: path);
-
-		return new FunctionCall(name, openParenthesis, path, closeParenthesis);
 	}
 
 	private static ArgumentOutOfRangeException InvalidPathTypeException(PathType pathType)
