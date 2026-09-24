@@ -8,7 +8,7 @@ internal class BlockParser(Lazy<RuleParser> ruleParser)
 {
 	internal Block? Parse(TokenReader tokenReader)
 	{
-		var openBrace = tokenReader.Match(Symbol.OpenBrace);
+		var openBrace = tokenReader.MatchSymbol(Symbol.OpenBrace);
 		if(openBrace is null)
 			return null;
 
@@ -17,7 +17,7 @@ internal class BlockParser(Lazy<RuleParser> ruleParser)
 
 	internal Block Require(TokenReader tokenReader)
 	{
-		return ParseRemainder(tokenReader, tokenReader.Require(Symbol.OpenBrace));
+		return ParseRemainder(tokenReader, tokenReader.RequireSymbol(Symbol.OpenBrace));
 	}
 
 	private Block ParseRemainder(TokenReader tokenReader, SymbolToken openBrace)
@@ -33,7 +33,7 @@ internal class BlockParser(Lazy<RuleParser> ruleParser)
 			rule = ruleParser.Value.Parse(tokenReader);
 		}
 
-		var closeBrace = tokenReader.Require(Symbol.CloseBrace);
+		var closeBrace = tokenReader.RequireSymbol(Symbol.CloseBrace);
 		return new Block(openBrace, rules, closeBrace);
 	}
 }

@@ -8,7 +8,7 @@ internal class IdSelectorParser(Lazy<SelectorParser> selectorParser)
 {
 	internal IdSelector? Parse(TokenReader tokenReader)
 	{
-		var hashValue = tokenReader.Match<HashValueToken>();
+		var hashValue = tokenReader.MatchHashValue();
 		if(hashValue is null)
 			return null;
 

@@ -14,32 +14,13 @@ internal class TokenReader
 	private readonly ISourceReader SourceReader = sourceReader;
 	private ISeparatedToken? NextToken;
 
-	public SymbolToken? Match(ICollection<Symbol> symbols)
+	public T? Match<T>(Func<IToken?, T?> check) where T: IToken
 	{
-		if(Peek() is SymbolToken symbolToken && symbols.Contains(symbolToken.Symbol))
-		{
+		var match = check(Peek());
+		if(match is not null)
 			ReadNextToken();
-			return symbolToken;
-		}
 
-		return null;
-	}
-
-	public T? Match<T>() where T : IToken
-	{
-		var typeOfT = typeof(T);
-		if(typeOfT == typeof(SymbolToken))
-			throw new InvalidOperationException("Use Match(Symbol symbol) for matching symbols.");
-		else if (typeOfT.IsSubclassOfGeneric(typeof(KeywordToken<>)))
-			throw new InvalidOperationException("Use Match(Keyword keyword) for matching keywords.");
-
-		if(Peek() is T token)
-		{
-			ReadNextToken();
-			return token;
-		}
-
-		return default;
+		return match;
 	}
 
 	public (T keyword, IdentifierToken identifierToken)? MatchKeyword<T>() where T : struct, Enum

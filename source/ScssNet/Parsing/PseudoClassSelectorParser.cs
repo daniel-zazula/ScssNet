@@ -8,7 +8,7 @@ internal class PseudoClassSelectorParser(Lazy<SelectorParser> selectorParser)
 {
 	internal PseudoClassSelector? Parse(TokenReader tokenReader)
 	{
-		var colon = tokenReader.Match(Symbol.Colon);
+		var colon = tokenReader.MatchSymbol(Symbol.Colon);
 		if(colon is null)
 			return null;
 

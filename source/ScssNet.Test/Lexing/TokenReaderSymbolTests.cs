@@ -1,5 +1,4 @@
-﻿using System;
-using ScssNet.Lexing;
+﻿using ScssNet.Lexing;
 using ScssNet.Tokens;
 using Shouldly;
 
@@ -23,7 +22,7 @@ public class TokenReaderSymbolTests : TokenReaderTestBase
 		var source = string.Format(template, symbol.ToChars());
 		var tokenReader = SetupTokenReader(source);
 
-		var symbolToken = tokenReader.Match(symbol).ShouldNotBeNull();
+		var symbolToken = tokenReader.MatchSymbol(symbol).ShouldNotBeNull();
 		symbolToken.Symbol.ShouldBe(symbol);
 		symbolToken.Issues.ShouldBeEmpty();
 
@@ -39,7 +38,7 @@ public class TokenReaderSymbolTests : TokenReaderTestBase
 		var source = string.Format(template, symbol.ToChars());
 		var tokenReader = SetupTokenReader(source);
 
-		var symbolToken = tokenReader.Require(symbol);
+		var symbolToken = tokenReader.RequireSymbol(symbol);
 		symbolToken.Symbol.ShouldBe(symbol);
 		symbolToken.Issues.ShouldBeEmpty();
 
@@ -55,21 +54,8 @@ public class TokenReaderSymbolTests : TokenReaderTestBase
 	{
 		var tokenReader = SetupTokenReader(source);
 
-		var symbolToken = tokenReader.Require(Symbol.Dot);
+		var symbolToken = tokenReader.RequireSymbol(Symbol.Dot);
 		AssertExpectedTokenIssue(symbolToken);
-
-		tokenReader.End.ShouldBeFalse();
-	}
-
-	public static IEnumerable<object[]> OneOfEachParams => TokensTestData.OneOfEach.ToParams();
-	[TestMethod]
-	[DynamicData(nameof(OneOfEachParams))]
-
-	public void ShouldThrowWhenTryingToMatchSymbol(string source)
-	{
-		var tokenReader = SetupTokenReader(source);
-
-		Should.Throw<InvalidOperationException>(tokenReader.Match<SymbolToken>);
 
 		tokenReader.End.ShouldBeFalse();
 	}

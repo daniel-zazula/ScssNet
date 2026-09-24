@@ -13,7 +13,13 @@ public class TokenReaderIdentifierTests : TokenReaderTestBase
 	[DynamicData(nameof(IdentifierParams))]
 	public void ShouldMatchIdentifier(string source, string expected)
 	{
-		var identifierToken = TestTokenMatch<IdentifierToken>(source);
+		var tokenReader = SetupTokenReader(source);
+
+		var identifierToken = tokenReader.MatchIdentifier().ShouldNotBeNull();
+
+		AssertSeparators(source, identifierToken.LeadingSeparator, identifierToken.TrailingSeparator);
+
+		tokenReader.End.ShouldBeTrue();
 		identifierToken.Text.ShouldBe(expected);
 		identifierToken.Issues.ShouldBeEmpty();
 	}

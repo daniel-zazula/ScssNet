@@ -13,7 +13,7 @@ internal class AtImportParser(Lazy<UrlParser> urlParser, Lazy<MediaQueryParser> 
 
 		var url = urlParser.Value.Require(tokenReader);
 		var mediaQuery = mediaQueryParser.Value.Parse(tokenReader);
-		var semiColon = tokenReader.Match(Symbol.SemiColon);
+		var semiColon = tokenReader.MatchSymbol(Symbol.SemiColon);
 
 		return new AtImport(atSign, atKeywordToken, url, mediaQuery, semiColon);
 	}

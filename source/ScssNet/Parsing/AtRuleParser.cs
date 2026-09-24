@@ -11,7 +11,7 @@ internal class AtRuleParser
 {
 	internal IAtRule? Parse(TokenReader tokenReader)
 	{
-		var atSign = tokenReader.Match(Symbol.At);
+		var atSign = tokenReader.MatchSymbol(Symbol.At);
 		if(atSign is null)
 			return null;
 

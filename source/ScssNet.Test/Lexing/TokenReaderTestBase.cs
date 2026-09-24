@@ -37,19 +37,6 @@ public abstract class TokenReaderTestBase
 		return provider.GetRequiredService<TokenReader>();
 	}
 
-	protected static T TestTokenMatch<T>(string source) where T : class, IToken, ISeparatedToken
-	{
-		var tokenReader = SetupTokenReader(source);
-
-		var token = tokenReader.Match<T>().ShouldNotBeNull();
-
-		AssertSeparators(source, token.LeadingSeparator, token.TrailingSeparator);
-
-		tokenReader.End.ShouldBeTrue();
-
-		return token;
-	}
-
 	protected static void AssertSeparators(string source, Separator leadingSeparator, Separator trailingSeparator)
 	{
 		if(source.StartsWith(' '))

@@ -8,23 +8,23 @@ internal class AttributeSelectorParser(Lazy<SelectorParser> selectorParser)
 {
 	internal AttributeSelector? Parse(TokenReader tokenReader)
 	{
-		var openBracket = tokenReader.Match(Symbol.OpenBracket);
+		var openBracket = tokenReader.MatchSymbol(Symbol.OpenBracket);
 		if(openBracket is null)
 			return null;
 
 		var attribute = tokenReader.RequireIdentifier();
 
-		var operatorSymbols = new[] { Symbol.Equals, Symbol.ContainsWord, Symbol.StartsWithWord, Symbol.StartsWith, Symbol.EndsWith, Symbol.Contains };
-		var @operator = tokenReader.Match(operatorSymbols);
+		var operators = new[] { Symbol.Equals, Symbol.ContainsWord, Symbol.StartsWithWord, Symbol.StartsWith, Symbol.EndsWith, Symbol.Contains };
+		var @operator = tokenReader.MatchSymbol(operators);
 		StringToken? value = null;
 		IdentifierToken? modifier = null;
 		if(@operator != null)
 		{
 			value = tokenReader.RequireString();
-			modifier = tokenReader.Match<IdentifierToken>();
+			modifier = tokenReader.MatchIdentifier();
 		}
 
-		var closeBracket = tokenReader.Require(Symbol.CloseBracket);
+		var closeBracket = tokenReader.RequireSymbol(Symbol.CloseBracket);
 
 		var selectorQualifier = closeBracket.TrailingSeparator == Separator.Empty
 			? selectorParser.Value.ParseQualifier(tokenReader)

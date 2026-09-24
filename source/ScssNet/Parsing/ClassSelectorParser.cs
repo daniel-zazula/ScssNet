@@ -8,7 +8,7 @@ internal class ClassSelectorParser(Lazy<SelectorParser> selectorParser)
 {
 	internal ClassSelector? Parse(TokenReader tokenReader)
 	{
-		var dot = tokenReader.Match(Symbol.Dot);
+		var dot = tokenReader.MatchSymbol(Symbol.Dot);
 		if(dot is null)
 			return null;
 

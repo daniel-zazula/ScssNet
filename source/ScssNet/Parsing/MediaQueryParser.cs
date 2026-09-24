@@ -22,7 +22,7 @@ internal class MediaQueryParser
 
 	private MediaQueryList? ParseList(IMediaQueryExpression expression, TokenReader tokenReader)
 	{
-		SymbolToken? commaToken = tokenReader.Match(Symbol.Comma);
+		SymbolToken? commaToken = tokenReader.MatchSymbol(Symbol.Comma);
 		if(commaToken is null)
 			return null;
 
@@ -33,7 +33,7 @@ internal class MediaQueryParser
 			if (value is null)
 				break;
 
-			commaToken = tokenReader.Match(Symbol.Comma);
+			commaToken = tokenReader.MatchSymbol(Symbol.Comma);
 			items.Add(new MediaQueryListItem(value, commaToken));
 		}
 

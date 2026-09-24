@@ -26,7 +26,7 @@ internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
 
 	private ValueList? ParseCommaList(TokenReader tokenReader, IValue firstValue)
 	{
-		var comma = tokenReader.Match(Symbol.Comma);
+		var comma = tokenReader.MatchSymbol(Symbol.Comma);
 		if (comma == null)
 			return null;
 
@@ -37,7 +37,7 @@ internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
 			if(lastValue is null)
 				break;
 
-			comma = tokenReader.Match(Symbol.Comma);
+			comma = tokenReader.MatchSymbol(Symbol.Comma);
 			items.Add(new ValueListItem(lastValue, comma));
 		}
 
@@ -73,7 +73,7 @@ internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
 
 	private IValue? ParseSingle(TokenReader tokenReader)
 	{
-		var valueToken = tokenReader.Match<IValueToken>();
+		var valueToken = tokenReader.Match(t => t is IValueToken vt ? vt : default);
 		if (valueToken is IdentifierToken identifierToken)
 		{
 			return (IValue?)functionCallParser.Value.Parse(tokenReader, identifierToken) ?? valueToken;

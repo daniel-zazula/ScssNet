@@ -26,5 +26,7 @@ internal static class ParserDependencies
 		services.AddLazySingleton<AtCharsetParser>();
 		services.AddLazySingleton<AtImportParser>();
 		services.AddLazySingleton<AtMediaParser>();
+		services.AddLazySingleton<AtNamespaceParser>();
+		services.AddLazySingleton<UrlParser>();
 	}
 }

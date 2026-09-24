@@ -48,7 +48,7 @@ internal class SelectorParser
 
 	private IComplexSelector? ParseComplex(TokenReader tokenReader, ISelector previousSelector)
 	{
-		var combinator = tokenReader.Match([Symbol.GreaterThan, Symbol.Tilde, Symbol.Plus]);
+		var combinator = tokenReader.MatchSymbol([Symbol.GreaterThan, Symbol.Tilde, Symbol.Plus]);
 		if(combinator is null)
 		{
 			return previousSelector.HasTrailingSeparator()
@@ -58,17 +58,13 @@ internal class SelectorParser
 
 		var selector = Parse(tokenReader) ?? throw new NotImplementedException("Handle missing selector");
 
-		switch(combinator.Symbol)
+		return combinator.Symbol switch
 		{
-			case Symbol.GreaterThan:
-				return new ChildSelector(previousSelector, combinator, selector);
-			case Symbol.Tilde:
-				return new SubsequentSiblingSelector(previousSelector, combinator, selector);
-			case Symbol.Plus:
-				return new NextSiblingSelector(previousSelector, combinator, selector);
-			default:
-				throw new NotImplementedException("Invalid combinator symbol");
-		}
+			Symbol.GreaterThan => new ChildSelector(previousSelector, combinator, selector),
+			Symbol.Tilde => new SubsequentSiblingSelector(previousSelector, combinator, selector),
+			Symbol.Plus => new NextSiblingSelector(previousSelector, combinator, selector),
+			_ => throw new NotImplementedException("Invalid combinator symbol"),
+		};
 	}
 
 	private IComplexSelector? ParseDescendant(TokenReader tokenReader, ISelector previousSelector)

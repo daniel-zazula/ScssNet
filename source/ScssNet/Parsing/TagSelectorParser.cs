@@ -8,7 +8,7 @@ internal class TagSelectorParser(Lazy<SelectorParser> selectorParser)
 {
 	internal TagSelector? Parse(TokenReader tokenReader)
 	{
-		var identifier = tokenReader.Match<IdentifierToken>();
+		var identifier = tokenReader.MatchIdentifier();
 		if(identifier is null)
 			return null;
 

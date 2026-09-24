@@ -8,7 +8,7 @@ internal class UniversalSelectorParser(Lazy<SelectorParser> selectorParser)
 {
 	internal UniversalSelector? Parse(TokenReader tokenReader)
 	{
-		var asterisk = tokenReader.Match(Symbol.Asterisk);
+		var asterisk = tokenReader.MatchSymbol(Symbol.Asterisk);
 		if(asterisk is null)
 			return null;
 

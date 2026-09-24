@@ -12,7 +12,7 @@ internal class AtCharsetParser
 			return null;
 
 		var charsetName = tokenReader.RequireString();
-		var semiColon = tokenReader.Match(Symbol.SemiColon);
+		var semiColon = tokenReader.MatchSymbol(Symbol.SemiColon);
 
 		return new AtCharset(atSign, atKeywordToken, charsetName, semiColon);
 	}

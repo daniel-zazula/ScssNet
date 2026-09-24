@@ -1,5 +1,4 @@
 ﻿using ScssNet.Lexing;
-using ScssNet.Tokens;
 using Shouldly;
 
 namespace ScssNet.Test.Lexing;
@@ -13,7 +12,13 @@ public class TokenReaderStringTests : TokenReaderTestBase
 	[DynamicData(nameof(StringParams))]
 	public void ShouldMatchString(string source, string expected)
 	{
-		var stringToken = TestTokenMatch<StringToken>(source);
+		var tokenReader = SetupTokenReader(source);
+
+		var stringToken = tokenReader.MatchString().ShouldNotBeNull();
+
+		AssertSeparators(source, stringToken.LeadingSeparator, stringToken.TrailingSeparator);
+
+		tokenReader.End.ShouldBeTrue();
 		stringToken.Text.ShouldBe(expected);
 		stringToken.Issues.ShouldBeEmpty();
 	}
