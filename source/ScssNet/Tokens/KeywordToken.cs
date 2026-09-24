@@ -1,6 +1,6 @@
 ﻿namespace ScssNet.Tokens;
 
-public abstract record KeywordToken<T>: IToken, ISeparatedToken
+public record KeywordToken<T>: IToken, ISeparatedToken
 	where T : struct, Enum
 {
 	public T? Keyword { get; }
@@ -12,7 +12,7 @@ public abstract record KeywordToken<T>: IToken, ISeparatedToken
 	public Separator TrailingSeparator { get; }
 	public Issues Issues { get; }
 
-	protected KeywordToken
+	internal KeywordToken
 	(
 		T keyword, string text, SourceSpan span, Separator before, Separator after,
 		ICollection<Issue>? issues = null
@@ -26,7 +26,7 @@ public abstract record KeywordToken<T>: IToken, ISeparatedToken
 		Issues = issues ?? [];
 	}
 
-	protected KeywordToken(T keyword, IdentifierToken identifiertoken)
+	internal KeywordToken(T keyword, IdentifierToken identifiertoken)
 	{
 		Keyword = keyword;
 		Text = identifiertoken.Text;
@@ -36,7 +36,7 @@ public abstract record KeywordToken<T>: IToken, ISeparatedToken
 		Issues = identifiertoken.Issues;
 	}
 
-	protected KeywordToken(SourceCoordinates coordinates, Issue issue)
+	internal KeywordToken(SourceCoordinates coordinates, Issue issue)
 	{
 		Keyword = default;
 		Text = "";

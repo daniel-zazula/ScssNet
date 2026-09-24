@@ -15,7 +15,7 @@ internal class AtRuleParser
 		if(atSign is null)
 			return null;
 
-		var atKeywordToken = tokenReader.RequireKeyword<AtKeywordToken>();
+		var atKeywordToken = tokenReader.RequireKeyword<AtKeyword>();
 		IAtRule? atRule = (IAtRule?)atCharsetParser.Value.Parse(atSign, atKeywordToken, tokenReader)
 			?? (IAtRule?)atImportParser.Value.Parse(atSign, atKeywordToken, tokenReader)
 			?? (IAtRule?)atMediaParser.Value.Parse(atSign, atKeywordToken, tokenReader)

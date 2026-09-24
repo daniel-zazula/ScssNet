@@ -26,7 +26,7 @@ internal class RuleParser(Lazy<ValueParser> valueParser)
 		if (exclamation is null)
 			return null;
 
-		var importantKeyword = tokenReader.RequireKeyword<ValueKeywordToken>();
+		var importantKeyword = tokenReader.RequireKeyword<ValueKeyword>();
 		return new ImportantValue(exclamation, importantKeyword);
 	}
 }

@@ -9,7 +9,7 @@ internal static class IssueExtensions
 			return new Issue(IssueType.Error, "Expected " + expected);
 		}
 
-		public static Issue CreateExpected<T>() where T: Enum
+		public static Issue CreateExpectedOneOf<T>() where T: Enum
 		{
 			var keywords = (T[])Enum.GetValues(typeof(T));
 			var expected = "one of the keywords: " + string.Join(", ", keywords);

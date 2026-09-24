@@ -26,7 +26,7 @@ internal class MediaQueryParser
 		if(commaToken is null)
 			return null;
 
-		var items = new List<MediaQueryListItem> { new MediaQueryListItem(expression, commaToken) };
+		var items = new List<MediaQueryListItem> { new(expression, commaToken) };
 		while(commaToken != null)
 		{
 			var value = ParseExpression(tokenReader);
@@ -42,7 +42,7 @@ internal class MediaQueryParser
 
 	private IMediaQueryExpression? ParseExpression(TokenReader tokenReader)
 	{
-		var operatorToken = tokenReader.MatchKeyword<MediaQueryOperatorKeywordToken>();
+		var operatorToken = tokenReader.MatchKeyword<MediaQueryOperatorKeyword>();
 		if(operatorToken is null)
 		{
 			return ParseValue(tokenReader);
@@ -54,11 +54,11 @@ internal class MediaQueryParser
 
 	private MediaQueryTypeKeywordToken? ParseValue(TokenReader tokenReader)
 	{
-		return tokenReader.MatchKeyword<MediaQueryTypeKeywordToken>();
+		return tokenReader.MatchMediaQueryTypeKeyword();
 	}
 
 	private MediaQueryTypeKeywordToken RequireValue(TokenReader tokenReader)
 	{
-		return tokenReader.RequireKeyword<MediaQueryTypeKeywordToken>();
+		return tokenReader.RequireMediaQueryTypeKeyword();
 	}
 }

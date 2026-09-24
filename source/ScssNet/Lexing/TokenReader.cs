@@ -23,34 +23,6 @@ internal class TokenReader
 		return match;
 	}
 
-	public (T keyword, IdentifierToken identifierToken)? MatchKeyword<T>() where T : struct, Enum
-	{
-		if(Peek() is IdentifierToken identifierToken)
-		{
-			var matchedKeyword = MatchesAnyKeywordOfT(identifierToken);
-			if(matchedKeyword is not null)
-			{
-				ReadNextToken();
-				return (matchedKeyword.Value, identifierToken);
-			}
-		}
-
-		return null;
-
-		static T? MatchesAnyKeywordOfT(IdentifierToken identifier)
-		{
-			var text = identifier.Text;
-			var keywords = (T[])Enum.GetValues(typeof(T));
-			foreach(var keyword in keywords)
-			{
-				if(string.Equals(text, keyword.ToString(), StringComparison.OrdinalIgnoreCase))
-					return keyword;
-			}
-
-			return null;
-		}
-	}
-
 	internal SourceCoordinates GetCoordinates() => Peek()?.Span.Start ?? SourceReader.GetCoordinates();
 
 	private IToken? Peek()

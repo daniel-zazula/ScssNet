@@ -2,7 +2,7 @@
 
 namespace ScssNet.Lexing;
 
-internal static class IdentifierTokenMatchingExtensions
+internal static class IdentifierMatchingExtensions
 {
 	public static IdentifierToken? MatchIdentifier(this TokenReader tokenReader)
 	{

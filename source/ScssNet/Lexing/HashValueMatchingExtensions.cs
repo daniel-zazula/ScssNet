@@ -2,7 +2,7 @@
 
 namespace ScssNet.Lexing;
 
-internal static class HashValueTokenMatchingExtensions
+internal static class HashValueMatchingExtensions
 {
 	public static HashValueToken? MatchHashValue(this TokenReader tokenReader)
 	{

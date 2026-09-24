@@ -2,7 +2,7 @@
 
 namespace ScssNet.Lexing;
 
-internal static class SymbolTokenMatchingExtensions
+internal static class SymbolMatchingExtensions
 {
 	public static SymbolToken? MatchSymbol(this TokenReader tokenReader, Symbol symbol)
 	{

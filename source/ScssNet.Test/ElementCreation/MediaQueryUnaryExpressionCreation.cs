@@ -14,22 +14,10 @@ internal static class MediaQueryUnaryExpressionCreation
 			ISourceElement? predecessor = null
 		)
 		{
-			var operatorToken = CreateMediaQueryOperator(operatorKeyword, operatorText, predecessor);
+			var operatorToken = MediaQueryOperatorKeywordToken.Create(operatorKeyword, operatorText, predecessor);
 			var typeToken = MediaQueryTypeKeywordToken.Create(typeKeyword, typeText, operatorToken);
 
 			return new MediaQueryUnaryExpression(operatorToken, typeToken);
-		}
-
-		private static MediaQueryOperatorKeywordToken CreateMediaQueryOperator
-		(
-			MediaQueryOperatorKeyword operatorKeyword, string? text = null, ISourceElement? predecessor = null
-		)
-		{
-			text = MediaQueryOperatorKeywordToken.CheckOrGetValue(operatorKeyword, text);
-			var length = text.Length;
-			var span = SourceSpan.Create(predecessor, length);
-
-			return new MediaQueryOperatorKeywordToken(operatorKeyword, text, span, Separator.Empty, Separator.Empty);
 		}
 	}
 }
