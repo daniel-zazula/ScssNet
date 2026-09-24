@@ -52,6 +52,6 @@ public class AtImportParserTests : ParserTestBase
 
 		var atImport = atRule.ShouldBeOfType<AtImport>();
 
-		return atImport.Path;
+		return atImport.Url;
 	}
 }

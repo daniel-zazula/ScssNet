@@ -23,5 +23,8 @@ internal static class ParserDependencies
 		services.AddLazySingleton<AtRuleParser>();
 		services.AddLazySingleton<FunctionCallParser>();
 		services.AddLazySingleton<MediaQueryParser>();
+		services.AddLazySingleton<AtCharsetParser>();
+		services.AddLazySingleton<AtImportParser>();
+		services.AddLazySingleton<AtMediaParser>();
 	}
 }

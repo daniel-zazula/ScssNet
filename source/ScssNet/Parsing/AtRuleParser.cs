@@ -6,7 +6,7 @@ namespace ScssNet.Parsing;
 
 internal class AtRuleParser
 (
-	Lazy<ValueParser> valueParser, Lazy<BlockParser> blockParser, Lazy<MediaQueryParser> mediaQueryParser
+	Lazy<AtCharsetParser> atCharsetParser, Lazy<AtImportParser> atImportParser, Lazy<AtMediaParser> atMediaParser
 )
 {
 	internal IAtRule? Parse(TokenReader tokenReader)
@@ -16,38 +16,11 @@ internal class AtRuleParser
 			return null;
 
 		var atKeywordToken = tokenReader.RequireKeyword<AtKeywordToken>();
+		IAtRule? atRule = (IAtRule?)atCharsetParser.Value.Parse(atSign, atKeywordToken, tokenReader)
+			?? (IAtRule?)atImportParser.Value.Parse(atSign, atKeywordToken, tokenReader)
+			?? (IAtRule?)atMediaParser.Value.Parse(atSign, atKeywordToken, tokenReader)
+			?? throw new NotImplementedException($"At-rule is not implemented.");
 
-		return atKeywordToken.Keyword switch
-		{
-			AtKeyword.Charset => ParseAtCharset(atSign, atKeywordToken, tokenReader),
-			AtKeyword.Import => ParseAtImport(atSign, atKeywordToken, tokenReader),
-			AtKeyword.Media => ParseAtMedia(atSign, atKeywordToken, tokenReader),
-			_ => throw new NotImplementedException($"At-rule '{atKeywordToken.Keyword}' is not implemented.")
-		};
-	}
-
-	internal AtCharset ParseAtCharset(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
-	{
-		var charsetName = tokenReader.RequireString();
-		var semiColon = tokenReader.Match(Symbol.SemiColon);
-
-		return new AtCharset(atSign, atKeywordToken, charsetName, semiColon);
-	}
-
-	internal AtImport ParseAtImport(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
-	{
-		var importPath = valueParser.Value.Parse(tokenReader) ?? tokenReader.RequireString();
-		var mediaQuery = mediaQueryParser.Value.Parse(tokenReader);
-		var semiColon = tokenReader.Match(Symbol.SemiColon);
-
-		return new AtImport(atSign, atKeywordToken, importPath, mediaQuery, semiColon);
-	}
-
-	internal AtMedia? ParseAtMedia(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
-	{
-		var mediaQuery = mediaQueryParser.Value.Require(tokenReader);
-		var block = blockParser.Value.Require(tokenReader);
-
-		return new AtMedia(atSign, atKeywordToken, mediaQuery, block);
+		return atRule;
 	}
 }

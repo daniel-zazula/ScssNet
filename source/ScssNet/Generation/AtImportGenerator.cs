@@ -9,7 +9,7 @@ internal class AtImportGenerator(Lazy<ValueGenerator> valueGenerator, Lazy<Media
 		writer.Write(atImport.AtSign);
 		writer.Write(atImport.Import);
 		writer.Write(" ");
-		valueGenerator.Value.Generate(atImport.Path, writer);
+		valueGenerator.Value.Generate(atImport.Url, writer);
 
 		if (atImport.MediaQuery is not null)
 		{
