@@ -8,9 +8,12 @@ internal static class FunctionCallCreation
 {
 	extension(FunctionCall)
 	{
-		internal static FunctionCall Create(string name, Func<ISourceElement, IValue> createArguments)
+		internal static FunctionCall Create
+		(
+			string name, Func<ISourceElement, IValue> createArguments, ISourceElement? predecessor = null
+		)
 		{
-			var identifierToken = IdentifierToken.Create(name);
+			var identifierToken = IdentifierToken.Create(name, predecessor: predecessor);
 			var openParenthesisToken = SymbolToken.Create(Symbol.OpenParenthesis, predecessor: identifierToken);
 			var valueList = createArguments(openParenthesisToken);
 			var closeParenthesisToken = SymbolToken.Create(Symbol.CloseParenthesis, predecessor: (ISourceElement?)valueList ?? openParenthesisToken);

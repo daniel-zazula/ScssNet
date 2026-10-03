@@ -20,6 +20,7 @@ internal static class GenerationDependencies
 		services.AddLazySingleton<AtRuleGenerator>();
 		services.AddLazySingleton<ValueGenerator>();
 		services.AddLazySingleton<FunctionCallGenerator>();
+		services.AddLazySingleton<AtNamespaceGenerator>();
 		services.AddLazySingleton<AtCharsetGenerator>();
 		services.AddLazySingleton<AtImportGenerator>();
 		services.AddLazySingleton<AtMediaGenerator>();

@@ -6,7 +6,8 @@ namespace ScssNet.Parsing;
 
 internal class AtRuleParser
 (
-	Lazy<AtCharsetParser> atCharsetParser, Lazy<AtImportParser> atImportParser, Lazy<AtMediaParser> atMediaParser
+	Lazy<AtCharsetParser> atCharsetParser, Lazy<AtImportParser> atImportParser, Lazy<AtMediaParser> atMediaParser,
+	Lazy<AtNamespaceParser> atNamespaceParser
 )
 {
 	internal IAtRule? Parse(TokenReader tokenReader)
@@ -19,6 +20,7 @@ internal class AtRuleParser
 		IAtRule? atRule = (IAtRule?)atCharsetParser.Value.Parse(atSign, atKeywordToken, tokenReader)
 			?? (IAtRule?)atImportParser.Value.Parse(atSign, atKeywordToken, tokenReader)
 			?? (IAtRule?)atMediaParser.Value.Parse(atSign, atKeywordToken, tokenReader)
+			?? atNamespaceParser.Value.Parse(atSign, atKeywordToken, tokenReader)
 			?? throw new NotImplementedException($"At-rule is not implemented.");
 
 		return atRule;

@@ -52,7 +52,7 @@ public class AtImportGeneratorTests: GeneratorTestBase
 		IValue path = pathType switch
 		{
 			PathType.String => CreateStringPath(predecessor: keyword),
-			PathType.UrlFunction => FunctionCall.Create("url", CreateStringPath),
+			PathType.UrlFunction => FunctionCall.Create("url", CreateStringPath, predecessor: keyword),
 			_ => throw InvalidPathTypeException(pathType)
 		};
 
