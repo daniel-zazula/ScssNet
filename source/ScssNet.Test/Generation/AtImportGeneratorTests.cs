@@ -49,10 +49,10 @@ public class AtImportGeneratorTests: GeneratorTestBase
 		var at = SymbolToken.Create(Symbol.At);
 		var keyword = AtKeywordToken.Create(AtKeyword.Import, predecessor: at);
 
-		IValue path = pathType switch
+		IUrl path = pathType switch
 		{
-			PathType.String => CreateStringPath(predecessor: keyword),
-			PathType.UrlFunction => FunctionCall.Create("url", CreateStringPath, predecessor: keyword),
+			PathType.String => StringUrl.Create("\"styles.css\"", predecessor: keyword),
+			PathType.UrlFunction => FunctionUrl.Create("\"styles.css\"", predecessor: keyword),
 			_ => throw InvalidPathTypeException(pathType)
 		};
 
@@ -74,9 +74,9 @@ public class AtImportGeneratorTests: GeneratorTestBase
 		provider.GetStringWriter().ShouldContain(expected, StringCompareShould.IgnoreCase);
 	}
 
-	private static StringToken CreateStringPath(ISourceElement? predecessor)
+	private static StringUrl CreateStringPath(ISourceElement? predecessor)
 	{
-		return StringToken.Create("\"styles.css\"", predecessor: predecessor);
+		return StringUrl.Create("\"styles.css\"", predecessor);
 	}
 
 	private static ArgumentOutOfRangeException InvalidPathTypeException(PathType pathType)

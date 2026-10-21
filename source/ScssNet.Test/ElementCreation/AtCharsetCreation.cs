@@ -18,3 +18,30 @@ internal static class AtCharsetCreation
 		}
 	}
 }
+
+internal static class StringUrlCreation
+{
+	extension(StringUrl)
+	{
+		internal static StringUrl Create(string path, ISourceElement? predecessor)
+		{
+			return new StringUrl(StringToken.Create(path, predecessor: predecessor));
+		}
+	}
+}
+internal static class FunctionUrlCreation
+{
+	extension(FunctionUrl)
+	{
+		internal static FunctionUrl Create(string path, ISourceElement? predecessor)
+		{
+			var function = FunctionCall.Create("url", CreateFunctionUrlParam, predecessor: predecessor);
+			return new FunctionUrl(function);
+
+			IValue CreateFunctionUrlParam(ISourceElement? predecessor)
+			{
+				return StringToken.Create(path, predecessor: predecessor);
+			}
+		}
+	}
+}

@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ScssNet.Generation;
 using ScssNet.Structures;
 using ScssNet.Test.ElementCreation;
-using ScssNet.Tokens;
 using Shouldly;
 
 namespace ScssNet.Test.Generation;
@@ -72,22 +71,15 @@ public class AtNamespaceGeneratorTests : GeneratorTestBase
 		return prefix is not null ? SvgPath : XhtmlPath;
 	}
 
-	private static Func<ISourceElement, IValue> GetUrlCreator(string prefix, UrlType urlType)
+	private static Func<ISourceElement, IUrl> GetUrlCreator(string prefix, UrlType urlType)
 	{
 		var path = GetPath(prefix);
 
 		return urlType switch
 		{
-			UrlType.StringPath => CreateStringPath,
-			UrlType.FunctionPath => CreateFunctionCall,
+			UrlType.StringPath => p => StringUrl.Create(path, p),
+			UrlType.FunctionPath => p => FunctionUrl.Create(path, p),
 			_ => throw new ArgumentOutOfRangeException(nameof(urlType), urlType, null)
 		};
-
-		StringToken CreateStringPath(ISourceElement predecessor) => StringToken.Create(path, predecessor);
-
-		FunctionCall CreateFunctionCall(ISourceElement predecessor)
-		{
-			return FunctionCall.Create("url", CreateStringPath, predecessor: predecessor);
-		}
 	}
 }

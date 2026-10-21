@@ -4,13 +4,13 @@ using ScssNet.Tokens;
 
 public class AtNamespace
 (
-	SymbolToken atSign, AtKeywordToken @namespace, IdentifierToken? prefix, IValue url, SymbolToken? semiColon
+	SymbolToken atSign, AtKeywordToken @namespace, IdentifierToken? prefix, IUrl url, SymbolToken? semiColon
 ) : ISyntaxStructure, IStatement, IAtRule
 {
 	public SymbolToken AtSign => atSign;
 	public AtKeywordToken Namespace => @namespace;
 	public IdentifierToken? Prefix => prefix;
-	public IValue Url => url;
+	public IUrl Url => url;
 	public SymbolToken? SemiColon => semiColon;
 
 	public SourceSpan Span => SourceSpan.From(atSign, url, semiColon);

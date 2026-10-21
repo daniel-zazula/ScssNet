@@ -8,7 +8,7 @@ internal static class UrlAssertion
 {
 	private const string FunctionName = "url";
 
-	internal static void AssertUrl(this IValue url, string urlSource)
+	internal static void AssertUrl(this IUrl url, string urlSource)
 	{
 		if (urlSource.StartsWith(FunctionName))
 			url.AssertFunctionUrl(urlSource);
@@ -16,20 +16,23 @@ internal static class UrlAssertion
 			url.AssertStringUrl(urlSource);
 	}
 
-	private static void AssertFunctionUrl(this IValue value, string urlSource)
+	private static void AssertFunctionUrl(this IUrl url, string urlSource)
 	{
 		var functionPathString = urlSource[4..^1]; //removes the "url(" and ")"
 
-		var urlFunction = value.ShouldBeOfType<FunctionCall>();
-		urlFunction.Name.Text.ShouldBe(FunctionName);
+		var urlFunction = url.ShouldBeOfType<FunctionUrl>();
+		var function = urlFunction.Value.ShouldBeOfType<FunctionCall>();
+		function.Name.Text.ShouldBe(FunctionName);
 
-		var functionValue = urlFunction.Arguments.ShouldNotBeNull();
-		functionValue.AssertStringUrl(functionPathString);
+		var urlValue = function.Arguments.ShouldNotBeNull();
+		var token = urlValue.ShouldBeOfType<StringToken>();
+		token.Text.ShouldBe(functionPathString);
 	}
 
-	private static void AssertStringUrl(this IValue value, string path)
+	private static void AssertStringUrl(this IUrl value, string path)
 	{
-		var token = value.ShouldBeOfType<StringToken>();
+		var stringUrl = value.ShouldBeOfType<StringUrl>();
+		var token = stringUrl.Value.ShouldBeOfType<StringToken>();
 		token.Text.ShouldBe(path);
 	}
 }

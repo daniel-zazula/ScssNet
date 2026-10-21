@@ -2,7 +2,7 @@ using ScssNet.Structures;
 
 namespace ScssNet.Generation;
 
-internal class AtNamespaceGenerator(Lazy<ValueGenerator> valueGenerator)
+internal class AtNamespaceGenerator(Lazy<UrlGenerator> urlGenerator)
 {
 	public void Generate(AtNamespace atNamespace, CssWriter writer)
 	{
@@ -16,7 +16,7 @@ internal class AtNamespaceGenerator(Lazy<ValueGenerator> valueGenerator)
 		}
 
 		writer.Write(" ");
-		valueGenerator.Value.Generate(atNamespace.Url, writer);
+		urlGenerator.Value.Generate(atNamespace.Url, writer);
 
 		if (atNamespace.SemiColon is not null)
 		{

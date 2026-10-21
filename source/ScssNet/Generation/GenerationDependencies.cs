@@ -25,5 +25,6 @@ internal static class GenerationDependencies
 		services.AddLazySingleton<AtImportGenerator>();
 		services.AddLazySingleton<AtMediaGenerator>();
 		services.AddLazySingleton<MediaQueryGenerator>();
+		services.AddLazySingleton<UrlGenerator>();
 	}
 }

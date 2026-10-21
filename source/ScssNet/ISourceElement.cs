@@ -7,3 +7,5 @@ public interface ISourceElement
 }
 
 public interface IValue : ISourceElement { }
+
+public interface IUrl : ISourceElement { }

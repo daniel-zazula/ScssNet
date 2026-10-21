@@ -8,13 +8,13 @@ internal static class AtNamespaceCreation
 {
 	extension(AtNamespace)
 	{
-		internal static AtNamespace Create(string? prefix, Func<ISourceElement, IValue> createUrl)
+		internal static AtNamespace Create(string? prefix, Func<ISourceElement, IUrl> createUrl)
 		{
 			var at = SymbolToken.Create(Symbol.At);
 			var keyword = AtKeywordToken.Create(AtKeyword.Namespace, predecessor: at);
 
 			IdentifierToken? prefixToken = null;
-			IValue path;
+			IUrl path;
 
 			if (prefix is not null)
 			{
