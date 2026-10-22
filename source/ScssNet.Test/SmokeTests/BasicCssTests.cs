@@ -14,7 +14,7 @@ public class BasicCssTests : ParserTestBase
 {
 	[TestMethod]
 	[DataRow("css1.css")]
-	//[DataRow("css2.1.css")]
+	[DataRow("css2.1.css")]
 	//[DataRow("css3AndLater.css")]
 	public void ShouldParseCssFile(string fileName)
 	{
@@ -25,7 +25,7 @@ public class BasicCssTests : ParserTestBase
 
 		var sourceReader = provider.GetRequiredService<ISourceReader>();
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var stylesheetParser = provider.GetRequiredService<StatementParser>();
+		var stylesheetParser = provider.GetRequiredService<IStatementParser>();
 
 		var issues = new List<Issue>();
 
@@ -49,7 +49,7 @@ public class BasicCssTests : ParserTestBase
 		}
 	}
 
-	private string GetNextLines(ISourceReader sourceReader, int lineCount)
+	private static string GetNextLines(ISourceReader sourceReader, int lineCount)
 	{
 		var lines = new StringBuilder();
 		while(lineCount > 0)

@@ -4,19 +4,23 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class AtNamespaceParser(Lazy<UrlParser> urlParser)
+internal interface IAtNamespaceParser : IAtRuleParserBase<AtNamespace> { }
+
+internal class AtNamespaceParser(ParserContext parserContext): IAtNamespaceParser
 {
-	internal AtNamespace? Parse(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
+	private IUrlParser UrlParser => parserContext.GetParser<IUrlParser>();
+
+	public AtNamespace? Parse(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
 	{
 		if (atKeywordToken.Keyword != AtKeyword.Namespace)
 			return null;
 
 		IdentifierToken? prefix = null;
-		var url = urlParser.Value.Parse(tokenReader);
+		var url = UrlParser.Parse(tokenReader);
 		if(url is null)
 		{
 			prefix = tokenReader.MatchIdentifier();
-			url = urlParser.Value.Require(tokenReader);
+			url = UrlParser.Require(tokenReader);
 		}
 		var semiColon = tokenReader.MatchSymbol(Symbol.SemiColon);
 

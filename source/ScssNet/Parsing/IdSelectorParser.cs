@@ -4,16 +4,20 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class IdSelectorParser(Lazy<SelectorParser> selectorParser)
+internal interface IIdSelectorParser : IParser<IdSelector> { }
+
+internal class IdSelectorParser(ParserContext parserContext): IIdSelectorParser
 {
-	internal IdSelector? Parse(TokenReader tokenReader)
+	private ISelectorQualifierParser SelectorQualifierParser => parserContext.GetParser<ISelectorQualifierParser>();
+
+	public IdSelector? Parse(TokenReader tokenReader)
 	{
 		var hashValue = tokenReader.MatchHashValue();
 		if(hashValue is null)
 			return null;
 
 		var selectorQualifier = hashValue.TrailingSeparator == Separator.Empty
-			? selectorParser.Value.ParseQualifier(tokenReader)
+			? SelectorQualifierParser.Parse(tokenReader)
 			: default;
 
 		return new IdSelector(hashValue, selectorQualifier);

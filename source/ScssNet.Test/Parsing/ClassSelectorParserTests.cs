@@ -17,7 +17,7 @@ public class ClassSelectorParserTests: ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var classSelectorParser = provider.GetRequiredService<ClassSelectorParser>();
+		var classSelectorParser = provider.GetRequiredService<IClassSelectorParser>();
 
 		var classSelector = classSelectorParser.Parse(tokenReader);
 		classSelector.ShouldNotBeNull();

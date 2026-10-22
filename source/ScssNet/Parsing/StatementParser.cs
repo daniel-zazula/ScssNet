@@ -3,11 +3,16 @@ using ScssNet.Structures;
 
 namespace ScssNet.Parsing;
 
-internal class StatementParser(Lazy<AtRuleParser> atCharsetParser, Lazy<RuleSetParser> ruleSetParser)
+internal interface IStatementParser: IParser<IStatement> { }
+
+internal class StatementParser(ParserContext parserContext): IStatementParser
 {
-	internal IStatement? Parse(TokenReader tokenReader)
+	private IAtRuleParser AtRuleParser => parserContext.GetParser<IAtRuleParser>();
+	private IRuleSetParser RuleSetParser => parserContext.GetParser<IRuleSetParser>();
+
+	public IStatement? Parse(TokenReader tokenReader)
 	{
-		return (IStatement?)atCharsetParser.Value.Parse(tokenReader)
-			?? ruleSetParser.Value.Parse(tokenReader);
+		return (IStatement?)AtRuleParser.Parse(tokenReader)
+			?? RuleSetParser.Parse(tokenReader);
 	}
 }

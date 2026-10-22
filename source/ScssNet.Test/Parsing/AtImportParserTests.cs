@@ -21,7 +21,7 @@ public class AtImportParserTests : ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var atRuleParser = provider.GetRequiredService<AtRuleParser>();
+		var atRuleParser = provider.GetRequiredService<IAtRuleParser>();
 
 		var atRule = atRuleParser.Parse(tokenReader);
 		atRule.ShouldNotBeNull();

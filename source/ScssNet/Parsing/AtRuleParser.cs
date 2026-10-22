@@ -4,25 +4,43 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class AtRuleParser
-(
-	Lazy<AtCharsetParser> atCharsetParser, Lazy<AtImportParser> atImportParser, Lazy<AtMediaParser> atMediaParser,
-	Lazy<AtNamespaceParser> atNamespaceParser
-)
+internal interface IAtRuleParser : IParser<IAtRule> { }
+
+internal class AtRuleParser(ParserContext parserContext) : IAtRuleParser
 {
-	internal IAtRule? Parse(TokenReader tokenReader)
+	public IAtRule? Parse(TokenReader tokenReader)
 	{
 		var atSign = tokenReader.MatchSymbol(Symbol.At);
 		if(atSign is null)
 			return null;
 
 		var atKeywordToken = tokenReader.RequireKeyword<AtKeyword>();
-		IAtRule? atRule = (IAtRule?)atCharsetParser.Value.Parse(atSign, atKeywordToken, tokenReader)
-			?? (IAtRule?)atImportParser.Value.Parse(atSign, atKeywordToken, tokenReader)
-			?? (IAtRule?)atMediaParser.Value.Parse(atSign, atKeywordToken, tokenReader)
-			?? atNamespaceParser.Value.Parse(atSign, atKeywordToken, tokenReader)
+		IAtRule? atRule = ParseAtRule(atSign, atKeywordToken, tokenReader)
+			?? ParseAtImport(atSign, atKeywordToken, tokenReader)
+			?? ParseAtMedia(atSign, atKeywordToken, tokenReader)
+			?? ParseAtNamespace(atSign, atKeywordToken, tokenReader)
 			?? throw new NotImplementedException($"At-rule is not implemented.");
 
 		return atRule;
+	}
+
+	private IAtRule? ParseAtRule(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
+	{
+		return parserContext.GetParser<IAtCharsetParser>().Parse(atSign, atKeywordToken, tokenReader);
+	}
+
+	private IAtRule? ParseAtImport(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
+	{
+		return parserContext.GetParser<IAtImportParser>().Parse(atSign, atKeywordToken, tokenReader);
+	}
+
+	private IAtRule? ParseAtMedia(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
+	{
+		return parserContext.GetParser<IAtMediaParser>().Parse(atSign, atKeywordToken, tokenReader);
+	}
+
+	private IAtRule? ParseAtNamespace(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
+	{
+		return parserContext.GetParser<IAtNamespaceParser>().Parse(atSign, atKeywordToken, tokenReader);
 	}
 }

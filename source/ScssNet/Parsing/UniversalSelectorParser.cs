@@ -4,16 +4,20 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class UniversalSelectorParser(Lazy<SelectorParser> selectorParser)
+internal interface IUniversalSelectorParser: IParser<UniversalSelector> { }
+
+internal class UniversalSelectorParser(ParserContext parserContext): IUniversalSelectorParser
 {
-	internal UniversalSelector? Parse(TokenReader tokenReader)
+	private ISelectorQualifierParser SelectorQualifierParser => parserContext.GetParser<ISelectorQualifierParser>();
+
+	public UniversalSelector? Parse(TokenReader tokenReader)
 	{
 		var asterisk = tokenReader.MatchSymbol(Symbol.Asterisk);
 		if(asterisk is null)
 			return null;
 
 		var selectorQualifier = !asterisk.HasTrailingSeparator()
-			? selectorParser.Value.ParseQualifier(tokenReader)
+			? SelectorQualifierParser.Parse(tokenReader)
 			: default;
 
 		return new UniversalSelector(asterisk, selectorQualifier);

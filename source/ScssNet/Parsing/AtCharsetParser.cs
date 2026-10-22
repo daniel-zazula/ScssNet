@@ -4,9 +4,11 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class AtCharsetParser
+internal interface IAtCharsetParser : IAtRuleParserBase<AtCharset> { }
+
+internal class AtCharsetParser: IAtCharsetParser
 {
-	internal AtCharset? Parse(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
+	public AtCharset? Parse(SymbolToken atSign, AtKeywordToken atKeywordToken, TokenReader tokenReader)
 	{
 		if (atKeywordToken.Keyword != AtKeyword.Charset)
 			return null;

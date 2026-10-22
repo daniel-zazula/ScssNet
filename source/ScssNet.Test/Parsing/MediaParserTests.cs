@@ -20,7 +20,7 @@ public class MediaParserTests : ParserTestBase
 		var provider = BuildServiceProvider(source);
 		
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var mediaParser = provider.GetRequiredService<MediaQueryParser>();
+		var mediaParser = provider.GetRequiredService<IMediaQueryParser>();
 
 		var mediaQuery = mediaParser.Parse(tokenReader);
 		mediaQuery.ShouldNotBeNull();
@@ -42,7 +42,7 @@ public class MediaParserTests : ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var mediaParser = provider.GetRequiredService<MediaQueryParser>();
+		var mediaParser = provider.GetRequiredService<IMediaQueryParser>();
 
 		var mediaQuery = mediaParser.Parse(tokenReader);
 		mediaQuery.ShouldNotBeNull();

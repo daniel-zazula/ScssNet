@@ -15,7 +15,7 @@ public class BlockParserTests: ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var blockParser = provider.GetRequiredService<BlockParser>();
+		var blockParser = provider.GetRequiredService<IBlockParser>();
 
 		var block = blockParser.Parse(tokenReader);
 		block.ShouldNotBeNull();
@@ -33,7 +33,7 @@ public class BlockParserTests: ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var blockParser = provider.GetRequiredService<BlockParser>();
+		var blockParser = provider.GetRequiredService<IBlockParser>();
 
 		var block = blockParser.Parse(tokenReader);
 		block.ShouldNotBeNull();
@@ -55,7 +55,7 @@ public class BlockParserTests: ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var blockParser = provider.GetRequiredService<BlockParser>();
+		var blockParser = provider.GetRequiredService<IBlockParser>();
 
 		var block = blockParser.Parse(tokenReader);
 		block.ShouldNotBeNull();

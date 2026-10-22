@@ -4,27 +4,32 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
+internal interface IValueParser: IParser
 {
-	internal IValue? Parse(TokenReader tokenReader)
+	IValue? ParseCommaList(TokenReader tokenReader);
+	IValue RequireCommaOrSpacedList(TokenReader tokenReader);
+}
+
+internal class ValueParser(ParserContext parserContext): IValueParser
+{
+	private IFunctionCallParser FunctionCallParser => parserContext.GetParser<IFunctionCallParser>();
+
+	public IValue? ParseCommaList(TokenReader tokenReader)
 	{
 		var value = ParseSingle(tokenReader);
 		if(value == null)
 			return null;
 
-		return ParseCommaList(tokenReader, value) ?? ParseSpacedList(tokenReader, value) ?? value;
+		return ParseCommaList(value, tokenReader) ?? ParseSpacedList(value, tokenReader) ?? value;
 	}
 
-	internal IValue? ParseCommaList(TokenReader tokenReader)
+	public IValue RequireCommaOrSpacedList(TokenReader tokenReader)
 	{
-		var value = ParseSingle(tokenReader);
-		if(value == null)
-			return null;
-
-		return ParseCommaList(tokenReader, value) ?? value;
+		var value = ParseSingle(tokenReader) ?? throw new NotImplementedException("Implement missing required value");
+		return ParseCommaList(value, tokenReader) ?? ParseSpacedList(value, tokenReader) ?? value;
 	}
 
-	private ValueList? ParseCommaList(TokenReader tokenReader, IValue firstValue)
+	private ValueList? ParseCommaList(IValue firstValue, TokenReader tokenReader)
 	{
 		var comma = tokenReader.MatchSymbol(Symbol.Comma);
 		if (comma == null)
@@ -44,7 +49,7 @@ internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
 		return items.Count > 1 ? new ValueList(items) : null;
 	}
 
-	private ValueList? ParseSpacedList(TokenReader tokenReader, IValue firstValue)
+	private ValueList? ParseSpacedList(IValue firstValue, TokenReader tokenReader)
 	{
 		var items = new List<ValueListItem> { new(firstValue) };
 		var lastValue = firstValue;
@@ -76,7 +81,7 @@ internal class ValueParser(Lazy<FunctionCallParser> functionCallParser)
 		var valueToken = tokenReader.Match(t => t is IValueToken vt ? vt : default);
 		if (valueToken is IdentifierToken identifierToken)
 		{
-			return (IValue?)functionCallParser.Value.Parse(tokenReader, identifierToken) ?? valueToken;
+			return (IValue?)FunctionCallParser.Parse(identifierToken, tokenReader) ?? valueToken;
 		}
 
 		return valueToken;

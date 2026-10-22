@@ -4,11 +4,15 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class SelectorListParser(Lazy<SelectorParser> selectorParser)
+internal interface ISelectorListParser: IParser<SelectorList> { }
+
+internal class SelectorListParser(ParserContext parserContext): ISelectorListParser
 {
-	internal SelectorList? Parse(TokenReader tokenReader)
+	public SelectorList? Parse(TokenReader tokenReader)
 	{
-		var selector = ParseSelector();
+		var selectorParser = parserContext.GetParser<ISelectorParser>();
+
+		var selector = selectorParser.Parse(tokenReader);
 		if(selector == null)
 			return null;
 
@@ -21,7 +25,7 @@ internal class SelectorListParser(Lazy<SelectorParser> selectorParser)
 
 		while(commaToken != null)
 		{
-			selector = ParseSelector();
+			selector = selectorParser.Parse(tokenReader);
 			if (selector == null)
 				break;
 
@@ -31,7 +35,5 @@ internal class SelectorListParser(Lazy<SelectorParser> selectorParser)
 		}
 
 		return new SelectorList([.. selectors]);
-
-		ISelector? ParseSelector() => selectorParser.Value.Parse(tokenReader);
 	}
 }

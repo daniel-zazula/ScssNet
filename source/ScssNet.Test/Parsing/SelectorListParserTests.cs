@@ -17,7 +17,7 @@ public class SelectorListParserTests : ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var selectorListParser = provider.GetRequiredService<SelectorListParser>();
+		var selectorListParser = provider.GetRequiredService<ISelectorListParser>();
 
 		var selectorList = selectorListParser.Parse(tokenReader);
 		selectorList.ShouldNotBeNull();

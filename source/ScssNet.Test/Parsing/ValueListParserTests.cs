@@ -39,15 +39,15 @@ public class ValueListParserTests : ParserTestBase
 		}
 	}
 
-	public void ShouldParseValueList(string[] values, string separator, Action<SymbolToken?, bool> assertComma)
+	public static void ShouldParseValueList(string[] values, string separator, Action<SymbolToken?, bool> assertComma)
 	{
 		var source = string.Join(separator, values);
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var valueParser = provider.GetRequiredService<ValueParser>();
+		var valueParser = provider.GetRequiredService<IValueParser>();
 
-		var value = valueParser.Parse(tokenReader);
+		var value = valueParser.ParseCommaList(tokenReader);
 		value.ShouldNotBeNull();
 		var list = value.ShouldBeOfType<ValueList>();
 

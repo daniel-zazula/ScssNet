@@ -3,9 +3,13 @@ using ScssNet.Structures;
 
 namespace ScssNet.Parsing;
 
-internal class UrlParser(Lazy<FunctionCallParser> functionCallParser)
+internal interface IUrlParser: IParser<IUrl>, IRequiredParser<IUrl> { }
+
+internal class UrlParser(ParserContext parserContext): IUrlParser
 {
-	internal IUrl? Parse(TokenReader tokenReader)
+	private IFunctionCallParser FunctionCallParser => parserContext.GetParser<IFunctionCallParser>();
+
+	public IUrl? Parse(TokenReader tokenReader)
 	{
 		var functionUrl = ParseFunctionCall(tokenReader);
 		if (functionUrl is not null)
@@ -18,14 +22,14 @@ internal class UrlParser(Lazy<FunctionCallParser> functionCallParser)
 		return new StringUrl(stringUrl);
 	}
 
-	internal IUrl Require(TokenReader tokenReader)
+	public IUrl Require(TokenReader tokenReader)
 	{
 		return ParseFunctionCall(tokenReader) ?? new StringUrl(tokenReader.RequireString());
 	}
 
 	private IUrl? ParseFunctionCall(TokenReader tokenReader)
 	{
-		var function = functionCallParser.Value.Parse("url", tokenReader);
+		var function = FunctionCallParser.Parse("url", tokenReader);
 		if (function is null)
 			return null;
 

@@ -4,19 +4,19 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class SelectorParser
-(
-	Lazy<TagSelectorParser> tagSelectorParser, Lazy<IdSelectorParser> idSelectorParser,
-	Lazy<ClassSelectorParser> classSelectorParser, Lazy<AttributeSelectorParser> attributeSelectorParser,
-	Lazy<UniversalSelectorParser> universalSelectorParser, Lazy<PseudoClassSelectorParser> pseudoClassSelectorParser,
-	Lazy<PseudoElementSelectorParser> pseudoElementSelectorParser
+internal interface ISelectorParser: IParser<ISelector> { }
 
-)
+internal class SelectorParser(ParserContext parserContext): ISelectorParser
 {
-	internal ISelector? Parse(TokenReader tokenReader)
+	private ITagSelectorParser TagSelectorParser => parserContext.GetParser<ITagSelectorParser>();
+	private IUniversalSelectorParser UniversalSelectorParser => parserContext.GetParser<IUniversalSelectorParser>();
+	private ISelectorQualifierParser SelectorQualifierParser => parserContext.GetParser<ISelectorQualifierParser>();
+
+	public ISelector? Parse(TokenReader tokenReader)
 	{
-		var selector = ParseTagSelector() ?? ParseUniversalSelector()
-			?? ParseQualifier(tokenReader);
+		var selector = (ISelector?)TagSelectorParser.Parse(tokenReader)
+			?? UniversalSelectorParser.Parse(tokenReader)
+			?? SelectorQualifierParser.Parse(tokenReader);
 
 		if(selector == null)
 			return null;
@@ -29,21 +29,6 @@ internal class SelectorParser
 		}
 
 		return selector;
-
-		ISelector? ParseTagSelector() => tagSelectorParser.Value.Parse(tokenReader);
-		ISelector? ParseUniversalSelector() => universalSelectorParser.Value.Parse(tokenReader);
-	}
-
-	internal ISelectorQualifier? ParseQualifier(TokenReader tokenReader)
-	{
-		return ParseIdSelector() ?? ParseClassSelector() ?? ParseAttributeSelector()
-			?? ParsePseudoClassSelector() ?? ParsePseudoElementSelector();
-
-		ISelectorQualifier? ParseIdSelector() => idSelectorParser.Value.Parse(tokenReader);
-		ISelectorQualifier? ParseClassSelector() => classSelectorParser.Value.Parse(tokenReader);
-		ISelectorQualifier? ParseAttributeSelector() => attributeSelectorParser.Value.Parse(tokenReader);
-		ISelectorQualifier? ParsePseudoClassSelector() => pseudoClassSelectorParser.Value.Parse(tokenReader);
-		ISelectorQualifier? ParsePseudoElementSelector() => pseudoElementSelectorParser.Value.Parse(tokenReader);
 	}
 
 	private IComplexSelector? ParseComplex(TokenReader tokenReader, ISelector previousSelector)

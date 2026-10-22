@@ -19,7 +19,7 @@ public class RuleParserTests : ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var ruleParser = provider.GetRequiredService<RuleParser>();
+		var ruleParser = provider.GetRequiredService<IRuleParser>();
 
 		var rule = ruleParser.Parse(tokenReader);
 		rule.ShouldNotBeNull();
@@ -48,7 +48,7 @@ public class RuleParserTests : ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var ruleParser = provider.GetRequiredService<RuleParser>();
+		var ruleParser = provider.GetRequiredService<IRuleParser>();
 
 		var rule = ruleParser.Parse(tokenReader);
 		rule.ShouldNotBeNull();

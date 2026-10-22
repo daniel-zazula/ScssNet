@@ -12,7 +12,7 @@ public abstract class SelectorParserTestsBase : ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var selectorParser = provider.GetRequiredService<SelectorParser>();
+		var selectorParser = provider.GetRequiredService<ISelectorParser>();
 
 		var selector = selectorParser.Parse(tokenReader).ShouldNotBeNull();
 

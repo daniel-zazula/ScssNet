@@ -58,7 +58,7 @@ public class AttributeSelectorParserTests: ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var attributeSelectorParser = provider.GetRequiredService<AttributeSelectorParser>();
+		var attributeSelectorParser = provider.GetRequiredService<IAttributeSelectorParser>();
 
 		var attributeSelector = attributeSelectorParser.Parse(tokenReader);
 		attributeSelector.ShouldNotBeNull();

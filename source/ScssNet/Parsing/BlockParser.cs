@@ -4,9 +4,11 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class BlockParser(Lazy<RuleParser> ruleParser)
+internal interface IBlockParser : IParser<Block>, IRequiredParser<Block> { }
+
+internal class BlockParser(ParserContext parserContext): IBlockParser
 {
-	internal Block? Parse(TokenReader tokenReader)
+	public Block? Parse(TokenReader tokenReader)
 	{
 		var openBrace = tokenReader.MatchSymbol(Symbol.OpenBrace);
 		if(openBrace is null)
@@ -15,22 +17,24 @@ internal class BlockParser(Lazy<RuleParser> ruleParser)
 		return ParseRemainder(tokenReader, openBrace);
 	}
 
-	internal Block Require(TokenReader tokenReader)
+	public Block Require(TokenReader tokenReader)
 	{
 		return ParseRemainder(tokenReader, tokenReader.RequireSymbol(Symbol.OpenBrace));
 	}
 
 	private Block ParseRemainder(TokenReader tokenReader, SymbolToken openBrace)
 	{
+		var ruleParser = parserContext.GetParser<IRuleParser>();
+
 		var rules = new List<Rule>();
-		var rule = ruleParser.Value.Parse(tokenReader);
+		var rule = ruleParser.Parse(tokenReader);
 		while(rule != null)
 		{
 			rules.Add(rule);
 			if(rule.SemiColon is null)
 				break;
 
-			rule = ruleParser.Value.Parse(tokenReader);
+			rule = ruleParser.Parse(tokenReader);
 		}
 
 		var closeBrace = tokenReader.RequireSymbol(Symbol.CloseBrace);

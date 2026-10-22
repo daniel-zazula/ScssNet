@@ -4,9 +4,13 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class ClassSelectorParser(Lazy<SelectorParser> selectorParser)
+internal interface IClassSelectorParser: IParser<ClassSelector> { }
+
+internal class ClassSelectorParser(ParserContext parserContext): IClassSelectorParser
 {
-	internal ClassSelector? Parse(TokenReader tokenReader)
+	private ISelectorQualifierParser SelectorQualifierParser => parserContext.GetParser<ISelectorQualifierParser>();
+
+	public ClassSelector? Parse(TokenReader tokenReader)
 	{
 		var dot = tokenReader.MatchSymbol(Symbol.Dot);
 		if(dot is null)
@@ -15,7 +19,7 @@ internal class ClassSelectorParser(Lazy<SelectorParser> selectorParser)
 		var identifier = tokenReader.RequireIdentifier();
 
 		var selectorQualifier = !identifier.HasTrailingSeparator()
-			? selectorParser.Value.ParseQualifier(tokenReader)
+			? SelectorQualifierParser.Parse(tokenReader)
 			: default;
 
 		return new ClassSelector(dot, identifier, selectorQualifier);

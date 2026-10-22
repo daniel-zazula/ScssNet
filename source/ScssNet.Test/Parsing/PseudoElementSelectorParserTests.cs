@@ -17,7 +17,7 @@ public class PseudoElementSelectorParserTests: ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var parser = provider.GetRequiredService<PseudoElementSelectorParser>();
+		var parser = provider.GetRequiredService<IPseudoElementSelectorParser>();
 
 		var selector = parser.Parse(tokenReader);
 		selector.ShouldNotBeNull();

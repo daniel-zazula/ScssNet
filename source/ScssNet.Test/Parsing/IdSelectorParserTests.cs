@@ -16,7 +16,7 @@ public class IdSelectorParserTests : ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var idSelectorParser = provider.GetRequiredService<IdSelectorParser>();
+		var idSelectorParser = provider.GetRequiredService<IIdSelectorParser>();
 
 		var idSelector = idSelectorParser.Parse(tokenReader);
 		idSelector.ShouldNotBeNull();

@@ -15,7 +15,7 @@ public class RuleSetParserTests : ParserTestBase
 		var provider = BuildServiceProvider(source);
 
 		var tokenReader = provider.GetRequiredService<TokenReader>();
-		var ruleSetParser = provider.GetRequiredService<RuleSetParser>();
+		var ruleSetParser = provider.GetRequiredService<IRuleSetParser>();
 
 		var ruleSet = ruleSetParser.Parse(tokenReader);
 		ruleSet.ShouldNotBeNull();

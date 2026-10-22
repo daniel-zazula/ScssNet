@@ -4,16 +4,20 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class RuleParser(Lazy<ValueParser> valueParser)
+internal interface IRuleParser: IParser<Rule> { }
+
+internal class RuleParser(ParserContext parserContext): IRuleParser
 {
-	internal Rule? Parse(TokenReader tokenReader)
+	private IValueParser ValueParser => parserContext.GetParser<IValueParser>();
+
+	public Rule? Parse(TokenReader tokenReader)
 	{
 		var property = tokenReader.MatchIdentifier();
 		if(property is null)
 			return null;
 
 		var colon = tokenReader.RequireSymbol(Symbol.Colon);
-		var value = valueParser.Value.Parse(tokenReader) ?? throw new NotImplementedException("Handle missing value");
+		var value = ValueParser.RequireCommaOrSpacedList(tokenReader);
 		var important = ParseImportant(tokenReader);
 		var semiColon = tokenReader.MatchSymbol(Symbol.SemiColon);
 

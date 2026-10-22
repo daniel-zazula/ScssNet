@@ -3,15 +3,21 @@ using ScssNet.Structures;
 
 namespace ScssNet.Parsing;
 
-internal class RuleSetParser(Lazy<SelectorListParser> selectorListParser, Lazy<BlockParser> blockParser)
+internal interface IRuleSetParser: IParser<RuleSet> { }
+
+internal class RuleSetParser(ParserContext parserContext): IRuleSetParser
 {
-	internal RuleSet? Parse(TokenReader tokenReader)
+	private IRuleParser RuleParser => parserContext.GetParser<IRuleParser>();
+	private ISelectorListParser SelectorListParser => parserContext.GetParser<ISelectorListParser>();
+	private IBlockParser BlockParser => parserContext.GetParser<IBlockParser>();
+
+	public RuleSet? Parse(TokenReader tokenReader)
 	{
-		var selectorList = selectorListParser.Value.Parse(tokenReader);
+		var selectorList = SelectorListParser.Parse(tokenReader);
 		if(selectorList == null)
 			return null;
 
-		var ruleBlock = blockParser.Value.Require(tokenReader);
+		var ruleBlock = BlockParser.Require(tokenReader);
 		return new RuleSet(selectorList, ruleBlock);
 	}
 }

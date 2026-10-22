@@ -4,16 +4,20 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class TagSelectorParser(Lazy<SelectorParser> selectorParser)
+internal interface ITagSelectorParser: IParser<TagSelector> { }
+
+internal class TagSelectorParser(ParserContext parserContext): ITagSelectorParser
 {
-	internal TagSelector? Parse(TokenReader tokenReader)
+	private ISelectorQualifierParser SelectorQualifierParser => parserContext.GetParser<ISelectorQualifierParser>();
+
+	public TagSelector? Parse(TokenReader tokenReader)
 	{
 		var identifier = tokenReader.MatchIdentifier();
 		if(identifier is null)
 			return null;
 
 		var selectorQualifier = identifier.TrailingSeparator == Separator.Empty
-			? selectorParser.Value.ParseQualifier(tokenReader)
+			? SelectorQualifierParser.Parse(tokenReader)
 			: default;
 
 		return new TagSelector(identifier, selectorQualifier);

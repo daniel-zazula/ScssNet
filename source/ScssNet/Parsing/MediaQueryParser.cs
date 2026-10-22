@@ -4,9 +4,11 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class MediaQueryParser
+internal interface IMediaQueryParser : IParser<IMediaQuery>, IRequiredParser<IMediaQuery> { }
+
+internal class MediaQueryParser: IMediaQueryParser
 {
-	internal IMediaQuery? Parse(TokenReader tokenReader)
+	public IMediaQuery? Parse(TokenReader tokenReader)
 	{
 		var expression = ParseExpression(tokenReader);
 		if(expression is null)
@@ -15,7 +17,7 @@ internal class MediaQueryParser
 		return (IMediaQuery?)ParseList(expression, tokenReader) ?? expression;
 	}
 
-	internal IMediaQuery Require(TokenReader tokenReader)
+	public IMediaQuery Require(TokenReader tokenReader)
 	{
 		return Parse(tokenReader) ?? RequireValue(tokenReader);
 	}

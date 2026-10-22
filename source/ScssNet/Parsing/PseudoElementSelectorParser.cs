@@ -4,9 +4,13 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Parsing;
 
-internal class PseudoElementSelectorParser(Lazy<SelectorParser> selectorParser)
+internal interface IPseudoElementSelectorParser: IParser<PseudoElementSelector> { }
+
+internal class PseudoElementSelectorParser(ParserContext parserContext): IPseudoElementSelectorParser
 {
-	internal PseudoElementSelector? Parse(TokenReader tokenReader)
+	private ISelectorQualifierParser SelectorQualifierParser => parserContext.GetParser<ISelectorQualifierParser>();
+
+	public PseudoElementSelector? Parse(TokenReader tokenReader)
 	{
 		var doubleColon = tokenReader.MatchSymbol(Symbol.DoubleColon);
 		if(doubleColon is null)
@@ -15,7 +19,7 @@ internal class PseudoElementSelectorParser(Lazy<SelectorParser> selectorParser)
 		var identifier = tokenReader.RequireIdentifier();
 
 		var selectorQualifier = !identifier.HasTrailingSeparator()
-			? selectorParser.Value.ParseQualifier(tokenReader)
+			? SelectorQualifierParser.Parse(tokenReader)
 			: default;
 
 		return new PseudoElementSelector(doubleColon, identifier, selectorQualifier);
