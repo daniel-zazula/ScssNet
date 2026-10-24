@@ -17,7 +17,7 @@ public class IdSelectorGeneratorTests: GeneratorTestBase
 		var idSelector = IdSelector.Create();
 
 		var provider = BuildServiceProvider();
-		var generator = provider.GetRequiredService<IdSelectorGenerator>();
+		var generator = provider.GetRequiredService<IGenerator<IdSelector>>();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		generator.Generate(idSelector, cssWriter);
 
@@ -30,7 +30,7 @@ public class IdSelectorGeneratorTests: GeneratorTestBase
 		var idSelector = IdSelector.Create();
 
 		var provider = BuildServiceProvider();
-		var generator = provider.GetRequiredService<SelectorGenerator>();
+		var generator = provider.GetRequiredService<IGenerator<ISelector>>();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		generator.Generate(idSelector, cssWriter);
 

@@ -48,7 +48,7 @@ public class SelectorListGeneratorTests: GeneratorTestBase
 		var list = new SelectorList(items);
 
 		var provider = BuildServiceProvider();
-		var selectorListGenerator = provider.GetRequiredService<SelectorListGenerator>();
+		var selectorListGenerator = provider.GetRequiredService<IGenerator<SelectorList>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		selectorListGenerator.Generate(list, writer);
 

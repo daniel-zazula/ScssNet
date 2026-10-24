@@ -20,7 +20,7 @@ public class MediaQueryGeneratorTests : GeneratorTestBase
 		var mediaQuery = MediaQueryTypeKeywordToken.Create(mediaType, mediaTypeText);
 
 		var provider = BuildServiceProvider();
-		var mediaQueryGenerator = provider.GetRequiredService<MediaQueryGenerator>();
+		var mediaQueryGenerator = provider.GetRequiredService<IGenerator<IMediaQuery>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		mediaQueryGenerator.Generate(mediaQuery, writer);
 
@@ -40,7 +40,7 @@ public class MediaQueryGeneratorTests : GeneratorTestBase
 		var mediaQuery = MediaQueryUnaryExpression.Create(mediaOperator, mediaType, operatorText, typeText);
 
 		var provider = BuildServiceProvider();
-		var mediaQueryGenerator = provider.GetRequiredService<MediaQueryGenerator>();
+		var mediaQueryGenerator = provider.GetRequiredService<IGenerator<IMediaQuery>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		mediaQueryGenerator.Generate(mediaQuery, writer);
 

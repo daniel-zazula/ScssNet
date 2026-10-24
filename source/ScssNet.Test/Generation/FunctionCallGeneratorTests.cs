@@ -16,7 +16,7 @@ public class FunctionCallGeneratorTests: GeneratorTestBase
 		var functionCallValue = FunctionCall.Create("someFunc", CreateArguments);
 
 		var provider = BuildServiceProvider();
-		var generator = provider.GetRequiredService<FunctionCallGenerator>();
+		var generator = provider.GetRequiredService<IGenerator<FunctionCall>>();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		generator.Generate(functionCallValue, cssWriter);
 
@@ -29,7 +29,7 @@ public class FunctionCallGeneratorTests: GeneratorTestBase
 		var functionCallValue = FunctionCall.Create("someFunc", CreateArguments);
 
 		var provider = BuildServiceProvider();
-		var generator = provider.GetRequiredService<ValueGenerator>();
+		var generator = provider.GetRequiredService<IGenerator<IValue>>();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		generator.Generate(functionCallValue, cssWriter);
 

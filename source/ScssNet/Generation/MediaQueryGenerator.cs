@@ -3,7 +3,7 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Generation;
 
-internal class MediaQueryGenerator
+internal class MediaQueryGenerator : IGenerator<IMediaQuery>
 {
 	public void Generate(IMediaQuery mediaQuery, CssWriter writer)
 	{

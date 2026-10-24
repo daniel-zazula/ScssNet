@@ -2,8 +2,10 @@ using ScssNet.Structures;
 
 namespace ScssNet.Generation;
 
-internal class AtNamespaceGenerator(Lazy<UrlGenerator> urlGenerator)
+internal class AtNamespaceGenerator(GeneratorContext generatorContext): IGenerator<AtNamespace>
 {
+	private IGenerator<IUrl> UrlGenerator => generatorContext.GetGenerator<IUrl>();
+
 	public void Generate(AtNamespace atNamespace, CssWriter writer)
 	{
 		writer.Write(atNamespace.AtSign);
@@ -16,7 +18,7 @@ internal class AtNamespaceGenerator(Lazy<UrlGenerator> urlGenerator)
 		}
 
 		writer.Write(" ");
-		urlGenerator.Value.Generate(atNamespace.Url, writer);
+		UrlGenerator.Generate(atNamespace.Url, writer);
 
 		if (atNamespace.SemiColon is not null)
 		{

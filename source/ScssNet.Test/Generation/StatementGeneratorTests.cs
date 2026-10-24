@@ -42,7 +42,7 @@ public class StatementGeneratorTests: GeneratorTestBase
 	private static ServiceProvider GenerateStatement(IStatement statement)
 	{
 		var provider = BuildServiceProvider();
-		var ruleSetGenerator = provider.GetRequiredService<StatementGenerator>();
+		var ruleSetGenerator = provider.GetRequiredService<IGenerator<IStatement>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		ruleSetGenerator.Generate(statement, writer);
 

@@ -17,7 +17,7 @@ public class AttributeSelectorGeneratorTests: GeneratorTestBase
 		var attributeSelector = AttributeSelector.Create();
 
 		var provider = BuildServiceProvider();
-		var generator = provider.GetRequiredService<AttributeSelectorGenerator>();
+		var generator = provider.GetRequiredService<IGenerator<AttributeSelector>>();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		generator.Generate(attributeSelector, cssWriter);
 
@@ -30,7 +30,7 @@ public class AttributeSelectorGeneratorTests: GeneratorTestBase
 		var attributeSelector = AttributeSelector.Create();
 
 		var provider = BuildServiceProvider();
-		var generator = provider.GetRequiredService<SelectorGenerator>();
+		var generator = provider.GetRequiredService<IGenerator<ISelector>>();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		generator.Generate(attributeSelector, cssWriter);
 

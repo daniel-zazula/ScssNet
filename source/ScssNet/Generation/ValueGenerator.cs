@@ -3,8 +3,10 @@ using ScssNet.Tokens;
 
 namespace ScssNet.Generation;
 
-internal class ValueGenerator(Lazy<FunctionCallGenerator> functionCallGenerator)
+internal class ValueGenerator(GeneratorContext generatorContext): IGenerator<IValue>
 {
+	private IGenerator<FunctionCall> FunctionCallGenerator => generatorContext.GetGenerator<FunctionCall>();
+	
 	public void Generate(IValue value, CssWriter writer)
 	{
 		switch (value)
@@ -22,7 +24,7 @@ internal class ValueGenerator(Lazy<FunctionCallGenerator> functionCallGenerator)
 				writer.Write(unitValueToken);
 				break;
 			case FunctionCall functionCallToken:
-				functionCallGenerator.Value.Generate(functionCallToken, writer);
+				FunctionCallGenerator.Generate(functionCallToken, writer);
 				break;
 			case ValueList valueList:
 				foreach(var item in valueList.Items)

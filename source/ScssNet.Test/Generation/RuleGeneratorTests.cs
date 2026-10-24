@@ -39,7 +39,7 @@ public class RuleGeneratorTests: GeneratorTestBase
 	private static void ShouldWriteRule(Rule rule, string expected)
 	{
 		var provider = BuildServiceProvider();
-		var ruleGenerator = provider.GetRequiredService<RuleGenerator>();
+		var ruleGenerator = provider.GetRequiredService<IGenerator<Rule>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		ruleGenerator.Generate(rule, writer);
 

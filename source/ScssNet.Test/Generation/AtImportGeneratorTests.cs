@@ -22,7 +22,7 @@ public class AtImportGeneratorTests: GeneratorTestBase
 		var atImport = CreateAtImport(pathType);
 
 		var provider = BuildServiceProvider();
-		var atRuleGenerator = provider.GetRequiredService<AtRuleGenerator>();
+		var atRuleGenerator = provider.GetRequiredService<IGenerator<IAtRule>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		atRuleGenerator.Generate(atImport, writer);
 
@@ -37,7 +37,7 @@ public class AtImportGeneratorTests: GeneratorTestBase
 		var atImport = CreateAtImport(pathType);
 
 		var provider = BuildServiceProvider();
-		var atImportGenerator = provider.GetRequiredService<AtImportGenerator>();
+		var atImportGenerator = provider.GetRequiredService<IGenerator<AtImport>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		atImportGenerator.Generate(atImport, writer);
 
@@ -72,11 +72,6 @@ public class AtImportGeneratorTests: GeneratorTestBase
 		};
 
 		provider.GetStringWriter().ShouldContain(expected, StringCompareShould.IgnoreCase);
-	}
-
-	private static StringUrl CreateStringPath(ISourceElement? predecessor)
-	{
-		return StringUrl.Create("\"styles.css\"", predecessor);
 	}
 
 	private static ArgumentOutOfRangeException InvalidPathTypeException(PathType pathType)

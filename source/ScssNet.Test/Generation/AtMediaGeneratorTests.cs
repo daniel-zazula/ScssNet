@@ -19,7 +19,7 @@ public class AtMediaGeneratorTests: GeneratorTestBase
 		var atMedia = CreateAtMedia(mediaType);
 
 		var provider = BuildServiceProvider();
-		var atRuleGenerator = provider.GetRequiredService<AtRuleGenerator>();
+		var atRuleGenerator = provider.GetRequiredService<IGenerator<IAtRule>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		atRuleGenerator.Generate(atMedia, writer);
 
@@ -33,7 +33,7 @@ public class AtMediaGeneratorTests: GeneratorTestBase
 		var atMedia = CreateAtMedia(mediaType);
 
 		var provider = BuildServiceProvider();
-		var atMediaGenerator = provider.GetRequiredService<AtMediaGenerator>();
+		var atMediaGenerator = provider.GetRequiredService<IGenerator<AtMedia>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		atMediaGenerator.Generate(atMedia, writer);
 
@@ -50,7 +50,7 @@ public class AtMediaGeneratorTests: GeneratorTestBase
 		var atMedia = CreateAtMedia(mediaOperator, mediaType);
 
 		var provider = BuildServiceProvider();
-		var atRuleGenerator = provider.GetRequiredService<AtRuleGenerator>();
+		var atRuleGenerator = provider.GetRequiredService<IGenerator<IAtRule>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		atRuleGenerator.Generate(atMedia, writer);
 
@@ -67,7 +67,7 @@ public class AtMediaGeneratorTests: GeneratorTestBase
 		var atMedia = CreateAtMedia(mediaOperator, mediaType);
 
 		var provider = BuildServiceProvider();
-		var atMediaGenerator = provider.GetRequiredService<AtMediaGenerator>();
+		var atMediaGenerator = provider.GetRequiredService<IGenerator<AtMedia>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		atMediaGenerator.Generate(atMedia, writer);
 

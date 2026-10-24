@@ -2,7 +2,7 @@
 
 namespace ScssNet.Generation;
 
-internal class AttributeSelectorGenerator
+internal class AttributeSelectorGenerator: IGenerator<AttributeSelector>
 {
 	public void Generate(AttributeSelector classSelector, CssWriter writer)
 	{

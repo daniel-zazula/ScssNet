@@ -1,14 +1,14 @@
-﻿using System.IO;
-using ScssNet.Structures;
+﻿using ScssNet.Structures;
 
 namespace ScssNet.Generation;
 
-internal class SelectorGenerator
-(
-	Lazy<TagSelectorGenerator> tagSelectorGenerator, Lazy<IdSelectorGenerator> idSelectorGenerator,
-	Lazy<ClassSelectorGenerator> classSelectorGenerator, Lazy<AttributeSelectorGenerator> attributeSelectorGenerator
-)
+internal class SelectorGenerator(GeneratorContext generatorContext): IGenerator<ISelector>
 {
+	private IGenerator<TagSelector> TagSelectorGenerator => generatorContext.GetGenerator<TagSelector>();
+	private IGenerator<IdSelector> IdSelectorGenerator => generatorContext.GetGenerator<IdSelector>();
+	private IGenerator<ClassSelector> ClassSelectorGenerator => generatorContext.GetGenerator<ClassSelector>();
+	private IGenerator<AttributeSelector> AttributeSelectorGenerator => generatorContext.GetGenerator<AttributeSelector>();
+
 	public void Generate(ISelector selector, CssWriter writer)
 	{
 		switch(selector)
@@ -17,16 +17,16 @@ internal class SelectorGenerator
 				writer.Write(universalSelector.Asterisk);
 				break;
 			case TagSelector tagSelector:
-				tagSelectorGenerator.Value.Generate(tagSelector, writer);
+				TagSelectorGenerator.Generate(tagSelector, writer);
 				break;
 			case IdSelector idSelector:
-				idSelectorGenerator.Value.Generate(idSelector, writer);
+				IdSelectorGenerator.Generate(idSelector, writer);
 				break;
 			case ClassSelector classSelector:
-				classSelectorGenerator.Value.Generate(classSelector, writer);
+				ClassSelectorGenerator.Generate(classSelector, writer);
 				break;
 			case AttributeSelector attributeSelector:
-				attributeSelectorGenerator.Value.Generate(attributeSelector, writer);
+				AttributeSelectorGenerator.Generate(attributeSelector, writer);
 				break;
 		}
 	}

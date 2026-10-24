@@ -2,15 +2,18 @@ using ScssNet.Structures;
 
 namespace ScssNet.Generation;
 
-internal class AtMediaGenerator(Lazy<MediaQueryGenerator> mediaQueryGenerator, Lazy<BlockGenerator> blockGenerator)
+internal class AtMediaGenerator(GeneratorContext generatorContext): IGenerator<AtMedia>
 {
+	private IGenerator<IMediaQuery> MediaQueryGenerator => generatorContext.GetGenerator<IMediaQuery>();
+	private IGenerator<Block> BlockGenerator => generatorContext.GetGenerator<Block>();
+
 	public void Generate(AtMedia atMedia, CssWriter writer)
 	{
 		writer.Write(atMedia.AtSign);
 		writer.Write(atMedia.Media);
 		writer.Write(" ");
-		mediaQueryGenerator.Value.Generate(atMedia.MediaQuery, writer);
+		MediaQueryGenerator.Generate(atMedia.MediaQuery, writer);
 		writer.Write(" ");
-		blockGenerator.Value.Generate(atMedia.Block, writer);
+		BlockGenerator.Generate(atMedia.Block, writer);
 	}
 }

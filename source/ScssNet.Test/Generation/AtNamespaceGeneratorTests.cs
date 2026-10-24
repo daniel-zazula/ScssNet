@@ -32,7 +32,7 @@ public class AtNamespaceGeneratorTests : GeneratorTestBase
 		var atNamespace = AtNamespace.Create(prefix, GetUrlCreator(prefix, urlType));
 
 		var provider = BuildServiceProvider();
-		var atRuleGenerator = provider.GetRequiredService<AtRuleGenerator>();
+		var atRuleGenerator = provider.GetRequiredService<IGenerator<IAtRule>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		atRuleGenerator.Generate(atNamespace, writer);
 
@@ -46,7 +46,7 @@ public class AtNamespaceGeneratorTests : GeneratorTestBase
 		var atNamespace = AtNamespace.Create(prefix, GetUrlCreator(prefix, urlType));
 
 		var provider = BuildServiceProvider();
-		var atNamespaceGenerator = provider.GetRequiredService<AtNamespaceGenerator>();
+		var atNamespaceGenerator = provider.GetRequiredService<IGenerator<AtNamespace>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		atNamespaceGenerator.Generate(atNamespace, writer);
 

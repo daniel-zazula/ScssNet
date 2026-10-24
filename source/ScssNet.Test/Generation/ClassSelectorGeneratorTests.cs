@@ -17,7 +17,7 @@ public class ClassSelectorGeneratorTests: GeneratorTestBase
 		var classSelector = ClassSelector.Create();
 
 		var provider = BuildServiceProvider();
-		var generator = provider.GetRequiredService<ClassSelectorGenerator>();
+		var generator = provider.GetRequiredService<IGenerator<ClassSelector>>();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		generator.Generate(classSelector, cssWriter);
 
@@ -30,7 +30,7 @@ public class ClassSelectorGeneratorTests: GeneratorTestBase
 		var classSelector = ClassSelector.Create();
 
 		var provider = BuildServiceProvider();
-		var generator = provider.GetRequiredService<SelectorGenerator>();
+		var generator = provider.GetRequiredService<IGenerator<ISelector>>();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		generator.Generate(classSelector, cssWriter);
 

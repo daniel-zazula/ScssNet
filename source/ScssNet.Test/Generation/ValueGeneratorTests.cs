@@ -47,7 +47,7 @@ public class ValueGeneratorTests: GeneratorTestBase
 	private static void TestGeneratedValue(IValue value, string expected)
 	{
 		var provider = BuildServiceProvider();
-		var generator = provider.GetRequiredService<ValueGenerator>();
+		var generator = provider.GetRequiredService<IGenerator<IValue>>();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		generator.Generate(value, cssWriter);
 

@@ -2,8 +2,10 @@
 
 namespace ScssNet.Generation;
 
-internal class UrlGenerator(Lazy<FunctionCallGenerator> functionCallGenerator)
+internal class UrlGenerator(GeneratorContext generatorContext): IGenerator<IUrl>
 {
+	private IGenerator<FunctionCall> FunctionCallGenerator => generatorContext.GetGenerator<FunctionCall>();
+
 	public void Generate(IUrl url, CssWriter writer)
 	{
 		switch(url)
@@ -12,7 +14,7 @@ internal class UrlGenerator(Lazy<FunctionCallGenerator> functionCallGenerator)
 				writer.Write(stringUrl.Value);
 				break;
 			case FunctionUrl functionUrl:
-				functionCallGenerator.Value.Generate(functionUrl.Value, writer);
+				FunctionCallGenerator.Generate(functionUrl.Value, writer);
 				break;
 			default:
 				throw new InvalidOperationException($"Unsupported value type: {url.GetType().FullName}");

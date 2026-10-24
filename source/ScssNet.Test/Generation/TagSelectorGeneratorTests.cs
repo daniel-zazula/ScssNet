@@ -17,7 +17,7 @@ public class TagSelectorGeneratorTests: GeneratorTestBase
 		var tagSelector = TagSelector.Create();
 
 		var provider = BuildServiceProvider();
-		var generator = provider.GetRequiredService<TagSelectorGenerator>();
+		var generator = provider.GetRequiredService<IGenerator<TagSelector>>();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		generator.Generate(tagSelector, cssWriter);
 
@@ -30,7 +30,7 @@ public class TagSelectorGeneratorTests: GeneratorTestBase
 		var tagSelector = TagSelector.Create();
 
 		var provider = BuildServiceProvider();
-		var generator = provider.GetRequiredService<SelectorGenerator>();
+		var generator = provider.GetRequiredService<IGenerator<ISelector>>();
 		var cssWriter = provider.GetRequiredService<CssWriter>();
 		generator.Generate(tagSelector, cssWriter);
 

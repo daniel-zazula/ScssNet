@@ -2,7 +2,7 @@
 
 namespace ScssNet.Generation;
 
-internal class AtCharsetGenerator()
+internal class AtCharsetGenerator: IGenerator<AtCharset>
 {
 	public void Generate(AtCharset atCharset, CssWriter writer)
 	{

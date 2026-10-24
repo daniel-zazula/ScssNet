@@ -15,7 +15,7 @@ public class RuleSetGeneratorTests: GeneratorTestBase
 		var ruleSet = RuleSet.Create();
 
 		var provider = BuildServiceProvider();
-		var ruleSetGenerator = provider.GetRequiredService<RuleSetGenerator>();
+		var ruleSetGenerator = provider.GetRequiredService<IGenerator<RuleSet>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		ruleSetGenerator.Generate(ruleSet, writer);
 

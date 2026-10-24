@@ -17,7 +17,7 @@ public class BlockGeneratorTests: GeneratorTestBase
 		var block = Block.Create();
 
 		var provider = BuildServiceProvider();
-		var blockGenerator = provider.GetRequiredService<BlockGenerator>();
+		var blockGenerator = provider.GetRequiredService<IGenerator<Block>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		blockGenerator.Generate(block, writer);
 

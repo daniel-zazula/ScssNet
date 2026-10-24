@@ -16,7 +16,7 @@ public class AtCharsetGeneratorTests : GeneratorTestBase
 		var atCharset = AtCharset.Create();
 
 		var provider = BuildServiceProvider();
-		var atRuleGenerator = provider.GetRequiredService<AtRuleGenerator>();
+		var atRuleGenerator = provider.GetRequiredService<IGenerator<IAtRule>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		atRuleGenerator.Generate(atCharset, writer);
 
@@ -29,7 +29,7 @@ public class AtCharsetGeneratorTests : GeneratorTestBase
 		var atCharset = AtCharset.Create();
 
 		var provider = BuildServiceProvider();
-		var atCharsetGenerator = provider.GetRequiredService<AtCharsetGenerator>();
+		var atCharsetGenerator = provider.GetRequiredService<IGenerator<AtCharset>>();
 		var writer = provider.GetRequiredService<CssWriter>();
 		atCharsetGenerator.Generate(atCharset, writer);
 
