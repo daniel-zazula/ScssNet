@@ -16,29 +16,15 @@ internal class UnitValueParser
 		var startCoordinates = reader.GetCoordinates();
 
 		var stringBuilder = new StringBuilder();
-		stringBuilder.Append(reader.Read());
-
-		ReadDigitsTo(reader, stringBuilder);
-		if(reader.Peek() == '.')
-		{
-			stringBuilder.Append(reader.Read());
-			ReadDigitsTo(reader, stringBuilder);
-		}
-
-		var amount = decimal.Parse(stringBuilder.ToString());
+		ReadAmountInto(reader, stringBuilder);
+		var amount = stringBuilder.ToString();
 
 		stringBuilder.Clear();
-
-		if(!reader.End && reader.Peek() == '%')
-			stringBuilder.Append(reader.Read());
-		else
-		{
-			while(!reader.End && char.IsLetter(reader.Peek()))
-				stringBuilder.Append(reader.Read());
-		}
+		ReadUnitInto(reader, stringBuilder);
+		var unit = stringBuilder.ToString();
 
 		var span = new SourceSpan(startCoordinates, reader.GetCoordinates());
-		return new UnitValueToken(amount, stringBuilder.ToString(), span, leadingSeparator, getTrailingSeparator());
+		return new UnitValueToken(amount, unit, span, leadingSeparator, getTrailingSeparator());
 	}
 
 	private static bool IsUnitStart(ISourceReader reader)
@@ -50,7 +36,30 @@ internal class UnitValueParser
 		return char.IsDigit(peeked[0]) || (peeked[0] == '-' && char.IsDigit(peeked[1]));
 	}
 
-	private static void ReadDigitsTo(ISourceReader reader, StringBuilder stringBuilder)
+	private static void ReadAmountInto(ISourceReader reader, StringBuilder stringBuilder)
+	{
+		stringBuilder.Append(reader.Read());
+
+		ReadDigitsInto(reader, stringBuilder);
+		if(reader.Peek() == '.')
+		{
+			stringBuilder.Append(reader.Read());
+			ReadDigitsInto(reader, stringBuilder);
+		}
+	}
+
+	private static void ReadUnitInto(ISourceReader reader, StringBuilder stringBuilder)
+	{
+		if(!reader.End && reader.Peek() == '%')
+			stringBuilder.Append(reader.Read());
+		else
+		{
+			while(!reader.End && char.IsLetter(reader.Peek()))
+				stringBuilder.Append(reader.Read());
+		}
+	}
+
+	private static void ReadDigitsInto(ISourceReader reader, StringBuilder stringBuilder)
 	{
 		while(!reader.End && char.IsDigit(reader.Peek()))
 			stringBuilder.Append(reader.Read());

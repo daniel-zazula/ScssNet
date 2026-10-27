@@ -20,7 +20,7 @@ public class UnitValueParserTests
 		var unitToken = unitParser.Parse(sourceReader, Separator.Empty, () => Separator.Empty);
 
 		unitToken.ShouldNotBeNull();
-		unitToken.Amount.ShouldBe(decimal.Parse(amount));
+		unitToken.Amount.ShouldBe(amount);
 		unitToken.Unit.ShouldBe(unit);
 		unitToken.LeadingSeparator.ShouldBe(Separator.Empty);
 		unitToken.TrailingSeparator.ShouldBe(Separator.Empty);

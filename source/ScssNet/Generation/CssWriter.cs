@@ -38,7 +38,7 @@ internal class CssWriter(TextWriter textWriter)
 
 	internal void Write(UnitValueToken unitValueToken)
 	{
-		textWriter.Write(unitValueToken.Amount.ToString(CultureInfo.InvariantCulture));
+		textWriter.Write(unitValueToken.Amount);
 		textWriter.Write(unitValueToken.Unit);
 	}
 }

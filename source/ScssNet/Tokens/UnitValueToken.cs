@@ -2,7 +2,7 @@
 
 public record UnitValueToken: IToken, ISeparatedToken, IValueToken
 {
-	public decimal Amount { get; }
+	public string Amount { get; }
 	public string Unit { get; }
 
 	public SourceSpan Span { get; }
@@ -12,7 +12,7 @@ public record UnitValueToken: IToken, ISeparatedToken, IValueToken
 
 	internal UnitValueToken
 	(
-		decimal amount, string unit, SourceSpan span, Separator before, Separator after
+		string amount, string unit, SourceSpan span, Separator before, Separator after
 	)
 	{
 		Amount = amount;

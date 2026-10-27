@@ -40,7 +40,7 @@ public class FunctionCallGeneratorTests: GeneratorTestBase
 	{
 		var stringArgument = ValueList.CreateItem(StringToken.Create("\"foo bar\"", predecessor: predecessor), withComma: true);
 		var hashValueArgument = ValueList.CreateItem(HashValueToken.Create("#ff0000", predecessor: stringArgument), withComma: true);
-		var unitValueArgument = ValueList.CreateItem(UnitValueToken.Create(1.5m, "em", predecessor: hashValueArgument), withComma: false);
+		var unitValueArgument = ValueList.CreateItem(UnitValueToken.Create("1.5", "em", predecessor: hashValueArgument), withComma: false);
 		return ValueList.Create([stringArgument, hashValueArgument, unitValueArgument]);
 	}
 

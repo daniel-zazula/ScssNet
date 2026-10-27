@@ -82,7 +82,7 @@ public class CssWriterTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldWriteUnitValue()
 	{
-		var numberToken = UnitValueToken.Create(1.5m, "em");
+		var numberToken = UnitValueToken.Create("1.5", "em");
 
 		var provider = BuildServiceProvider();
 		var cssWriter = provider.GetRequiredService<CssWriter>();

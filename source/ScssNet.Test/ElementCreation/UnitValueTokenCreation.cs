@@ -8,7 +8,7 @@ internal static class UnitValueTokenCreation
 	{
 		internal static UnitValueToken Create
 		(
-			decimal amount, string unit, ISourceElement? predecessor = null
+			string amount, string unit, ISourceElement? predecessor = null
 		)
 		{
 			var valueString = $"{amount}{unit}";

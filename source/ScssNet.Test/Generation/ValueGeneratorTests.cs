@@ -39,7 +39,7 @@ public class ValueGeneratorTests: GeneratorTestBase
 	[TestMethod]
 	public void ShouldGenerateUnitValue()
 	{
-		var valueToken = UnitValueToken.Create(1.5m, "em");
+		var valueToken = UnitValueToken.Create("1.5", "em");
 
 		TestGeneratedValue(valueToken, "1.5em");
 	}
