@@ -1,4 +1,6 @@
-﻿namespace ScssNet.Tokens;
+﻿using ScssNet.Lexing;
+
+namespace ScssNet.Tokens;
 
 public record IdentifierToken: IToken, ISeparatedToken, IValueToken
 {
@@ -22,12 +24,20 @@ public record IdentifierToken: IToken, ISeparatedToken, IValueToken
 		Issues = issues ?? [];
 	}
 
-	internal IdentifierToken(SourceCoordinates coordinates, Issue issue)
+	protected IdentifierToken(SourceCoordinates coordinates, Issue issue)
 	{
 		Text = "";
 		Span = new SourceSpan(coordinates, coordinates);
 		LeadingSeparator = Separator.Empty;
 		TrailingSeparator = Separator.Empty;
 		Issues = [issue];
+	}
+}
+
+public record MissingIdentifierToken : IdentifierToken, IMissingToken
+{
+	public MissingIdentifierToken(SourceCoordinates coordinates)
+		: base(coordinates, Issue.CreateExpected("identifier"))
+	{
 	}
 }

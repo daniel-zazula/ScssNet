@@ -17,7 +17,7 @@ internal static class IdentifierMatchingExtensions
 	public static IdentifierToken RequireIdentifier(this TokenReader tokenReader)
 	{
 		return tokenReader.Match(CheckToken)
-			?? new IdentifierToken(tokenReader.GetCoordinates(), Issue.CreateExpected("identifier"));
+			?? new MissingIdentifierToken(tokenReader.GetCoordinates());
 	}
 
 	private static IdentifierToken? CheckToken(IToken? token)

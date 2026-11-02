@@ -17,6 +17,6 @@ internal static class SymbolMatchingExtensions
 	public static SymbolToken RequireSymbol(this TokenReader tokenReader, Symbol symbol)
 	{
 		return tokenReader.MatchSymbol(symbol)
-			?? new SymbolToken(symbol, tokenReader.GetCoordinates(), Issue.CreateExpected(symbol.ToChars()));
+			?? new MissingSymbolToken(symbol, tokenReader.GetCoordinates());
 	}
 }

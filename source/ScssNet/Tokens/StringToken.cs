@@ -1,4 +1,6 @@
-﻿namespace ScssNet.Tokens;
+﻿using ScssNet.Lexing;
+
+namespace ScssNet.Tokens;
 
 public record StringToken: IToken, ISeparatedToken, IValueToken
 {
@@ -22,12 +24,20 @@ public record StringToken: IToken, ISeparatedToken, IValueToken
 		Issues = issues ?? [];
 	}
 
-	internal StringToken(SourceCoordinates coordinates, Issue issue)
+	protected StringToken(SourceCoordinates coordinates, Issue issue)
 	{
 		Text = string.Empty;
 		Span = new SourceSpan(coordinates, coordinates);
 		LeadingSeparator = Separator.Empty;
 		TrailingSeparator = Separator.Empty;
 		Issues = [issue];
+	}
+}
+
+public record MissingStringToken : StringToken, IMissingToken
+{
+	public MissingStringToken(SourceCoordinates coordinates)
+		: base(coordinates, Issue.CreateExpected("string"))
+	{
 	}
 }

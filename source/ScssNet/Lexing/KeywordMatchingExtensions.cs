@@ -25,7 +25,7 @@ internal static class KeywordMatchingExtensions
 	internal static KeywordToken<T> RequireKeyword<T>(this TokenReader tokenReader) where T : struct, Enum
 	{
 		return tokenReader.MatchKeyword<T>()
-			?? new KeywordToken<T>(tokenReader.GetCoordinates(), Issue.CreateExpectedOneOf<T>());
+			?? new MissingKeywordToken<T>(tokenReader.GetCoordinates());
 	}
 
 	private static IdentifierToken? CheckToken<T>(IToken? token, out T keywordMatch) where T : struct, Enum

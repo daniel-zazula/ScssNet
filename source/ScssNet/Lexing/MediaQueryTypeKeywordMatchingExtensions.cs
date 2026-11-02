@@ -16,6 +16,6 @@ internal static class MediaQueryTypeKeywordMatchingExtensions
 	internal static MediaQueryTypeKeywordToken RequireMediaQueryTypeKeyword(this TokenReader tokenReader)
 	{
 		return tokenReader.MatchMediaQueryTypeKeyword()
-			?? new MediaQueryTypeKeywordToken(tokenReader.GetCoordinates(), Issue.CreateExpectedOneOf<MediaQueryTypeKeyword>());
+			?? new MissingMediaQueryTypeKeywordToken(tokenReader.GetCoordinates());
 	}
 }

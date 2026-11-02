@@ -1,4 +1,6 @@
-﻿namespace ScssNet.Tokens;
+﻿using ScssNet.Lexing;
+
+namespace ScssNet.Tokens;
 
 public record KeywordToken<T>: IToken, ISeparatedToken
 	where T : struct, Enum
@@ -36,7 +38,7 @@ public record KeywordToken<T>: IToken, ISeparatedToken
 		Issues = identifiertoken.Issues;
 	}
 
-	internal KeywordToken(SourceCoordinates coordinates, Issue issue)
+	protected KeywordToken(SourceCoordinates coordinates, Issue issue)
 	{
 		Keyword = default;
 		Text = "";
@@ -44,5 +46,14 @@ public record KeywordToken<T>: IToken, ISeparatedToken
 		LeadingSeparator = Separator.Empty;
 		TrailingSeparator = Separator.Empty;
 		Issues = [issue];
+	}
+}
+
+public record MissingKeywordToken<T>: KeywordToken<T>, IMissingToken
+	where T : struct, Enum
+{
+	public MissingKeywordToken(SourceCoordinates coordinates)
+		: base(coordinates, Issue.CreateExpectedOneOf<T>())
+	{
 	}
 }

@@ -1,4 +1,6 @@
-﻿namespace ScssNet.Tokens;
+﻿using ScssNet.Lexing;
+
+namespace ScssNet.Tokens;
 
 public record SymbolToken: IToken, ISeparatedToken
 {
@@ -21,12 +23,21 @@ public record SymbolToken: IToken, ISeparatedToken
 		TrailingSeparator = after;
 		Issues = issues ?? [];
 	}
-	internal SymbolToken(Symbol symbol, SourceCoordinates coordinates, Issue issue)
+
+	protected SymbolToken(Symbol symbol, SourceCoordinates coordinates, Issue issue)
 	{
 		Symbol = symbol;
 		Span = new SourceSpan(coordinates, coordinates);
 		LeadingSeparator = Separator.Empty;
 		TrailingSeparator = Separator.Empty;
 		Issues = [issue];
+	}
+}
+
+public record MissingSymbolToken : SymbolToken, IMissingToken
+{
+	public MissingSymbolToken(Symbol symbol, SourceCoordinates coordinates)
+		: base(symbol, coordinates, Issue.CreateExpected(symbol.ToChars()))
+	{
 	}
 }

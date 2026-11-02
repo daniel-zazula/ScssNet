@@ -1,4 +1,5 @@
-﻿using ScssNet.Structures;
+﻿using ScssNet.Lexing;
+using ScssNet.Structures;
 
 namespace ScssNet.Tokens;
 
@@ -22,8 +23,16 @@ public record MediaQueryTypeKeywordToken : KeywordToken<MediaQueryTypeKeyword>, 
 	{
 	}
 
-	internal MediaQueryTypeKeywordToken(SourceCoordinates coordinates, Issue issue)
+	protected MediaQueryTypeKeywordToken(SourceCoordinates coordinates, Issue issue)
 		: base(coordinates, issue)
+	{
+	}
+}
+
+public record MissingMediaQueryTypeKeywordToken : MediaQueryTypeKeywordToken, IMissingToken
+{
+	public MissingMediaQueryTypeKeywordToken(SourceCoordinates coordinates)
+		: base(coordinates, Issue.CreateExpectedOneOf<MediaQueryTypeKeyword>())
 	{
 	}
 }

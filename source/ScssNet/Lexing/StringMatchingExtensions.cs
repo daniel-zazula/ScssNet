@@ -12,7 +12,7 @@ internal static class StringMatchingExtensions
 	public static StringToken RequireString(this TokenReader tokenReader)
 	{
 		return tokenReader.Match(CheckString)
-			?? new StringToken(tokenReader.GetCoordinates(), Issue.CreateExpected("string"));
+			?? new MissingStringToken(tokenReader.GetCoordinates());
 	}
 
 	private static StringToken? CheckString(IToken? token)
