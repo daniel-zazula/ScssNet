@@ -27,15 +27,25 @@ internal class ValueGenerator(GeneratorContext generatorContext): IGenerator<IVa
 				FunctionCallGenerator.Generate(functionCallToken, writer);
 				break;
 			case ValueList valueList:
-				foreach(var item in valueList.Items)
-				{
-					Generate(item.Value, writer);
-					if (item.Comma is not null)
-						writer.Write(item.Comma);
-				}
+				Generate(valueList, writer);
 				break;
 			default:
 				throw new InvalidOperationException($"Unsupported value type: {value.GetType().FullName}");
+		}
+	}
+
+	private void Generate(ValueList list, CssWriter writer)
+	{
+		var firstItem = list.Items.First();
+		var isCommaList = firstItem.Comma is not null;
+		foreach(var item in list.Items)
+		{
+			if(!isCommaList && item != firstItem)
+				writer.Write(" ");
+
+			Generate(item.Value, writer);
+			if (item.Comma is not null)
+				writer.Write(item.Comma);
 		}
 	}
 }
